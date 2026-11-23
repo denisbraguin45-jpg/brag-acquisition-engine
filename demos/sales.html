@@ -499,6 +499,8 @@
     .btn-call:hover { background: #059669; }
     .btn-demo { background: #ffffff; border-color: #ffffff; color: #09090b; }
     .btn-demo:hover { opacity: 0.9; }
+    .btn-wa { background: #25d366; border-color: #25d366; color: #09090b; }
+    .btn-wa:hover { background: #1ebe57; color: #ffffff; }
     .btn-hot { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }
     .btn-deal { background: rgba(223, 184, 88, 0.2); border-color: var(--color-gold); color: #fef08a; }
     .btn-lost { background: rgba(107, 114, 128, 0.2); border-color: #6b7280; color: #d1d5db; }
@@ -864,6 +866,12 @@
           <a id="btnOpenDemo" href="#" target="_blank" rel="noopener" class="btn-action btn-demo">
             🌐 Abrir Demo
           </a>
+          <a id="btnWaLead" href="#" target="_blank" rel="noopener" class="btn-action btn-wa">
+            💬 WhatsApp Lead
+          </a>
+          <button type="button" class="btn-action" style="background:#18181b;color:var(--color-gold);border-color:rgba(223,184,88,0.4);" onclick="copyLeadMessage()">
+            📋 Copiar Msg WA
+          </button>
           <button type="button" class="btn-action btn-hot" onclick="openLogModal('hot')">
             🔥 Marcar HOT
           </button>
@@ -899,6 +907,7 @@
             <option value="script_7">SCRIPT 7 — OBJEÇÃO: VOU PENSAR</option>
             <option value="script_8">SCRIPT 8 — NÃO ATENDEU (REAGENDAR RETORNO)</option>
             <option value="script_9">SCRIPT 9 — FOLLOW-UP</option>
+            <option value="script_mensagem">💬 SCRIPT DE MENSAGEM (WHATSAPP &amp; INSTAGRAM DIRECT)</option>
           </select>
           <div id="scriptDisplay" class="script-text">Carregando script...</div>
         </div>
@@ -1000,7 +1009,7 @@
   </div>
 
   <script>
-    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}};
+    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}, "script_mensagem": {"id": "script_mensagem", "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT", "stage": "mensagem_direta", "text": "Olá, diretoria da *{empresa}*! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nAcompanhamos a presença de vocês no Instagram e notamos que a vitrine digital de vocês ainda não conta com um catálogo moderno, rápido e com showroom filtrável no celular.\n\nEm vez de enviar uma apresentação comercial teórica, nós desenvolvemos e colocamos no ar uma demonstração personalizada exclusiva para a *{empresa}*:\n\n{demo_url}\n\nPodem abrir direto no celular para testar a experiência. O projeto já está estruturado. Gostaria de entender se faz sentido ativarmos essa vitrine oficial para vocês!"}};
     let currentVendorView = "bruce";
     let currentOutcomeFilter = "all";
     let allLeads = [];
@@ -1353,6 +1362,7 @@ Esta ação removerá o contato inválido da lista de vendas e recalculará as m
             <td>
               <div style="display:flex;gap:4px;align-items:center;">
                 <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="event.stopPropagation(); selectLead('${d.slug}');">Atender</button>
+                <button type="button" class="btn-top" style="padding:0.25rem 0.45rem;font-size:0.72rem;background:#25d366;color:#09090b;font-weight:700;border-color:#25d366;" title="Copiar Mensagem Pronta de Prospecção" onclick="event.stopPropagation(); copyMessageForSlug('${d.slug}');">💬 Msg</button>
                 <button type="button" class="btn-top" style="padding:0.25rem 0.4rem;font-size:0.72rem;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);" title="Excluir Contato Inválido" onclick="event.stopPropagation(); deleteLeadBySlug('${d.slug}', '${escapeHtml(d.company_name)}');">🗑️</button>
               </div>
             </td>
@@ -1432,6 +1442,38 @@ Esta ação removerá o contato inválido da lista de vendas e recalculará as m
         .replace(/\{empresa\}/g, selectedLead.company_name)
         .replace(/\{nome\}/g, selectedLead.contact_name || "Diretor")
         .replace(/\{demo_url\}/g, selectedLead.demo_url);
+    }
+
+    
+    function copyMessageForSlug(slug) {
+      const item = allLeads.find(x => x.slug === slug);
+      if (!item) return;
+      const vendorName = item.assigned_vendor === "bruce" ? "Bruce" : "Gabriel";
+      const msg = item.whatsapp_message || (
+        `Olá, diretoria da *${item.company_name}*! Tudo bem? Aqui é ${vendorName}, da BRAG International.
+
+` +
+        `Acompanhamos a presença de vocês e preparamos uma demonstração personalizada exclusiva do novo Showroom Digital da ${item.company_name}:
+
+` +
+        `${item.demo_url}
+
+Podem abrir direto no celular para testar a experiência!`
+      );
+      navigator.clipboard.writeText(msg);
+      alert(`Mensagem comercial pronta copiada para ${item.company_name}!`);
+    }
+
+    function copyLeadMessage() {
+      if (!selectedLead) {
+        alert("Selecione um lead primeiro.");
+        return;
+      }
+      const msg = selectedLead.whatsapp_message || renderScriptText("script_mensagem");
+      navigator.clipboard.writeText(msg);
+      alert(`Mensagem pronta copiada para a área de transferência!
+
+Lead: ${selectedLead.company_name}`);
     }
 
     function copyActiveScript() {

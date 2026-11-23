@@ -79,6 +79,20 @@ Não estamos oferecendo apenas uma página, mas uma estrutura comercial para apr
 Conseguiu avaliar a demonstração que preparamos para a {empresa}?
 
 Gostaria de saber sua opinião e entender se podemos avançar com a implementação."""
+    },
+    "script_mensagem": {
+        "id": "script_mensagem",
+        "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT",
+        "stage": "mensagem_direta",
+        "text": """Olá, diretoria da *{empresa}*! Tudo bem? Aqui é {vendedor}, da BRAG International.
+
+Acompanhamos a presença de vocês no Instagram e notamos que a vitrine digital de vocês ainda não conta com um catálogo moderno, rápido e com showroom filtrável no celular.
+
+Em vez de enviar uma apresentação comercial teórica, nós desenvolvemos e colocamos no ar uma demonstração personalizada exclusiva para a *{empresa}*:
+
+{demo_url}
+
+Podem abrir direto no celular para testar a experiência. O projeto já está estruturado. Gostaria de entender se faz sentido ativarmos essa vitrine oficial para vocês!"""
     }
 }
 

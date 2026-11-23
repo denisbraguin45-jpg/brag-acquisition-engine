@@ -511,6 +511,8 @@ def render_sales_module_html() -> str:
     .btn-call:hover {{ background: #059669; }}
     .btn-demo {{ background: #ffffff; border-color: #ffffff; color: #09090b; }}
     .btn-demo:hover {{ opacity: 0.9; }}
+    .btn-wa {{ background: #25d366; border-color: #25d366; color: #09090b; }}
+    .btn-wa:hover {{ background: #1ebe57; color: #ffffff; }}
     .btn-hot {{ background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }}
     .btn-deal {{ background: rgba(223, 184, 88, 0.2); border-color: var(--color-gold); color: #fef08a; }}
     .btn-lost {{ background: rgba(107, 114, 128, 0.2); border-color: #6b7280; color: #d1d5db; }}
@@ -876,6 +878,12 @@ def render_sales_module_html() -> str:
           <a id="btnOpenDemo" href="#" target="_blank" rel="noopener" class="btn-action btn-demo">
             🌐 Abrir Demo
           </a>
+          <a id="btnWaLead" href="#" target="_blank" rel="noopener" class="btn-action btn-wa">
+            💬 WhatsApp Lead
+          </a>
+          <button type="button" class="btn-action" style="background:#18181b;color:var(--color-gold);border-color:rgba(223,184,88,0.4);" onclick="copyLeadMessage()">
+            📋 Copiar Msg WA
+          </button>
           <button type="button" class="btn-action btn-hot" onclick="openLogModal('hot')">
             🔥 Marcar HOT
           </button>
@@ -911,6 +919,7 @@ def render_sales_module_html() -> str:
             <option value="script_7">SCRIPT 7 — OBJEÇÃO: VOU PENSAR</option>
             <option value="script_8">SCRIPT 8 — NÃO ATENDEU (REAGENDAR RETORNO)</option>
             <option value="script_9">SCRIPT 9 — FOLLOW-UP</option>
+            <option value="script_mensagem">💬 SCRIPT DE MENSAGEM (WHATSAPP &amp; INSTAGRAM DIRECT)</option>
           </select>
           <div id="scriptDisplay" class="script-text">Carregando script...</div>
         </div>
@@ -1363,6 +1372,7 @@ def render_sales_module_html() -> str:
             <td>
               <div style="display:flex;gap:4px;align-items:center;">
                 <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="event.stopPropagation(); selectLead('${{d.slug}}');">Atender</button>
+                <button type="button" class="btn-top" style="padding:0.25rem 0.45rem;font-size:0.72rem;background:#25d366;color:#09090b;font-weight:700;border-color:#25d366;" title="Copiar Mensagem Pronta de Prospecção" onclick="event.stopPropagation(); copyMessageForSlug('${{d.slug}}');">💬 Msg</button>
                 <button type="button" class="btn-top" style="padding:0.25rem 0.4rem;font-size:0.72rem;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);" title="Excluir Contato Inválido" onclick="event.stopPropagation(); deleteLeadBySlug('${{d.slug}}', '${{escapeHtml(d.company_name)}}');">🗑️</button>
               </div>
             </td>
@@ -1442,6 +1452,30 @@ def render_sales_module_html() -> str:
         .replace(/\\{{empresa\\}}/g, selectedLead.company_name)
         .replace(/\\{{nome\\}}/g, selectedLead.contact_name || "Diretor")
         .replace(/\\{{demo_url\\}}/g, selectedLead.demo_url);
+    }}
+
+    
+    function copyMessageForSlug(slug) {{
+      const item = allLeads.find(x => x.slug === slug);
+      if (!item) return;
+      const vendorName = item.assigned_vendor === "bruce" ? "Bruce" : "Gabriel";
+      const msg = item.whatsapp_message || (
+        `Olá, diretoria da *${{item.company_name}}*! Tudo bem? Aqui é ${{vendorName}}, da BRAG International.\n\n` +
+        `Acompanhamos a presença de vocês e preparamos uma demonstração personalizada exclusiva do novo Showroom Digital da ${{item.company_name}}:\n\n` +
+        `${{item.demo_url}}\n\nPodem abrir direto no celular para testar a experiência!`
+      );
+      navigator.clipboard.writeText(msg);
+      alert(`Mensagem comercial pronta copiada para ${{item.company_name}}!`);
+    }}
+
+    function copyLeadMessage() {{
+      if (!selectedLead) {{
+        alert("Selecione um lead primeiro.");
+        return;
+      }}
+      const msg = selectedLead.whatsapp_message || renderScriptText("script_mensagem");
+      navigator.clipboard.writeText(msg);
+      alert(`Mensagem pronta copiada para a área de transferência!\n\nLead: ${{selectedLead.company_name}}`);
     }}
 
     function copyActiveScript() {{
