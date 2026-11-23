@@ -50,6 +50,7 @@ from backend.campaign_runner import (
 from backend.config import BASE_DIR, get_config
 from backend.sales_distribution import perform_distribution
 from backend.sales_service import (
+    delete_sales_lead,
     get_lead_interactions,
     get_sales_leads,
     get_sales_stats,
@@ -581,6 +582,15 @@ class BragLeadHunterHandler(BaseHTTPRequestHandler):
                     self._send_json(200, {"ok": True, "lead": res})
                     return
 
+                if path == "/api/sales/delete-lead" or path == "/api/sales/lead/delete":
+                    lead_slug = body.get("slug") or body.get("lead_slug")
+                    if not lead_slug:
+                        self._send_json(400, {"error": "slug é obrigatório"})
+                        return
+                    res = delete_sales_lead(lead_slug)
+                    self._send_json(200, res)
+                    return
+
                 if path == "/api/sales/distribute":
                     res = perform_distribution(force=True)
                     self._send_json(200, {"ok": True, "distribution": res})
@@ -615,6 +625,20 @@ class BragLeadHunterHandler(BaseHTTPRequestHandler):
             finally:
                 conn.close()
         except Exception as e:
+            self._send_json(500, {"error": str(e)})
+
+    def do_DELETE(self) -> None:
+        parsed = urllib.parse.urlparse(self.path)
+        path = parsed.path
+        try:
+            if path.startswith("/api/sales/leads/") or path.startswith("/api/sales/lead/"):
+                slug = path.rstrip("/").split("/")[-1]
+                res = delete_sales_lead(slug)
+                self._send_json(200, res)
+                return
+            self._send_json(404, {"error": f"Rota DELETE {path} não encontrada"})
+        except Exception as e:
+            traceback.print_exc()
             self._send_json(500, {"error": str(e)})
 
 

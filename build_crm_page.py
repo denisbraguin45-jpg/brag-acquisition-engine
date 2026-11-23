@@ -452,6 +452,75 @@ html_content = f"""<!DOCTYPE html>
 
   <script>
     const CRM_LEADS = {crm_leads_json};
+    let activeCrmLeads = CRM_LEADS.slice();
+
+    function getDeletedSlugs() {{
+      try {{
+        return JSON.parse(localStorage.getItem("brag_deleted_slugs_v1") || "[]");
+      }} catch (e) {{
+        return [];
+      }}
+    }}
+
+    function filterDeletedCrmLeads() {{
+      const deletedSlugs = getDeletedSlugs();
+      if (deletedSlugs.length > 0) {{
+        const delSet = new Set(deletedSlugs);
+        activeCrmLeads = CRM_LEADS.filter(x => !delSet.has(x.slug));
+      }} else {{
+        activeCrmLeads = CRM_LEADS.slice();
+      }}
+      updateTabCounts();
+    }}
+
+    function updateTabCounts() {{
+      const denisCount = activeCrmLeads.filter(x => x.owner === "denis").length;
+      const gabrielCount = activeCrmLeads.filter(x => x.owner === "gabriel").length;
+      const allCount = activeCrmLeads.length;
+
+      const titleDenis = document.querySelector("#tabBtnDenis .partner-tab-title");
+      if (titleDenis) titleDenis.textContent = `Leads Denis (${{denisCount}})`;
+      const metaDenis = document.querySelector("#tabBtnDenis .partner-tab-meta span:first-child");
+      if (metaDenis) metaDenis.textContent = `${{denisCount}} Demos & Telefones`;
+
+      const titleGabriel = document.querySelector("#tabBtnGabriel .partner-tab-title");
+      if (titleGabriel) titleGabriel.textContent = `Leads Gabriel (${{gabrielCount}})`;
+      const metaGabriel = document.querySelector("#tabBtnGabriel .partner-tab-meta span:first-child");
+      if (metaGabriel) metaGabriel.textContent = `${{gabrielCount}} Demos & Telefones`;
+
+      const titleAll = document.querySelector("#tabBtnAll .partner-tab-title");
+      if (titleAll) titleAll.textContent = `Todos os ${{allCount}} Leads`;
+      const metaAll = document.querySelector("#tabBtnAll .partner-tab-meta span:first-child");
+      if (metaAll) metaAll.textContent = `${{allCount}} Contatos Disponíveis`;
+    }}
+
+    async function deleteCrmLead(slug, name) {{
+      if (!slug) return;
+      const confirmMsg = `Deseja realmente EXCLUIR o contato "${{name || slug}}" do CRM?\n\nEsta ação removerá o contato inválido da lista de prospecção e recalculará os totais.`;
+      if (!confirm(confirmMsg)) return;
+
+      // 1. Salvar no localStorage
+      const deletedSlugs = getDeletedSlugs();
+      if (!deletedSlugs.includes(slug)) {{
+        deletedSlugs.push(slug);
+        localStorage.setItem("brag_deleted_slugs_v1", JSON.stringify(deletedSlugs));
+      }}
+
+      // 2. Chamar endpoint local de exclusão se disponível
+      try {{
+        await fetch("/api/sales/delete-lead", {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: JSON.stringify({{ slug: slug }})
+        }});
+      }} catch (e) {{}}
+
+      // 3. Atualizar lista e re-renderizar
+      filterDeletedCrmLeads();
+      renderTable();
+      alert(`Contato "${{name || slug}}" excluído com sucesso!`);
+    }}
+
     let currentFilter = "denis";
 
     function setFilter(filt) {{
@@ -463,14 +532,14 @@ html_content = f"""<!DOCTYPE html>
     }}
 
     function copyMsg(slug) {{
-      const item = CRM_LEADS.find(x => x.slug === slug);
+      const item = activeCrmLeads.find(x => x.slug === slug);
       if (!item) return;
       navigator.clipboard.writeText(item.whatsapp_message);
       alert("Mensagem copiada para " + item.name + "!");
     }}
 
     function openModal(slug) {{
-      const item = CRM_LEADS.find(x => x.slug === slug);
+      const item = activeCrmLeads.find(x => x.slug === slug);
       if (!item) return;
       document.getElementById("modalTitle").textContent = `${{item.name}} — ${{item.phone_display}}`;
       document.getElementById("modalMsgPre").textContent = item.whatsapp_message;
@@ -493,7 +562,7 @@ html_content = f"""<!DOCTYPE html>
 
     function renderTable() {{
       const q = (document.getElementById("crmSearch").value || "").toLowerCase().trim();
-      const filtered = CRM_LEADS.filter(d => {{
+      const filtered = activeCrmLeads.filter(d => {{
         if (currentFilter !== "all" && d.owner !== currentFilter) return false;
         if (!q) return true;
         const hay = `${{d.name}} ${{d.city}} ${{d.state}} ${{d.instagram_username}} ${{d.phone_display}} ${{d.whatsapp_e164}} ${{d.slug}}`.toLowerCase();
@@ -545,6 +614,7 @@ html_content = f"""<!DOCTYPE html>
                 <a href="${{escapeHtml(d.whatsapp_send_url || ('https://wa.me/' + d.whatsapp_e164))}}" target="_blank" rel="noopener" class="btn-wa">Chamar no WhatsApp</a>
                 <button type="button" class="btn-ghost" onclick="copyMsg('${{escapeHtml(d.slug)}}')">Copiar Msg</button>
                 <button type="button" class="btn-ghost" onclick="openModal('${{escapeHtml(d.slug)}}')">Ver Mensagem</button>
+                <button type="button" class="btn-ghost" style="color:#fca5a5;border-color:rgba(239,68,68,0.35);background:rgba(239,68,68,0.12);" onclick="deleteCrmLead('${{escapeHtml(d.slug)}}', '${{escapeHtml(d.name)}}')">🗑️ Excluir</button>
               </div>
             </td>
           </tr>

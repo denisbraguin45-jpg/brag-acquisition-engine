@@ -304,3 +304,46 @@ def get_lead_interactions(slug: str) -> list[dict[str, Any]]:
     rows = [dict(zip(cols, r)) for r in c.fetchall()]
     conn.close()
     return rows
+
+
+def delete_sales_lead(slug: str) -> dict[str, Any]:
+    """Exclui um lead invalido do banco de dados SQLite e dos arquivos de distribuicao."""
+    import os
+    conn = sqlite3.connect(DB_PATH)
+    c = conn.cursor()
+    c.execute("SELECT company_name FROM SALES_LEADS WHERE slug = ?", (slug,))
+    row = c.fetchone()
+    name = row[0] if row else slug
+
+    c.execute("DELETE FROM SALES_LEADS WHERE slug = ?", (slug,))
+    c.execute("DELETE FROM SALES_INTERACTIONS WHERE slug = ?", (slug,))
+    c.execute("DELETE FROM COMPANIES WHERE company_slug = ? OR id = ?", (slug, slug))
+    conn.commit()
+    conn.close()
+
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    dist_path = os.path.join(base_dir, 'demos', 'sales_distribution_400.json')
+    if os.path.exists(dist_path):
+        try:
+            with open(dist_path, 'r', encoding='utf-8') as f_dist:
+                dist_data = json.load(f_dist)
+            if isinstance(dist_data, list):
+                dist_data = [x for x in dist_data if x.get('slug') != slug]
+                with open(dist_path, 'w', encoding='utf-8') as f_dist:
+                    json.dump(dist_data, f_dist, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"Erro ao remover de sales_distribution_400: {e}")
+
+    crm_path = os.path.join(base_dir, 'demos', 'crm_all_leads.json')
+    if os.path.exists(crm_path):
+        try:
+            with open(crm_path, 'r', encoding='utf-8') as f_crm:
+                crm_data = json.load(f_crm)
+            if isinstance(crm_data, list):
+                crm_data = [x for x in crm_data if x.get('slug') != slug]
+                with open(crm_path, 'w', encoding='utf-8') as f_crm:
+                    json.dump(crm_data, f_crm, ensure_ascii=False, indent=2)
+        except Exception as e:
+            print(f"Erro ao remover de crm_all_leads: {e}")
+
+    return {"ok": True, "slug": slug, "company_name": name, "message": f"Lead {name} excluido com sucesso"}

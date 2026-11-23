@@ -888,6 +888,9 @@ def render_sales_module_html() -> str:
           <button type="button" class="btn-action btn-lost" onclick="openLogModal('lost')">
             ⛔ Marcar Perdido
           </button>
+          <button type="button" class="btn-action btn-delete" style="grid-column: span 2;" onclick="deleteCurrentLead()">
+            🗑️ Excluir Contato Inválido
+          </button>
         </div>
 
         <!-- DYNAMIC SCRIPTS SELECTOR & TEXT -->
@@ -1055,6 +1058,9 @@ def render_sales_module_html() -> str:
           }}
         }}
 
+        // Filter out deleted contacts from localStorage
+        filterDeletedLeads();
+
         // Sync local storage state for logged answers if running static
         syncLocalStoredInteractions();
 
@@ -1072,6 +1078,73 @@ def render_sales_module_html() -> str:
       }} catch (err) {{
         console.error("Erro carregando dados de vendas:", err);
       }}
+    }}
+
+    
+    function getDeletedSlugs() {{
+      try {{
+        return JSON.parse(localStorage.getItem("brag_deleted_slugs_v1") || "[]");
+      }} catch (e) {{
+        return [];
+      }}
+    }}
+
+    function filterDeletedLeads() {{
+      const deletedSlugs = getDeletedSlugs();
+      if (deletedSlugs.length > 0) {{
+        const delSet = new Set(deletedSlugs);
+        allLeads = allLeads.filter(x => !delSet.has(x.slug));
+      }}
+    }}
+
+    async function deleteLeadBySlug(slug, name) {{
+      if (!slug) return;
+      const confirmMsg = `Deseja realmente EXCLUIR o contato "${{name || slug}}" do CRM?\n\nEsta ação removerá o contato inválido da lista de vendas e recalculará as metas e métricas.`;
+      if (!confirm(confirmMsg)) return;
+
+      // 1. Salvar no localStorage para persistência imediata mesmo no Vercel
+      const deletedSlugs = getDeletedSlugs();
+      if (!deletedSlugs.includes(slug)) {{
+        deletedSlugs.push(slug);
+        localStorage.setItem("brag_deleted_slugs_v1", JSON.stringify(deletedSlugs));
+      }}
+
+      // 2. Chamar API de exclusão no backend local se disponível
+      try {{
+        await fetch("/api/sales/delete-lead", {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: JSON.stringify({{ slug: slug }})
+        }});
+      }} catch (e) {{}}
+
+      // 3. Remover da lista em memória
+      allLeads = allLeads.filter(x => x.slug !== slug);
+
+      // 4. Se o lead excluído for o selecionado no momento, limpar
+      if (selectedLead && selectedLead.slug === slug) {{
+        selectedLead = null;
+      }}
+
+      // 5. Recalcular métricas e atualizar interface
+      globalStats = {{
+        bruce: computeVendorStats(allLeads.filter(x => x.assigned_vendor === "bruce")),
+        gabriel: computeVendorStats(allLeads.filter(x => x.assigned_vendor === "gabriel")),
+        general: computeVendorStats(allLeads)
+      }};
+      renderStats();
+      updateOutcomePillsCount();
+      applyFilters();
+
+      alert(`Contato "${{name || slug}}" excluído com sucesso!`);
+    }}
+
+    function deleteCurrentLead() {{
+      if (!selectedLead) {{
+        alert("Selecione um contato para excluir.");
+        return;
+      }}
+      deleteLeadBySlug(selectedLead.slug, selectedLead.company_name);
     }}
 
     function syncLocalStoredInteractions() {{
@@ -1288,7 +1361,10 @@ def render_sales_module_html() -> str:
             <td>${{prioBadge}} <span class="tabular" style="font-size:0.75rem;color:var(--color-text-secondary);">${{d.score}}</span></td>
             <td>${{statusCallBadge}}</td>
             <td>
-              <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="event.stopPropagation(); selectLead('${{d.slug}}');">Atender</button>
+              <div style="display:flex;gap:4px;align-items:center;">
+                <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="event.stopPropagation(); selectLead('${{d.slug}}');">Atender</button>
+                <button type="button" class="btn-top" style="padding:0.25rem 0.4rem;font-size:0.72rem;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);" title="Excluir Contato Inválido" onclick="event.stopPropagation(); deleteLeadBySlug('${{d.slug}}', '${{escapeHtml(d.company_name)}}');">🗑️</button>
+              </div>
             </td>
           </tr>
         `;
