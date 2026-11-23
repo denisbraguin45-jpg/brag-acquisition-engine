@@ -878,11 +878,11 @@ def render_sales_module_html() -> str:
           <a id="btnOpenDemo" href="#" target="_blank" rel="noopener" class="btn-action btn-demo">
             🌐 Abrir Demo
           </a>
-          <a id="btnWaLead" href="#" target="_blank" rel="noopener" class="btn-action btn-wa">
-            💬 WhatsApp Lead
-          </a>
+          <button type="button" id="btnWaLead" class="btn-action btn-wa" onclick="sendWhatsAppForCurrentLead()">
+            ⚡ WhatsApp 1-Clique (Automático)
+          </button>
           <button type="button" class="btn-action" style="background:#18181b;color:var(--color-gold);border-color:rgba(223,184,88,0.4);" onclick="copyLeadMessage()">
-            📋 Copiar Msg WA
+            📋 Copiar Mensagem
           </button>
           <button type="button" class="btn-action btn-hot" onclick="openLogModal('hot')">
             🔥 Marcar HOT
@@ -1372,7 +1372,7 @@ def render_sales_module_html() -> str:
             <td>
               <div style="display:flex;gap:4px;align-items:center;">
                 <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="event.stopPropagation(); selectLead('${{d.slug}}');">Atender</button>
-                <button type="button" class="btn-top" style="padding:0.25rem 0.45rem;font-size:0.72rem;background:#25d366;color:#09090b;font-weight:700;border-color:#25d366;" title="Copiar Mensagem Pronta de Prospecção" onclick="event.stopPropagation(); copyMessageForSlug('${{d.slug}}');">💬 Msg</button>
+                <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;background:#25d366;color:#09090b;font-weight:700;border-color:#25d366;" title="Enviar WhatsApp 1-Clique com Mensagem e Demo Pronta" onclick="event.stopPropagation(); sendWhatsAppForSlug('${{d.slug}}');">⚡ Enviar WA</button>
                 <button type="button" class="btn-top" style="padding:0.25rem 0.4rem;font-size:0.72rem;background:rgba(239,68,68,0.15);color:#fca5a5;border-color:rgba(239,68,68,0.3);" title="Excluir Contato Inválido" onclick="event.stopPropagation(); deleteLeadBySlug('${{d.slug}}', '${{escapeHtml(d.company_name)}}');">🗑️</button>
               </div>
             </td>
@@ -1455,6 +1455,61 @@ def render_sales_module_html() -> str:
     }}
 
     
+    function buildWhatsAppUrl(item) {{
+      if (item.whatsapp_send_url) return item.whatsapp_send_url;
+      const phoneClean = (item.whatsapp_e164 || item.phone || "").replace(/\D/g, "");
+      const vendorName = item.assigned_vendor === "bruce" ? "Bruce" : "Gabriel";
+      const msg = item.whatsapp_message || (
+        `Olá, diretoria da *${{item.company_name}}*! Tudo bem? Aqui é ${{vendorName}}, da BRAG International.\n\n` +
+        `Acompanhamos a presença de vocês e preparamos uma demonstração personalizada exclusiva do novo Showroom Digital da ${{item.company_name}}:\n\n` +
+        `${{item.demo_url}}\n\nPodem abrir direto no celular para testar a experiência!`
+      );
+      return `https://wa.me/${{phoneClean}}?text=${{encodeURIComponent(msg)}}`;
+    }}
+
+    function sendWhatsAppForSlug(slug) {{
+      const item = allLeads.find(x => x.slug === slug);
+      if (!item) return;
+
+      // 1. Abrir link do WhatsApp diretamente com mensagem formatada
+      const targetUrl = buildWhatsAppUrl(item);
+      window.open(targetUrl, "_blank", "noopener,noreferrer");
+
+      // 2. Registrar contato enviado no histórico/local storage automaticamente
+      item.calls_made = (item.calls_made || 0) + 1;
+      item.last_interaction_at = new Date().toISOString();
+      item.last_call_outcome = "whatsapp_sent";
+      if (!item.stage || item.stage === "novo_lead") {{
+        item.stage = "primeiro_contato_enviado";
+      }}
+
+      try {{
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{{}}");
+        stored[slug] = Object.assign(stored[slug] || {{}}, {{
+          calls_made: item.calls_made,
+          last_interaction_at: item.last_interaction_at,
+          last_call_outcome: item.last_call_outcome,
+          stage: item.stage
+        }});
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      }} catch (e) {{}}
+
+      // 3. Atualizar tabela e stats
+      updateOutcomePillsCount();
+      applyFilters();
+      if (selectedLead && selectedLead.slug === slug) {{
+        selectLead(slug);
+      }}
+    }}
+
+    function sendWhatsAppForCurrentLead() {{
+      if (!selectedLead) {{
+        alert("Selecione um lead primeiro.");
+        return;
+      }}
+      sendWhatsAppForSlug(selectedLead.slug);
+    }}
+
     function copyMessageForSlug(slug) {{
       const item = allLeads.find(x => x.slug === slug);
       if (!item) return;
