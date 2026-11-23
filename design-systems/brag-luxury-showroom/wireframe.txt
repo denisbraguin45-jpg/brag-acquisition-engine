@@ -1,0 +1,26 @@
++-----------------------------------------------------------------------------------+
+| [#MAIN-HEADER] Logo + Nome da Loja + Cidade/UF | Veiculos | Sobre | Contato       |
++-----------------------------------------------------------------------------------+
+| [.SECTION-HERO — AVANTGARDE FULL-STAGE SLIDER]                                    |
+|   Marca em destaque (#cf4520 · letter-spacing 0.52em)                             |
+|   MODELO EM CAIXA ALTA CONDENSADA (Barlow Condensed / Trade Gothic Spirit)        |
+|   [Foto de Capa com Sombra Profunda]                                              |
+|   Tagline ("Start Your Engine")   |  ANO: 2024/2024 | KM: 1.840 | R$ 3.290.000,00 |
++-----------------------------------------------------------------------------------+
+|         [.SECTION-FILTER — CAIXA BRANCA FLUTUANTE SOBREPOSTA]                     |
+|         Encontre seu proximo veiculo | Marcas | Modelos | Busca | [BUSCAR]        |
++-----------------------------------------------------------------------------------+
+| [.SECTION-VEHICLES — FUNDO CLARO #EAEAED · "MUDE SUAS PERSPECTIVAS / MOVA PAIXAO"]|
+|   [CARD CHANFRADO 1]          [CARD CHANFRADO 2]          [CARD CHANFRADO 3]      |
+|   clip-path 54px bottom-right clip-path 54px bottom-right clip-path 54px          |
+|   Marca (#cf4520) + Modelo    Marca (#cf4520) + Modelo    Marca (#cf4520) + Modelo|
+|   Linha 62px + Ano/Km + R$    Linha 62px + Ano/Km + R$    Linha 62px + Ano/Km + R$|
++-----------------------------------------------------------------------------------+
+| [.SECTION-ABOUT — BLOCO FULL-BLEED #CF4520 + CIRCULOS CONCENTRICOS]               |
+|   "Conduzindo a Excelencia" + Historia da Loja + [CONHECA]                        |
++-----------------------------------------------------------------------------------+
+| [.SECTION-MODEL-NOT-FOUND — "NAO ENCONTROU O MODELO QUE ESTAVA BUSCANDO?"]        |
+|   [Modelo Desejado] [Seu Nome] [Veiculo na Troca] [WhatsApp] -> [ENVIAR]          |
++-----------------------------------------------------------------------------------+
+| [.SECTION-EXPERIENCE — "CONHECA A [LOJA] EXPERIENCE"] + [#MAIN-FOOTER]            |
++-----------------------------------------------------------------------------------+

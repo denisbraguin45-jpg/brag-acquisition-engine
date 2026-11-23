@@ -1,0 +1,2323 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BRAG LEAD HUNTER — Local Prospecting & Sales Intelligence Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Design Master — Cognitive Workspace & Atelier Noir Tokens */
+      --color-bg-primary: #07080b;
+      --color-bg-elevated: #0f1217;
+      --color-bg-glass: rgba(15, 18, 23, 0.86);
+      --color-text-primary: #f4f5f8;
+      --color-text-secondary: #98a2b3;
+      --color-accent: #d4af37;
+      --color-accent-hover: #f3d060;
+      --color-accent-ink: #07080b;
+      --brand-glow: rgba(212, 175, 55, 0.14);
+      --border-subtle: rgba(244, 245, 248, 0.09);
+      --border-accent: rgba(212, 175, 55, 0.36);
+
+      /* IBM Carbon for AI & Google PAIR Explainability Tokens */
+      --ai-surface-bg: rgba(17, 22, 34, 0.88);
+      --ai-border-glow: rgba(212, 175, 55, 0.42);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+      /* Legacy Alias Bridge */
+      --bg-void: var(--color-bg-primary);
+      --bg-surface: var(--color-bg-elevated);
+      --bg-elevated: #151a22;
+      --bg-glass: var(--color-bg-glass);
+      --border: #222936;
+      --border-gold: var(--border-accent);
+      --gold: var(--color-accent);
+      --gold-bright: var(--color-accent-hover);
+      --gold-dim: var(--brand-glow);
+      --ink: var(--color-text-primary);
+      --ink-muted: var(--color-text-secondary);
+      --ink-subtle: #647087;
+      --emerald: #10b981;
+      --emerald-bg: rgba(16, 185, 129, 0.13);
+      --amber: #f59e0b;
+      --amber-bg: rgba(245, 158, 11, 0.14);
+      --crimson: #ef4444;
+      --crimson-bg: rgba(239, 68, 68, 0.14);
+      --cyan: #38bdf8;
+      --cyan-bg: rgba(56, 189, 248, 0.13);
+      --radius: 0.75rem;
+      --font-display: 'Cormorant Garamond', 'Cinzel', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: var(--color-bg-primary);
+      background-image:
+        radial-gradient(circle at 12% 0%, rgba(212, 175, 55, 0.09) 0%, transparent 42%),
+        radial-gradient(circle at 88% 10%, rgba(56, 189, 248, 0.05) 0%, transparent 38%);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      line-height: 1.5;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    /* IBM Carbon for AI Label & Explainable Drawer */
+    .ai-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: var(--ai-surface-bg);
+      color: var(--color-accent-hover);
+      border: 1px solid var(--ai-border-glow);
+      text-transform: uppercase;
+    }
+    details.ai-reasoning {
+      background: var(--ai-surface-bg);
+      border: 1px solid var(--ai-border-glow);
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--color-text-secondary);
+    }
+    details.ai-reasoning summary {
+      cursor: pointer;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    /* Re-tokenized Spotlight Card Surface */
+    .kpi-card, .card {
+      --mouse-x: 50%;
+      --mouse-y: 50%;
+      transition: border-color 240ms var(--ease-out-expo), transform 240ms var(--ease-out-expo);
+    }
+    .kpi-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Top Command Header */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 14px 28px;
+      background: rgba(8, 9, 12, 0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-emblem {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #d4af37 0%, #8a6d1b 100%);
+      color: #08090c;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .brand-title {
+      font-family: var(--font-display);
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      margin: 0;
+      color: var(--ink);
+    }
+    .brand-title span { color: var(--gold); }
+    .brand-sub {
+      margin: 2px 0 0;
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+    }
+
+    /* Primary Navigation */
+    .nav-tabs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: var(--bg-surface);
+      color: var(--ink-muted);
+      border: 1px solid var(--border);
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 12.5px;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .nav-btn:hover {
+      color: var(--ink);
+      border-color: var(--border-gold);
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.22), rgba(212, 175, 55, 0.07));
+      color: var(--gold-bright);
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+    }
+
+    .engine-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--font-mono);
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      background: var(--bg-surface);
+      padding: 6px 12px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+    }
+
+    .dot-online {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 8px var(--emerald);
+    }
+
+    /* Main Layout Container */
+    main {
+      max-width: 1720px;
+      margin: 0 auto;
+      padding: 24px 28px 60px;
+    }
+
+    .view-section {
+      display: none;
+      animation: fadeIn 0.2s ease-out;
+    }
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* KPI Grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .kpi-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .kpi-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gold);
+      opacity: 0.7;
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    .kpi-value {
+      font-family: var(--font-mono);
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 6px 0 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .kpi-value.gold { color: var(--gold-bright); }
+    .kpi-value.emerald { color: var(--emerald); }
+    .kpi-value.cyan { color: var(--cyan); }
+
+    .kpi-sub {
+      font-size: 11.5px;
+      color: var(--ink-subtle);
+    }
+
+    /* Cards & Panels */
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .card-title span.tag {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--gold-dim);
+      color: var(--gold-bright);
+      border: 1px solid var(--border-gold);
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.35fr 1fr;
+      gap: 18px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1150px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Forms & Inputs */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      margin-bottom: 5px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg-void);
+      border: 1px solid var(--border);
+      color: var(--ink);
+      padding: 9px 11px;
+      border-radius: 7px;
+      font-family: var(--font-sans);
+      font-size: 13px;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      outline: none;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: 7px;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 12.5px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-bright);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #d4af37 0%, #b58e24 100%);
+      color: #08090c;
+      border-color: var(--gold-bright);
+      font-weight: 700;
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #f3d060 0%, #d4af37 100%);
+      color: #08090c;
+    }
+
+    .btn-sm {
+      padding: 5px 10px;
+      font-size: 11.5px;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+      font-size: 12.5px;
+    }
+
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: #0b0e13;
+      color: var(--ink-muted);
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
+      position: sticky;
+      top: 0;
+    }
+
+    tr:hover td {
+      background: rgba(212, 175, 55, 0.03);
+    }
+
+    /* Badges & Score Pills */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 8px;
+      border-radius: 99px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .prio-A { background: var(--emerald-bg); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.35); }
+    .prio-B { background: var(--gold-dim); color: var(--gold-bright); border: 1px solid var(--border-gold); }
+    .prio-C { background: var(--cyan-bg); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .prio-D { background: rgba(148, 160, 184, 0.12); color: var(--ink-muted); border: 1px solid var(--border); }
+
+    .site-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .site-none { background: var(--crimson-bg); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.3); }
+    .site-third { background: var(--amber-bg); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .site-own { background: var(--emerald-bg); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+    .mono { font-family: var(--font-mono); }
+    .muted { color: var(--ink-muted); }
+    .gold-text { color: var(--gold-bright); }
+
+    /* Rule Alert Banner */
+    .rule-banner {
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.14), rgba(15, 18, 23, 0.9));
+      border: 1px solid var(--border-gold);
+      border-left: 4px solid var(--gold);
+      padding: 13px 16px;
+      border-radius: 8px;
+      margin-bottom: 18px;
+      font-size: 12.5px;
+    }
+    .rule-banner strong { color: var(--gold-bright); }
+
+    /* Progress bar for criteria */
+    .crit-row {
+      margin-bottom: 10px;
+      padding: 8px 10px;
+      background: var(--bg-void);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .crit-head {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 600;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .crit-bar-bg {
+      height: 6px;
+      background: #1c222d;
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+    .crit-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--emerald));
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 8px 0;
+    }
+    .checkbox-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 11px;
+      background: var(--bg-void);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--ink);
+      cursor: pointer;
+      text-transform: none;
+    }
+    .checkbox-pill input { width: auto; margin: 0; accent-color: var(--gold); }
+
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      right: 24px;
+      z-index: 100;
+      background: var(--bg-elevated);
+      border: 1px solid var(--gold);
+      color: var(--ink);
+      padding: 12px 18px;
+      border-radius: 8px;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6);
+      font-size: 13px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-emblem">B</div>
+      <div>
+        <h1 class="brand-title"><span>BRAG</span> LEAD HUNTER</h1>
+        <p class="brand-sub">LOCAL B2B PROSPECTING &amp; COMMERCIAL INTELLIGENCE ENGINE v1.0</p>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" aria-label="Navegação Principal">
+      <button type="button" class="nav-btn" data-view="dashboard">1. Dashboard</button>
+      <button type="button" class="nav-btn active" data-view="demos" style="border-color: var(--gold); color: var(--gold-bright);">2. Fila 60 Demos (30 Denis + 30 Gabriel)</button>
+      <button type="button" class="nav-btn" data-view="leads">3. Leads (CRM Limpo)</button>
+      <button type="button" class="nav-btn" data-view="search">4. Search &amp; Automação</button>
+      <button type="button" class="nav-btn" data-view="detail">5. Company Detail</button>
+      <button type="button" class="nav-btn" data-view="export">6. Export &amp; CRM REST</button>
+      <button type="button" class="nav-btn" data-view="workforce">7. AI Workforce (13–16) <span class="ai-badge" style="margin-left:4px;">AI</span></button>
+    </nav>
+
+    <div class="engine-status">
+      <span class="dot-online"></span>
+      <span id="headerStatusText">SQLite Ativo • 0 Empresas</span>
+    </div>
+  </header>
+
+  <main>
+    <!-- ===================================================================== -->
+    <!-- VIEW 1: DASHBOARD                                                     -->
+    <!-- ===================================================================== -->
+    <section id="view-dashboard" class="view-section">
+      <div class="rule-banner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <strong>FILA DUPLA DE PRODUÇÃO &amp; DISPARO (60 DEMOS AVANTGARDE — 30 DENIS + 30 GABRIEL):</strong>
+          Os 30 primeiros contatos já abordados foram excluídos do CRM. A nova fila conta com 60 Showrooms Digitais divididos em 2 frentes separadas para você e seu sócio dispararem em 1 clique.
+        </div>
+        <button type="button" class="btn btn-primary" onclick="switchView('demos')">Abrir Fila de 60 Demos (Denis &amp; Gabriel) &rarr;</button>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">Empresas Encontradas</div>
+          <div class="kpi-value" id="kpiFound">0</div>
+          <div class="kpi-sub">Registros únicos deduplicados no SQLite</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Empresas Qualificadas</div>
+          <div class="kpi-value gold" id="kpiQualified">0</div>
+          <div class="kpi-sub">Score ICP &ge; 60 pontos</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Leads Prioridade A</div>
+          <div class="kpi-value emerald" id="kpiPrioA">0</div>
+          <div class="kpi-sub">Score 80–100 (Ataque Imediato)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Leads Prioridade B</div>
+          <div class="kpi-value cyan" id="kpiPrioB">0</div>
+          <div class="kpi-sub">Score 60–79 (Alta Prioridade)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Empresas Sem Website</div>
+          <div class="kpi-value gold" id="kpiNoWebsite">0</div>
+          <div class="kpi-sub">Sem domínio próprio identificado</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Contatos Encontrados</div>
+          <div class="kpi-value emerald" id="kpiContacts">0</div>
+          <div class="kpi-sub">Telefone, WhatsApp ou E-mail público</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Campanhas Executadas</div>
+          <div class="kpi-value" id="kpiCampaigns">0</div>
+          <div class="kpi-sub">Histórico salvo localmente</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">100+ Contatos Prontos para Abordagem Imediata <span class="tag">Prioridade A &amp; B com WhatsApp / Telefone</span></h2>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="openReadyContacts100()">Abrir em Tela Cheia (Aba Leads)</button>
+              <button type="button" class="btn btn-sm" onclick="switchView('leads')">Ver Todos os Leads &rarr;</button>
+            </div>
+          </div>
+          <div class="table-wrap" style="max-height: 68vh;">
+            <table>
+              <thead>
+                <tr>
+                  <th>Score</th>
+                  <th>Empresa</th>
+                  <th>Nicho / Cidade</th>
+                  <th>Status Website</th>
+                  <th>Contato Público</th>
+                  <th>Oportunidade</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="dashTopOpportunitiesBody">
+                <tr><td colspan="7" class="muted">Carregando oportunidades...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Distribuição por Nicho ICP</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Nicho</th>
+                    <th>Empresas</th>
+                    <th>Sem Site</th>
+                    <th>Classe A</th>
+                  </tr>
+                </thead>
+                <tbody id="dashNicheBody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">Campanhas Recentes</h2>
+              <button type="button" class="btn btn-sm btn-primary" onclick="switchView('search')">+ Nova Campanha</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Campanha</th>
+                    <th>Status</th>
+                    <th>Encontradas</th>
+                    <th>Qualificadas</th>
+                    <th>Duplicadas Evitadas</th>
+                  </tr>
+                </thead>
+                <tbody id="dashCampaignsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 2: SEARCH & CAMPAIGN AUTOMATION                                  -->
+    <!-- ===================================================================== -->
+    <section id="view-search" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Configuração da Busca &amp; Campanha Multi-Cidade / Multi-Nicho <span class="tag">Seções 2 &amp; 9</span></h2>
+          <span class="muted mono">Limite de segurança por campanha: máx. 150 resultados</span>
+        </div>
+
+        <form id="campaignForm">
+          <div class="form-grid">
+            <div>
+              <label for="campName">Nome da Campanha</label>
+              <input id="campName" type="text" placeholder="Ex: Prospecção Multimarcas & Náutica Sul/Sudeste">
+            </div>
+            <div>
+              <label for="campCountry">País</label>
+              <input id="campCountry" type="text" value="Brasil">
+            </div>
+            <div>
+              <label for="campState">Estado (UF)</label>
+              <input id="campState" type="text" value="SP" placeholder="Ex: SP, PR, SC, FL">
+            </div>
+            <div>
+              <label for="campCities">Cidade(s) (separe múltiplas por vírgula)</label>
+              <input id="campCities" type="text" value="São Paulo, Curitiba, Londrina, Florianópolis" required>
+            </div>
+            <div>
+              <label for="campRegion">Região / Bairro (opcional)</label>
+              <input id="campRegion" type="text" placeholder="Ex: Sudeste / Sul / Jardins / Alphaville">
+            </div>
+            <div>
+              <label for="campSubniche">Subnicho / Palavra-chave específica</label>
+              <input id="campSubniche" type="text" placeholder="Ex: seminovos premium, blindados, lanchas">
+            </div>
+            <div>
+              <label for="campQty">Quantidade Desejada (Limite de segurança)</label>
+              <input id="campQty" type="number" min="3" max="150" value="35">
+            </div>
+            <div>
+              <label for="campMinRating">Nota Mínima do Google (0 = todas)</label>
+              <input id="campMinRating" type="number" step="0.1" min="0" max="5" value="0">
+            </div>
+            <div>
+              <label for="campMinReviews">Qtd. Mínima de Avaliações</label>
+              <input id="campMinReviews" type="number" min="0" value="0">
+            </div>
+            <div>
+              <label for="campWebFilter">Presença ou Ausência de Website</label>
+              <select id="campWebFilter">
+                <option value="all">Todas (Com ou Sem Website — Auditar todas)</option>
+                <option value="without_website">Somente Empresas SEM Website Próprio</option>
+                <option value="with_website">Somente Empresas COM Website (Auditar falhas)</option>
+              </select>
+            </div>
+            <div>
+              <label for="campIgFilter">Presença de Instagram</label>
+              <select id="campIgFilter">
+                <option value="all">Indiferente</option>
+                <option value="with_instagram">Exigir Instagram Comercial</option>
+              </select>
+            </div>
+            <div>
+              <label for="campMinScore">Score ICP Mínimo (0–100)</label>
+              <input id="campMinScore" type="number" min="0" max="100" value="60">
+            </div>
+            <div>
+              <label for="campPrioFilter">Prioridade Desejada</label>
+              <select id="campPrioFilter">
+                <option value="all">Todas as classes (A, B, C, D)</option>
+                <option value="A">Somente Prioridade A (80–100 pts)</option>
+                <option value="B">Prioridade A e B (&ge; 60 pts)</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px;">
+            <label>Múltiplos Nichos Permitidos na Campanha (Selecione 1 ou mais)</label>
+            <div class="checkbox-group">
+              <label class="checkbox-pill"><input type="checkbox" name="campNiche" value="P1 — Revendas premium e multimarcas" checked> P1 — Revendas Premium &amp; Multimarcas</label>
+              <label class="checkbox-pill"><input type="checkbox" name="campNiche" value="P2 — Luxo e superesportivos" checked> P2 — Luxo &amp; Superesportivos</label>
+              <label class="checkbox-pill"><input type="checkbox" name="campNiche" value="P3 — Importados e SUVs premium" checked> P3 — Importados, Blindados &amp; SUVs</label>
+              <label class="checkbox-pill"><input type="checkbox" name="campNiche" value="P4 — Náutica premium" checked> P4 — Náutica Premium (Lanchas &amp; Iates)</label>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px;">
+            <label>Conectores Independentes de Coleta &amp; Auditoria Ativos</label>
+            <div class="checkbox-group">
+              <label class="checkbox-pill"><input type="checkbox" name="campSource" value="google_maps" checked> A. Google Maps / Geo</label>
+              <label class="checkbox-pill"><input type="checkbox" name="campSource" value="instagram" checked> B. Instagram Comercial (Antigravity + Apify)</label>
+              <label class="checkbox-pill"><input type="checkbox" name="campSource" value="web_enrichment" checked> C. Web Enrichment</label>
+              <label class="checkbox-pill"><input type="checkbox" name="campSource" value="website_auditor" checked> D. Website Auditor HTTP</label>
+            </div>
+          </div>
+
+          <div style="margin-top: 16px; display: flex; gap: 10px; align-items: center;">
+            <button type="submit" class="btn btn-primary" id="btnStartCampaign">Executar Campanha Agora</button>
+            <span class="muted" id="campaignRunFeedback">Deduplicação automática por telefone, domínio, @username e nome+cidade ativa.</span>
+          </div>
+        </form>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Controle de Campanhas &amp; Continuidade</h2>
+            <button type="button" class="btn btn-sm" onclick="loadCampaignsView()">Atualizar Status</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>ID / Nome</th>
+                  <th>Status</th>
+                  <th>Encontradas / Qualif.</th>
+                  <th>Novas / Atualiz. / Dupl.</th>
+                  <th>Controles de Automação</th>
+                </tr>
+              </thead>
+              <tbody id="campaignsControlBody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Histórico de Coleta por Conector (`SEARCH_HISTORY`)</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data/Hora</th>
+                  <th>Conector</th>
+                  <th>Nicho / Cidade</th>
+                  <th>Resultados</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="searchHistoryBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 3: LEADS TABLE & FILTERS                                         -->
+    <!-- ===================================================================== -->
+    <section id="view-leads" class="view-section">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title">Base de Leads Qualificados &amp; Inteligência Comercial <span class="tag" id="leadsTotalBadge">0 leads</span></h2>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+            <label class="checkbox-pill" style="margin:0;"><input type="checkbox" id="fltReadyOutreach" onchange="applyLeadsFilter()"> Somente Prontos para Abordagem (100+ com WhatsApp/Tel/E-mail)</label>
+            <button type="button" class="btn btn-sm" onclick="applyLeadsFilter()">Filtrar</button>
+            <button type="button" class="btn btn-sm" onclick="resetLeadsFilter()">Limpar Filtros</button>
+          </div>
+        </div>
+
+        <div class="form-grid" style="margin-bottom: 16px;">
+          <div>
+            <label for="fltSearch">Pesquisa (Nome, @username, Cidade, Telefone)</label>
+            <input id="fltSearch" type="text" placeholder="Digite para filtrar..." oninput="applyLeadsFilter()">
+          </div>
+          <div>
+            <label for="fltPriority">Prioridade (Classe ICP)</label>
+            <select id="fltPriority" onchange="applyLeadsFilter()">
+              <option value="">Todas (A, B, C, D)</option>
+              <option value="A">Classe A (80–100 pts)</option>
+              <option value="B">Classe B (60–79 pts)</option>
+              <option value="C">Classe C (40–59 pts)</option>
+              <option value="D">Classe D (&lt; 40 pts)</option>
+            </select>
+          </div>
+          <div>
+            <label for="fltMinScore">Score Mínimo</label>
+            <input id="fltMinScore" type="number" min="0" max="100" placeholder="Ex: 70" onchange="applyLeadsFilter()">
+          </div>
+          <div>
+            <label for="fltNiche">Nicho</label>
+            <select id="fltNiche" onchange="applyLeadsFilter()">
+              <option value="">Todos os Nichos</option>
+              <option value="P1">P1 — Revendas premium e multimarcas</option>
+              <option value="P2">P2 — Luxo e superesportivos</option>
+              <option value="P3">P3 — Importados e SUVs premium</option>
+              <option value="P4">P4 — Náutica premium</option>
+            </select>
+          </div>
+          <div>
+            <label for="fltCity">Cidade / UF</label>
+            <input id="fltCity" type="text" placeholder="Ex: São Paulo, Curitiba" onchange="applyLeadsFilter()">
+          </div>
+          <div>
+            <label for="fltWebsite">Presença de Website Próprio</label>
+            <select id="fltWebsite" onchange="applyLeadsFilter()">
+              <option value="">Todos</option>
+              <option value="sem_site">Sem Website Próprio (Oportunidade Direta)</option>
+              <option value="com_site">Com Website Próprio (Auditoria de Falhas)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap" style="max-height: 68vh;">
+          <table>
+            <thead>
+              <tr>
+                <th>Score / Classe</th>
+                <th>Empresa &amp; Fonte</th>
+                <th>Nicho &amp; Cidade</th>
+                <th>Contatos (Wpp / Tel / Email)</th>
+                <th>Website &amp; Auditoria</th>
+                <th>Instagram</th>
+                <th>Diagnóstico &amp; Oportunidade</th>
+                <th>Status Comercial</th>
+                <th>Detalhes</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 4: COMPANY DETAIL                                                -->
+    <!-- ===================================================================== -->
+    <section id="view-detail" class="view-section">
+      <div id="companyDetailContainer">
+        <div class="card">
+          <p class="muted">Selecione uma empresa na aba <strong>Dashboard</strong> ou <strong>Leads Qualificados</strong> clicando em <em>"Inspecionar Dossiê"</em> para visualizar a análise completa.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 5: EXPORT & BRAG CRM INTEGRATION                                 -->
+    <!-- ===================================================================== -->
+    <section id="view-export" class="view-section">
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Exportação de Leads (CSV / JSON) &amp; Sincronização BRAG CRM <span class="tag">Seções 8 &amp; 10</span></h2>
+          </div>
+
+          <div class="form-grid" style="margin-bottom: 18px;">
+            <div>
+              <label for="expMinScore">Exportar por Score ICP Mínimo</label>
+              <input id="expMinScore" type="number" min="0" max="100" value="60">
+            </div>
+            <div>
+              <label for="expPriority">Exportar por Prioridade</label>
+              <select id="expPriority">
+                <option value="">Todas dentro do score</option>
+                <option value="A">Somente Prioridade A (80–100)</option>
+                <option value="B">Somente Prioridade B (60–79)</option>
+              </select>
+            </div>
+            <div>
+              <label for="expNiche">Exportar por Nicho</label>
+              <select id="expNiche">
+                <option value="">Todos os Nichos</option>
+                <option value="P1">P1 — Revendas premium e multimarcas</option>
+                <option value="P2">P2 — Luxo e superesportivos</option>
+                <option value="P3">P3 — Importados e SUVs premium</option>
+                <option value="P4">P4 — Náutica premium</option>
+              </select>
+            </div>
+            <div>
+              <label for="expCity">Exportar por Cidade</label>
+              <input id="expCity" type="text" placeholder="Ex: São Paulo (vazio = todas)">
+            </div>
+            <div>
+              <label for="expWebsite">Filtro de Website</label>
+              <select id="expWebsite">
+                <option value="">Todos</option>
+                <option value="sem_site">Somente Sem Website Próprio</option>
+                <option value="com_site">Somente Com Website</option>
+              </select>
+            </div>
+            <div>
+              <label for="expCrmUrl">Endpoint API REST do CRM da BRAG</label>
+              <input id="expCrmUrl" type="text" value="http://localhost:3000">
+            </div>
+          </div>
+
+          <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:12px;">
+            <button type="button" class="btn btn-primary" onclick="triggerExport('csv')">Baixar CSV Completo</button>
+            <button type="button" class="btn btn-primary" onclick="triggerExport('json')">Baixar JSON (Formato CRM)</button>
+            <button type="button" class="btn" onclick="triggerCrmSync()">Sincronizar Lote via API REST CRM</button>
+          </div>
+
+          <div id="crmSyncResultBox" style="margin-top:18px; display:none;" class="card"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title">Histórico de Exportações &amp; Integrações (`EXPORT_HISTORY`)</h2>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Data/Hora</th>
+                  <th>Formato / Tipo</th>
+                  <th>Destino</th>
+                  <th>Registros</th>
+                  <th>Status &amp; Detalhes</th>
+                </tr>
+              </thead>
+              <tbody id="exportHistoryBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 6: BRAG MARKET & SALES INTELLIGENCE (AGENTS 13, 14, 15, 16)      -->
+    <!-- ===================================================================== -->
+    <section id="view-workforce" class="view-section">
+      <div class="rule-banner">
+        <strong>REGRA CENTRAL (BRAG MARKET &amp; SALES INTELLIGENCE):</strong>
+        Nenhum nicho deve ser considerado validado apenas por possuir muitos leads. A validação exige evidência comercial obtida através de <strong>contatos, conversas, propostas e vendas</strong>. O sistema recomenda expansão somente quando houver dados suficientes para justificar a decisão.
+      </div>
+
+      <!-- AGENT 13 & AGENT 15 -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="ai-badge">AI LABEL</span> AGENT 13 — ICP MARKET INTELLIGENCE <span class="tag">Mapeamento &amp; Aderência</span></h2>
+          </div>
+          <details class="ai-reasoning">
+            <summary>Por que esta análise é confiável? (Google PAIR · Microsoft HAX G1/G2)</summary>
+            <p style="margin:6px 0 0;">O Agente 13 cruza a base real deduplicada do SQLite local com a estimativa verificável do mercado brasileiro (SAM) e calcula o percentual real de lojas operando sem domínio próprio.</p>
+          </details>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Segmento / Nicho</th>
+                  <th>Aderência Site</th>
+                  <th>Empresas Est. (SAM)</th>
+                  <th>Descobertas no DB</th>
+                  <th>Sem Site no DB</th>
+                  <th>Índice Potencial</th>
+                  <th>Recomendação</th>
+                </tr>
+              </thead>
+              <tbody id="agent13SegmentsBody"></tbody>
+            </table>
+          </div>
+          <div style="margin-top:14px;">
+            <label>Concentração Geográfica Observada na Base Local</label>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Cidade / UF</th>
+                    <th>Empresas Encontradas</th>
+                    <th>Sem Website</th>
+                    <th>Prioridade A</th>
+                    <th>Score Médio</th>
+                  </tr>
+                </thead>
+                <tbody id="agent13GeoBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h2 class="card-title"><span class="ai-badge">AI LABEL</span> AGENT 15 — MARKET SIZE INTELLIGENCE <span class="tag">TAM / SAM / SOM &amp; Expansão</span></h2>
+          </div>
+          <details class="ai-reasoning">
+            <summary>Critérios de dimensionamento TAM / SAM / SOM (IBM Carbon for AI)</summary>
+            <p style="margin:6px 0 0;">Separação determinística entre registros brutos encontrados, empresas que cumprem os critérios mínimos de ICP (Score &ge; 60) e empresas com canal direto verificado.</p>
+          </details>
+          <div class="kpi-grid" id="agent15MacroKpis" style="grid-template-columns: repeat(3, 1fr); margin-bottom:14px;"></div>
+
+          <div class="card" style="background: var(--bg-void); padding:14px; margin-bottom:14px;">
+            <label style="color:var(--gold-bright);">Diferenciação Estrita: Base Coletada vs. Elegíveis vs. Alcançáveis</label>
+            <div id="agent15FunnelDistinction"></div>
+          </div>
+
+          <label>Oportunidades de Expansão Geográfica (Fontes Verificáveis vs. Cobertura Atual)</label>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Polo Geográfico</th>
+                  <th>SAM Estimado</th>
+                  <th>Coletadas no DB</th>
+                  <th>Penetração SAM</th>
+                  <th>Recomendação de Expansão</th>
+                </tr>
+              </thead>
+              <tbody id="agent15ExpansionBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- AGENT 14 -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="ai-badge">AI LABEL</span> AGENT 14 — OFFER INTELLIGENCE <span class="tag">Problemas Verificados &rarr; Soluções BRAG + IA</span></h2>
+          <span class="muted mono" id="agent14Guardrail"></span>
+        </div>
+        <div class="grid-3" id="agent14OfferCards"></div>
+      </div>
+
+      <!-- AGENT 16 -->
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span class="ai-badge">AI LABEL</span> AGENT 16 — SALES EXPERIMENT INTELLIGENCE <span class="tag">Painel de Comparação de Campanhas &amp; Validação Comercial</span></h2>
+        </div>
+
+        <div id="agent16VerdictBanner" class="rule-banner" style="border-left-color: var(--cyan);"></div>
+
+        <div class="table-wrap" style="margin-bottom: 18px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Campanha de Teste / Experimento</th>
+                <th>Nicho &amp; Cidade</th>
+                <th>Script &amp; Oferta</th>
+                <th>Leads</th>
+                <th>Contatos (% Taxa)</th>
+                <th>Respostas (% Taxa)</th>
+                <th>Reuniões</th>
+                <th>Propostas</th>
+                <th>Vendas &amp; Receita</th>
+                <th>Status de Validação (Regra Central)</th>
+                <th>Atualizar Métricas</th>
+              </tr>
+            </thead>
+            <tbody id="agent16ExperimentsBody"></tbody>
+          </table>
+        </div>
+
+        <details style="background: var(--bg-void); padding: 14px; border-radius: 8px; border: 1px solid var(--border);">
+          <summary style="cursor: pointer; font-weight: 700; color: var(--gold-bright);">+ Criar / Atualizar Experimento Comercial de Validação (Agent 16)</summary>
+          <form id="experimentForm" style="margin-top: 14px;">
+            <input type="hidden" id="expIdInput">
+            <div class="form-grid">
+              <div>
+                <label for="expNameInput">Nome da Campanha de Teste</label>
+                <input id="expNameInput" type="text" required placeholder="Ex: Exp #4 — P3 Blindados SP (Script Vídeo 60s)">
+              </div>
+              <div>
+                <label for="expNicheInput">Nicho</label>
+                <select id="expNicheInput">
+                  <option value="P1 — Revendas premium e multimarcas">P1 — Revendas premium e multimarcas</option>
+                  <option value="P2 — Luxo e superesportivos">P2 — Luxo e superesportivos</option>
+                  <option value="P3 — Importados e SUVs premium">P3 — Importados e SUVs premium</option>
+                  <option value="P4 — Náutica premium">P4 — Náutica premium</option>
+                </select>
+              </div>
+              <div>
+                <label for="expCityInput">Cidade</label>
+                <input id="expCityInput" type="text" value="São Paulo">
+              </div>
+              <div>
+                <label for="expScriptInput">Variante de Script</label>
+                <input id="expScriptInput" type="text" value="Script A: Diagnóstico Sem Site + Demo Mobile">
+              </div>
+              <div>
+                <label for="expOfferInput">Oferta Recomendada</label>
+                <input id="expOfferInput" type="text" value="Vitrine Digital High-Ticket + Catálogo WhatsApp">
+              </div>
+              <div>
+                <label for="expLeadsInput">Leads Alvo no Lote</label>
+                <input id="expLeadsInput" type="number" min="0" value="30">
+              </div>
+              <div>
+                <label for="expContactsInput">Contatos Realizados</label>
+                <input id="expContactsInput" type="number" min="0" value="0">
+              </div>
+              <div>
+                <label for="expResponsesInput">Respostas Recebidas</label>
+                <input id="expResponsesInput" type="number" min="0" value="0">
+              </div>
+              <div>
+                <label for="expMeetingsInput">Reuniões Agendadas</label>
+                <input id="expMeetingsInput" type="number" min="0" value="0">
+              </div>
+              <div>
+                <label for="expProposalsInput">Propostas Enviadas</label>
+                <input id="expProposalsInput" type="number" min="0" value="0">
+              </div>
+              <div>
+                <label for="expSalesInput">Vendas Fechadas</label>
+                <input id="expSalesInput" type="number" min="0" value="0">
+              </div>
+              <div>
+                <label for="expRevenueInput">Receita Gerada (R$)</label>
+                <input id="expRevenueInput" type="number" step="0.01" min="0" value="0">
+              </div>
+            </div>
+            <div style="margin-top: 12px; display:flex; gap:10px;">
+              <button type="submit" class="btn btn-primary">Salvar Experimento &amp; Avaliar Regra Central</button>
+              <button type="button" class="btn" onclick="resetExperimentForm()">Limpar</button>
+            </div>
+          </form>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===================================================================== -->
+    <!-- VIEW 7: 60 DEMOS PRONTAS (30 DENIS + 30 GABRIEL)                      -->
+    <!-- ===================================================================== -->
+    <section id="view-demos" class="view-section active">
+      <div class="rule-banner" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+        <div>
+          <strong>FILA DUPLA DE PRODUÇÃO &amp; DISPARO (60 SHOWROOMS AVANTGARDE — 30 DENIS + 30 GABRIEL):</strong>
+          Os 30 contatos do 1º lote já abordados foram apagados do CRM. Abaixo estão as <strong>2 filas separadas</strong>: <strong>Parte 1: Fila Denis (30 Demos)</strong> e <strong>Parte 2: Fila Gabriel / Sócio (30 Demos)</strong>, prontas para disparo no WhatsApp em 1 clique.
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <input id="fltDemosSearch" type="text" placeholder="Filtrar por loja, @instagram, cidade ou responsável..." style="width:310px;" oninput="renderDemosList()">
+          <button type="button" class="btn btn-sm" onclick="copyCurrentPartnerVercelUrl()">🔗 Copiar Link da Fila p/ Gabriel</button>
+          <button type="button" class="btn btn-sm" onclick="regenerateAllDemos()">Regerar 60 Demos</button>
+        </div>
+      </div>
+
+      <!-- 2 SEPARATE PARTNER WORKSPACE SELECTOR CARDS -->
+      <div class="grid-3" style="margin-bottom: 18px;">
+        <div id="partnerCardDenis" class="card" onclick="selectPartnerQueue('denis')" style="margin-bottom:0; cursor:pointer; border:2px solid var(--gold); background:linear-gradient(135deg, rgba(212,175,55,0.12), var(--bg-surface));">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="ai-badge" style="background:rgba(212,175,55,0.2); color:var(--gold-bright);">PARTE 1 • SUA FILA</span>
+            <span class="mono muted" style="font-size:11px;">?fila=denis</span>
+          </div>
+          <h3 style="margin:8px 0 4px; font-size:18px; color:var(--ink);">Fila 1 — Denis (30 Demos)</h3>
+          <div class="mono" style="font-size:12px; color:var(--emerald);" id="partnerCardDenisStats">30 Showrooms Prontos • 0 Enviados</div>
+        </div>
+
+        <div id="partnerCardGabriel" class="card" onclick="selectPartnerQueue('gabriel')" style="margin-bottom:0; cursor:pointer; border:1px solid var(--border); background:var(--bg-surface);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="ai-badge" style="background:rgba(56,189,248,0.18); color:var(--cyan);">PARTE 2 • FILA DO SÓCIO</span>
+            <span class="mono muted" style="font-size:11px;">?fila=gabriel</span>
+          </div>
+          <h3 style="margin:8px 0 4px; font-size:18px; color:var(--ink);">Fila 2 — Gabriel (30 Demos)</h3>
+          <div class="mono" style="font-size:12px; color:var(--cyan);" id="partnerCardGabrielStats">30 Showrooms Prontos • 0 Enviados</div>
+        </div>
+
+        <div id="partnerCardAll" class="card" onclick="selectPartnerQueue('all')" style="margin-bottom:0; cursor:pointer; border:1px solid var(--border); background:var(--bg-surface);">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <span class="ai-badge">VISÃO GERAL DA DUPLA</span>
+            <span class="mono muted" style="font-size:11px;">60 Showrooms</span>
+          </div>
+          <h3 style="margin:8px 0 4px; font-size:18px; color:var(--ink);">Todas as 60 Demos (Denis + Gabriel)</h3>
+          <div class="mono" style="font-size:12px; color:var(--ink-muted);" id="partnerCardAllStats">60 Showrooms no Ar</div>
+        </div>
+      </div>
+
+      <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom:18px;">
+        <div class="kpi-card">
+          <div class="kpi-label" id="kpiDemosTotalLabel">Demos na Fila Selecionada</div>
+          <div class="kpi-value gold" id="kpiDemosTotal">30</div>
+          <div class="kpi-sub" id="kpiDemosSubLabel">Fila 1 — Denis (30 Demos)</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Score ICP Médio da Fila</div>
+          <div class="kpi-value emerald" id="kpiDemosAvgScore">88.5</div>
+          <div class="kpi-sub">Qualificados c/ WhatsApp &amp; Instagram</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Aguardando 1º Envio</div>
+          <div class="kpi-value cyan" id="kpiDemosPending">30</div>
+          <div class="kpi-sub">Prontos para disparo em 1 clique</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">Já Abordados / Enviados</div>
+          <div class="kpi-value emerald" id="kpiDemosSent">0</div>
+          <div class="kpi-sub">Marcados como contato enviado</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h2 class="card-title"><span id="demosQueueTitle">Parte 1: Fila do Denis (30 Demos)</span> — Kit de Demonstração &amp; Envio Direto <span class="tag" id="demosCountBadge">30 demos</span></h2>
+          <div style="display:flex; gap:8px;">
+            <button type="button" class="btn btn-sm" onclick="selectPartnerQueue('denis')">Fila Denis (30)</button>
+            <button type="button" class="btn btn-sm" onclick="selectPartnerQueue('gabriel')">Fila Gabriel (30)</button>
+            <button type="button" class="btn btn-sm" onclick="selectPartnerQueue('all')">Ver Todas (60)</button>
+          </div>
+        </div>
+        <div class="table-wrap" style="max-height: 72vh;">
+          <table>
+            <thead>
+              <tr>
+                <th># Fila</th>
+                <th>Sócio Responsável</th>
+                <th>Score ICP</th>
+                <th>Empresa / Loja</th>
+                <th>Cidade &amp; Nicho</th>
+                <th>Instagram &amp; WhatsApp</th>
+                <th>Preview do Showroom Digital</th>
+                <th>Ação de Envio Direto (WhatsApp + Scripts)</th>
+                <th>Status do Envio</th>
+              </tr>
+            </thead>
+            <tbody id="demosTableBody">
+              <tr><td colspan="9" class="muted" style="text-align:center; padding:28px;">Carregando as 60 demos personalizadas (30 Denis + 30 Gabriel)...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Modal for inspecting/copying Pitch + 60s Video Script -->
+      <div id="demoScriptModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.82); z-index:200; align-items:center; justify-content:center; padding:20px;">
+        <div class="card" style="max-width:760px; width:100%; max-height:90vh; overflow-y:auto; margin:0; border-color:var(--gold);">
+          <div class="card-header">
+            <h3 class="card-title" id="modalDemoTitle">Kit de Envio Direto</h3>
+            <button type="button" class="btn btn-sm" onclick="closeDemoScriptModal()">✕ Fechar</button>
+          </div>
+          <div style="margin-bottom:14px;">
+            <label>Mensagem Pronta para WhatsApp (Com Link da Demo)</label>
+            <textarea id="modalPitchText" rows="7" readonly style="font-family:var(--font-sans);"></textarea>
+            <div style="margin-top:8px; display:flex; gap:8px;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="copyModalText('modalPitchText', 'Mensagem de WhatsApp copiada!')">📋 Copiar Mensagem WhatsApp</button>
+              <a id="modalDirectWaLink" href="#" target="_blank" rel="noopener" class="btn btn-sm" style="background:var(--emerald); color:#04130d; font-weight:700; border:none;">📲 Abrir no WhatsApp Agora</a>
+              <a id="modalOpenDemoLink" href="#" target="_blank" rel="noopener" class="btn btn-sm">🌐 Abrir Site Demo ↗</a>
+            </div>
+          </div>
+          <div>
+            <label>Roteiro de Vídeo Executivo de 60 Segundos (Loom / WhatsApp Vídeo)</label>
+            <textarea id="modalVideoScriptText" rows="11" readonly style="font-family:var(--font-sans);"></textarea>
+            <div style="margin-top:8px;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="copyModalText('modalVideoScriptText', 'Roteiro de vídeo 60s copiado!')">🎬 Copiar Roteiro de Vídeo 60s</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.style.display = 'block';
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => { t.style.display = 'none'; }, 4200);
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.view === viewName);
+      });
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.add('active');
+
+      if (viewName === 'dashboard') loadDashboard();
+      if (viewName === 'demos') loadDemosView();
+      if (viewName === 'search') loadCampaignsView();
+      if (viewName === 'leads') applyLeadsFilter();
+      if (viewName === 'export') loadExportHistory();
+      if (viewName === 'workforce') loadWorkforceAgents();
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchView(btn.dataset.view));
+    });
+
+    function renderSiteBadge(lead) {
+      if (lead.has_own_website) {
+        const st = lead.audit_status === 'broken' ? 'Quebrado' : (lead.audit_status === 'weak' ? 'Defasado' : 'Ativo');
+        return `<span class="site-pill site-own">Site Próprio (${esc(st)})</span><div class="mono muted" style="font-size:11px; margin-top:3px;">${esc(lead.website_domain || lead.website_url)}</div>`;
+      }
+      if (lead.link_type && lead.link_type !== 'Sem link na bio') {
+        return `<span class="site-pill site-third">Sem Site (${esc(lead.link_type)})</span>`;
+      }
+      return `<span class="site-pill site-none">Sem Website Oficial</span>`;
+    }
+
+    async function loadDashboard() {
+      const res = await fetch('/api/dashboard');
+      const data = await res.json();
+      const k = data.kpis || {};
+
+      document.getElementById('kpiFound').textContent = k.companies_found ?? 0;
+      document.getElementById('kpiQualified').textContent = k.companies_qualified ?? 0;
+      document.getElementById('kpiPrioA').textContent = k.priority_a_leads ?? 0;
+      document.getElementById('kpiPrioB').textContent = k.priority_b_leads ?? 0;
+      document.getElementById('kpiNoWebsite').textContent = k.companies_without_website ?? 0;
+      document.getElementById('kpiContacts').textContent = k.contacts_found ?? 0;
+      document.getElementById('kpiCampaigns').textContent = k.campaigns_executed ?? 0;
+      document.getElementById('headerStatusText').textContent = `SQLite Ativo • ${k.companies_found ?? 0} Empresas • ${k.priority_a_leads ?? 0} Classe A`;
+
+      const topBody = document.getElementById('dashTopOpportunitiesBody');
+      const tops = data.top_opportunities || [];
+      if (!tops.length) {
+        topBody.innerHTML = `<tr><td colspan="7" class="muted">Nenhuma oportunidade encontrada.</td></tr>`;
+      } else {
+        topBody.innerHTML = tops.map(l => `
+          <tr>
+            <td><span class="badge prio-${esc(l.priority)}">${l.score}/100 (${esc(l.priority)})</span></td>
+            <td>
+              <strong>${esc(l.name)}</strong>
+              ${l.instagram_username ? `<div class="mono muted" style="font-size:11px;">@${esc(l.instagram_username)}</div>` : ''}
+            </td>
+            <td>
+              <div>${esc(l.niche)}</div>
+              <div class="muted" style="font-size:11.5px;">${esc(l.city)} - ${esc(l.state)}</div>
+            </td>
+            <td>${renderSiteBadge(l)}</td>
+            <td class="mono" style="font-size:11.5px;">
+              ${l.whatsapp ? `<a href="https://wa.me/${esc(l.whatsapp.startsWith('55') ? l.whatsapp : '55'+l.whatsapp)}" target="_blank" style="color:var(--emerald); font-weight:700;">📲 Wpp: ${esc(l.whatsapp)}</a>` : (l.phone ? `<div>📞 Tel: ${esc(l.phone)}</div>` : '<span class="muted">Via IG Direct</span>')}
+              ${l.email ? `<div>${esc(l.email)}</div>` : ''}
+            </td>
+            <td style="max-width:290px; font-size:12px;">${esc((l.opportunity_text || '').slice(0, 125))}...</td>
+            <td><button type="button" class="btn btn-sm" onclick="inspectCompany('${esc(l.id)}')">Inspecionar Dossiê</button></td>
+          </tr>
+        `).join('');
+      }
+
+      const nicheBody = document.getElementById('dashNicheBody');
+      nicheBody.innerHTML = (data.niche_distribution || []).map(n => `
+        <tr>
+          <td><strong>${esc(n.niche || 'Não classificado')}</strong></td>
+          <td class="mono">${n.total}</td>
+          <td class="mono gold-text">${n.no_site}</td>
+          <td class="mono" style="color:var(--emerald);">${n.class_a}</td>
+        </tr>
+      `).join('');
+
+      const campBody = document.getElementById('dashCampaignsBody');
+      campBody.innerHTML = (data.recent_campaigns || []).map(c => `
+        <tr>
+          <td><strong>${esc(c.name)}</strong></td>
+          <td><span class="badge prio-${c.status === 'completed' ? 'A' : 'B'}">${esc(c.status)}</span></td>
+          <td class="mono">${c.total_found}</td>
+          <td class="mono gold-text">${c.total_qualified}</td>
+          <td class="mono">${c.duplicates_avoided}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function applyLeadsFilter() {
+      const params = new URLSearchParams();
+      const s = document.getElementById('fltSearch').value.trim();
+      const p = document.getElementById('fltPriority').value;
+      const ms = document.getElementById('fltMinScore').value;
+      const n = document.getElementById('fltNiche').value;
+      const c = document.getElementById('fltCity').value.trim();
+      const w = document.getElementById('fltWebsite').value;
+
+      if (s) params.set('search', s);
+      if (p) params.set('priority', p);
+      if (ms) params.set('min_score', ms);
+      if (n) params.set('niche', n);
+      if (c) params.set('city', c);
+      if (w) params.set('has_website', w);
+
+      const res = await fetch(`/api/leads?${params.toString()}`);
+      const data = await res.json();
+      let items = data.items || [];
+      const readyOnly = document.getElementById('fltReadyOutreach')?.checked;
+      if (readyOnly) {
+        items = items.filter(l => Boolean(l.whatsapp || l.phone || l.email));
+      }
+      document.getElementById('leadsTotalBadge').textContent = `${items.length} leads`;
+
+      const tbody = document.getElementById('leadsTableBody');
+      if (!items.length) {
+        tbody.innerHTML = `<tr><td colspan="9" class="muted" style="text-align:center; padding:24px;">Nenhum lead encontrado para os filtros selecionados.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = items.map(l => `
+        <tr>
+          <td>
+            <span class="badge prio-${esc(l.priority)}">${l.score}/100 • Classe ${esc(l.priority)}</span>
+            <div class="muted" style="font-size:10.5px; margin-top:4px;">${esc((l.icp_fit_status || '').split('(')[0])}</div>
+          </td>
+          <td>
+            <strong>${esc(l.name)}</strong>
+            <div class="mono muted" style="font-size:11px;">Fonte: ${esc(l.source)}</div>
+          </td>
+          <td>
+            <div>${esc(l.niche)}</div>
+            <div class="muted" style="font-size:11.5px;">${esc(l.city)} ${l.state ? `- ${esc(l.state)}` : ''} (${esc(l.country)})</div>
+          </td>
+          <td class="mono" style="font-size:11.5px;">
+            ${l.whatsapp ? `<div><a href="https://wa.me/${esc(l.whatsapp.startsWith('55') ? l.whatsapp : '55'+l.whatsapp)}" target="_blank" style="color:var(--emerald); font-weight:700;">📲 Wpp: ${esc(l.whatsapp)}</a></div>` : ''}
+            ${l.phone && l.phone !== l.whatsapp ? `<div>📞 Tel: ${esc(l.phone)}</div>` : ''}
+            ${l.email ? `<div>✉️ ${esc(l.email)}</div>` : ''}
+            ${!l.whatsapp && !l.phone && !l.email ? `<span class="muted">Contato via IG/Bio</span>` : ''}
+          </td>
+          <td>${renderSiteBadge(l)}</td>
+          <td>
+            ${l.instagram_username
+              ? `<a href="${esc(l.instagram_url)}" target="_blank" rel="noopener" class="mono gold-text">@${esc(l.instagram_username)}</a>
+                 <div class="muted" style="font-size:11px;">${l.followers_count ? `${Number(l.followers_count).toLocaleString('pt-BR')} seg.` : ''}</div>`
+              : '<span class="muted">—</span>'}
+          </td>
+          <td style="max-width:320px; font-size:12px;">
+            <div style="color:var(--ink); margin-bottom:4px;"><strong>Oportunidade:</strong> ${esc((l.opportunity_text || '').slice(0, 115))}...</div>
+            <div class="muted" style="font-size:11px;">Oferta: ${esc(l.recommended_offer || '')}</div>
+          </td>
+          <td>
+            <select onchange="updateCompanyStatus('${esc(l.id)}', this.value)" style="padding:4px 6px; font-size:11.5px;">
+              ${['icp_identificado','em_analise','demo_pronta','primeiro_contato_enviado','respondeu','proposta_enviada','venda_fechada','perdido'].map(st =>
+                `<option value="${st}" ${l.commercial_status === st ? 'selected' : ''}>${st}</option>`
+              ).join('')}
+            </select>
+          </td>
+          <td>
+            <button type="button" class="btn btn-sm btn-primary" onclick="inspectCompany('${esc(l.id)}')">Inspecionar Dossiê</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function resetLeadsFilter() {
+      ['fltSearch','fltPriority','fltMinScore','fltNiche','fltCity','fltWebsite'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      const r = document.getElementById('fltReadyOutreach');
+      if (r) r.checked = false;
+      applyLeadsFilter();
+    }
+
+    function openReadyContacts100() {
+      ['fltSearch','fltPriority','fltMinScore','fltNiche','fltCity','fltWebsite'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      const r = document.getElementById('fltReadyOutreach');
+      if (r) r.checked = true;
+      switchView('leads');
+    }
+
+    async function updateCompanyStatus(companyId, newStatus) {
+      await fetch(`/api/companies/${companyId}/status`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({commercial_status: newStatus}),
+      });
+      showToast(`Status comercial atualizado para: ${newStatus}`);
+    }
+
+    async function inspectCompany(companyId) {
+      switchView('detail');
+      const container = document.getElementById('companyDetailContainer');
+      container.innerHTML = `<div class="card"><p class="muted">Carregando dossiê completo da empresa...</p></div>`;
+
+      const res = await fetch(`/api/companies/${companyId}`);
+      if (!res.ok) {
+        container.innerHTML = `<div class="card"><p style="color:var(--crimson);">Erro ao carregar empresa.</p></div>`;
+        return;
+      }
+      const d = await res.json();
+      const c = d.company || {};
+      const ct = (d.contacts && d.contacts[0]) || {};
+      const sp = (d.social_profiles && d.social_profiles[0]) || {};
+      const web = (d.websites && d.websites[0]) || {};
+      const aud = (d.audits && d.audits[0]) || {};
+      const sc = d.icp_score || {};
+      const offerRec = (d.offer_intelligence && d.offer_intelligence.recommended_offer) || {};
+
+      const justList = sc.justifications || [];
+      const issuesList = aud.issues_found || [];
+      const oppsList = aud.improvement_opportunities || [];
+      const historyList = c.history_log || [];
+
+      container.innerHTML = `
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" style="font-size:20px;">
+                ${esc(c.name)}
+                <span class="badge prio-${esc(sc.priority_class || 'B')}">Score ICP: ${sc.total_score ?? 0}/100 • Prioridade ${esc(sc.priority_class || 'B')}</span>
+              </h2>
+              <p class="muted" style="margin:4px 0 0;">
+                Nicho: <strong>${esc(c.niche)}</strong> • Localização: <strong>${esc(c.city)} - ${esc(c.state)} (${esc(c.country)})</strong> • Endereço: ${esc(c.address || 'Não informado')}
+              </p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button type="button" class="btn btn-sm" onclick="runLiveWebsiteAudit('${esc(c.id)}', '${esc(web.url || '')}')">Executar Auditoria HTTP Ao Vivo</button>
+              <button type="button" class="btn btn-sm btn-primary" onclick="syncSingleCompanyToCrm('${esc(c.id)}')">Enviar Lead para CRM BRAG</button>
+            </div>
+          </div>
+
+          <!-- 4 Separated Analytical Dimensions (Section 4) -->
+          <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 18px;">
+            <div class="kpi-card">
+              <div class="kpi-label">1. Adequação ao ICP</div>
+              <div style="font-weight:700; margin-top:6px; color:var(--gold-bright);">${esc(sc.icp_fit_status || '—')}</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">2. Qualidade dos Dados</div>
+              <div style="font-weight:700; margin-top:6px; color:var(--emerald);">${esc(sc.data_quality_level || '—')}</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">3. Evidência de Necessidade</div>
+              <div style="font-weight:700; margin-top:6px; color:var(--cyan);">${esc(sc.need_evidence_level || '—')}</div>
+            </div>
+            <div class="kpi-card">
+              <div class="kpi-label">4. Intenção de Compra Confirmada</div>
+              <div style="font-weight:700; margin-top:6px; color:var(--ink-muted);">${esc(sc.confirmed_purchase_intent || '—')}</div>
+            </div>
+          </div>
+
+          <div class="grid-2">
+            <!-- Left Column: Opportunity Intelligence & Score Breakdown -->
+            <div>
+              <div class="card" style="background:var(--bg-void);">
+                <div class="card-header">
+                  <h3 class="card-title">Inteligência de Oportunidade &amp; Argumento Comercial <span class="tag">Seção 5</span></h3>
+                </div>
+                <div style="margin-bottom:12px;">
+                  <label>Diagnóstico Fundamentado nos Dados Coletados</label>
+                  <pre style="white-space:pre-wrap; font-family:var(--font-sans); background:var(--bg-surface); padding:12px; border-radius:6px; border:1px solid var(--border); margin:0;">${esc(sc.diagnosis || '')}</pre>
+                </div>
+                <div style="margin-bottom:12px;">
+                  <label>Oportunidade Identificada</label>
+                  <div style="background:var(--bg-surface); padding:12px; border-radius:6px; border:1px solid var(--border-gold); color:var(--gold-bright); font-weight:600;">
+                    ${esc(sc.opportunity_text || '')}
+                  </div>
+                </div>
+                <div style="margin-bottom:12px;">
+                  <label>Argumento Comercial / Script Personalizado (Pronto para Abordagem)</label>
+                  <textarea rows="4" readonly style="font-family:var(--font-sans);">${esc(sc.commercial_pitch || '')}</textarea>
+                </div>
+                <div>
+                  <label>Próxima Ação Recomendada</label>
+                  <div style="padding:10px 12px; background:var(--emerald-bg); border:1px solid rgba(16,185,129,0.35); border-radius:6px; color:#34d399; font-weight:600;">
+                    ${esc(sc.recommended_next_action || '')}
+                  </div>
+                </div>
+              </div>
+
+              <div class="card" style="background:var(--bg-void);">
+                <div class="card-header">
+                  <h3 class="card-title">Motor de Pontuação Explicável (0–100 pts) <span class="tag">Seção 4</span></h3>
+                </div>
+                ${justList.map(j => {
+                  const pct = j.max_points ? Math.round((j.points / j.max_points) * 100) : 0;
+                  return `
+                    <div class="crit-row">
+                      <div class="crit-head">
+                        <span>${esc(j.criterion)}</span>
+                        <span class="mono gold-text">${j.points} / ${j.max_points} pts</span>
+                      </div>
+                      <div class="crit-bar-bg"><div class="crit-bar-fill" style="width:${pct}%"></div></div>
+                      <div class="muted" style="font-size:12px;">${esc(j.reason)}</div>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <!-- Right Column: Profile Data, Website Audit, Offer Agent 14, History -->
+            <div>
+              <div class="card" style="background:var(--bg-void);">
+                <div class="card-header">
+                  <h3 class="card-title">Dados Encontrados (Contatos, Instagram &amp; Reputação)</h3>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <tbody>
+                      <tr><th>WhatsApp Público</th><td class="mono">${esc(ct.whatsapp || 'Não identificado')} ${ct.whatsapp_verified ? '<span class="badge prio-A">Verificado</span>' : ''}</td></tr>
+                      <tr><th>Telefone Comercial</th><td class="mono">${esc(ct.phone_raw || ct.phone_normalized || 'Não identificado')}</td></tr>
+                      <tr><th>E-mail Público</th><td class="mono">${esc(ct.email || 'Não identificado')}</td></tr>
+                      <tr><th>Instagram Comercial</th><td>${sp.username ? `<a href="${esc(sp.profile_url)}" target="_blank" class="gold-text mono">@${esc(sp.username)}</a> (${sp.followers_count ?? '—'} seg. • ${sp.posts_count ?? '—'} posts • últ. post: ${esc(sp.latest_post_date || '—')})` : 'Não identificado'}</td></tr>
+                      <tr><th>Biografia Instagram</th><td>${esc(sp.biography || '—')}</td></tr>
+                      <tr><th>Serviços Identificados</th><td>${esc((c.services_offered || []).join(', ') || c.niche)}</td></tr>
+                      <tr><th>Avaliações Google</th><td>${c.google_rating ? `Nota ${c.google_rating} (${c.google_reviews_count || 0} avaliações)` : 'Não coletado via Google Places'}</td></tr>
+                      <tr><th>Fonte &amp; Confiança</th><td class="mono">${esc(c.source)} (Confiança: ${esc(c.data_confidence)})</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card" style="background:var(--bg-void);">
+                <div class="card-header">
+                  <h3 class="card-title">Análise Técnica do Website (WEBSITE AUDITOR) <span class="tag">Seção 3.D</span></h3>
+                </div>
+                <div class="table-wrap">
+                  <table>
+                    <tbody>
+                      <tr><th>Website / Link Testado</th><td class="mono">${esc(web.url || aud.url_tested || 'Nenhum website próprio identificado')}</td></tr>
+                      <tr><th>Status da Auditoria</th><td><span class="badge prio-${aud.audit_status === 'adequate' ? 'C' : 'A'}">${esc(aud.audit_status || 'no_site')}</span> (HTTP ${aud.http_status ?? 0} • ${aud.load_time_ms ?? 0} ms)</td></tr>
+                      <tr><th>HTTPS / Responsivo</th><td>HTTPS: <strong>${aud.has_https ? 'Sim' : 'Não'}</strong> • Responsivo Mobile: <strong>${aud.is_responsive ? 'Sim' : 'Não'}</strong></td></tr>
+                      <tr><th>Elementos de Conversão</th><td>CTA: <strong>${aud.has_cta ? 'Sim' : 'Não'}</strong> • Botão WhatsApp: <strong>${aud.has_whatsapp_button ? 'Sim' : 'Não'}</strong> • Formulário: <strong>${aud.has_contact_form ? 'Sim' : 'Não'}</strong></td></tr>
+                      <tr><th>Scores Técnicos</th><td class="mono">Apresentação: ${aud.presentation_quality_score ?? 0}/100 • Clareza: ${aud.offer_clarity_score ?? 0}/100 • Estrutura Comercial: ${aud.commercial_structure_score ?? 0}/100</td></tr>
+                      <tr><th>Problemas Encontrados</th><td>${issuesList.length ? issuesList.map(i => `<div>• ${esc(i)}</div>`).join('') : 'Nenhum'}</td></tr>
+                      <tr><th>Oportunidades de Melhoria</th><td>${oppsList.length ? oppsList.map(o => `<div class="gold-text">• ${esc(o)}</div>`).join('') : '—'}</td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div class="card" style="background:var(--bg-void);">
+                <div class="card-header">
+                  <h3 class="card-title">AGENT 14 — Oferta Recomendada &amp; Automação IA</h3>
+                </div>
+                <p><strong>Oferta:</strong> <span class="gold-text">${esc(offerRec.title || sc.recommended_offer || '')}</span></p>
+                <p><strong>Solução BRAG:</strong> ${esc(offerRec.brag_solution || '')}</p>
+                <p><strong>Manutenção &amp; Automação IA:</strong> ${esc(offerRec.ai_maintenance_automation || '')}</p>
+                <p class="mono muted">Faixa de Setup: ${esc(offerRec.setup_investment_range_brl || '')} • Recorrência IA: ${esc(offerRec.monthly_recurrence_range_brl || '')}</p>
+              </div>
+
+              <div class="card" style="background:var(--bg-void);">
+                <div class="card-header">
+                  <h3 class="card-title">Histórico de Coleta &amp; Deduplicação</h3>
+                </div>
+                <div class="mono muted" style="font-size:11.5px;">
+                  ${historyList.map(h => `<div>[${esc(h.timestamp)}] Fonte: ${esc(h.source)} • Ação: ${esc(h.action || (h.updated_fields || []).join(', '))}</div>`).join('')}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function runLiveWebsiteAudit(companyId, currentUrl) {
+      const url = prompt("Confirme ou informe a URL do website para auditoria HTTP ao vivo:", currentUrl || "https://");
+      if (url === null) return;
+      showToast("Executando Website Auditor HTTP ao vivo...");
+      const res = await fetch(`/api/companies/${companyId}/audit`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({url: url.trim()}),
+      });
+      if (res.ok) {
+        showToast("Auditoria de website e Score ICP atualizados!");
+        inspectCompany(companyId);
+      }
+    }
+
+    async function loadCampaignsView() {
+      const res = await fetch('/api/campaigns');
+      const data = await res.json();
+      const camps = data.campaigns || [];
+      const hist = data.search_history || [];
+
+      document.getElementById('campaignsControlBody').innerHTML = camps.map(c => `
+        <tr>
+          <td>
+            <strong>${esc(c.name)}</strong>
+            <div class="mono muted" style="font-size:11px;">${esc(c.id)} • ${esc(c.created_at)}</div>
+          </td>
+          <td><span class="badge prio-${c.status === 'completed' ? 'A' : (c.status === 'running' ? 'B' : 'C')}">${esc(c.status)}</span></td>
+          <td class="mono">${c.total_found} enc. / <strong class="gold-text">${c.total_qualified} qualif.</strong></td>
+          <td class="mono" style="font-size:11.5px;">+${c.new_records} novos • ${c.updated_records} atualiz. • ${c.duplicates_avoided} dupl.</td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button type="button" class="btn btn-sm" onclick="controlCampaign('${esc(c.id)}', 'pause')">Pausar</button>
+              <button type="button" class="btn btn-sm" onclick="controlCampaign('${esc(c.id)}', 'resume')">Retomar</button>
+              <button type="button" class="btn btn-sm" onclick="controlCampaign('${esc(c.id)}', 'stop')">Parar</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      document.getElementById('searchHistoryBody').innerHTML = hist.map(h => `
+        <tr>
+          <td class="mono" style="font-size:11px;">${esc(h.executed_at)}</td>
+          <td class="mono">${esc(h.connector)}</td>
+          <td>${esc(h.niche)} • <strong>${esc(h.city)}</strong></td>
+          <td class="mono gold-text">${h.results_count}</td>
+          <td><span class="badge prio-${h.status === 'success' ? 'A' : 'D'}">${esc(h.status)}</span></td>
+        </tr>
+      `).join('');
+    }
+
+    async function controlCampaign(campId, action) {
+      await fetch(`/api/campaigns/${campId}/control`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({action}),
+      });
+      showToast(`Comando '${action}' enviado para campanha ${campId}`);
+      loadCampaignsView();
+    }
+
+    document.getElementById('campaignForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const niches = [...document.querySelectorAll('input[name="campNiche"]:checked')].map(el => el.value);
+      const sources = [...document.querySelectorAll('input[name="campSource"]:checked')].map(el => el.value);
+      const cities = document.getElementById('campCities').value.split(',').map(s => s.trim()).filter(Boolean);
+
+      const payload = {
+        name: document.getElementById('campName').value.trim(),
+        country: document.getElementById('campCountry').value.trim(),
+        state: document.getElementById('campState').value.trim(),
+        cities,
+        region: document.getElementById('campRegion').value.trim(),
+        niches,
+        subniche: document.getElementById('campSubniche').value.trim(),
+        desired_quantity: Number(document.getElementById('campQty').value) || 30,
+        min_google_rating: Number(document.getElementById('campMinRating').value) || 0,
+        min_google_reviews: Number(document.getElementById('campMinReviews').value) || 0,
+        website_filter: document.getElementById('campWebFilter').value,
+        instagram_filter: document.getElementById('campIgFilter').value,
+        min_icp_score: Number(document.getElementById('campMinScore').value) || 60,
+        priority_filter: document.getElementById('campPrioFilter').value,
+        sources,
+        run_sync: true,
+        perform_live_http_audit: false,
+      };
+
+      const btn = document.getElementById('btnStartCampaign');
+      btn.disabled = true;
+      btn.textContent = 'Executando Coleta, Deduplicação e Score ICP...';
+      try {
+        const res = await fetch('/api/campaigns', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(payload),
+        });
+        const data = await res.json();
+        const c = data.campaign || {};
+        showToast(`Campanha concluída: ${c.total_found || 0} processadas (${c.total_qualified || 0} qualificadas)!`);
+        loadCampaignsView();
+        loadDashboard();
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Executar Campanha Agora';
+      }
+    });
+
+    function triggerExport(type) {
+      const params = new URLSearchParams();
+      const ms = document.getElementById('expMinScore').value;
+      const p = document.getElementById('expPriority').value;
+      const n = document.getElementById('expNiche').value;
+      const c = document.getElementById('expCity').value.trim();
+      const w = document.getElementById('expWebsite').value;
+
+      if (ms) params.set('min_score', ms);
+      if (p) params.set('priority', p);
+      if (n) params.set('niche', n);
+      if (c) params.set('city', c);
+      if (w) params.set('has_website', w);
+
+      window.open(`/api/export/${type}?${params.toString()}`, '_blank');
+      setTimeout(loadExportHistory, 800);
+    }
+
+    async function triggerCrmSync() {
+      const filters = {
+        min_score: Number(document.getElementById('expMinScore').value) || 60,
+        priority: document.getElementById('expPriority').value || null,
+        niche: document.getElementById('expNiche').value || null,
+        city: document.getElementById('expCity').value.trim() || null,
+      };
+      const crmUrl = document.getElementById('expCrmUrl').value.trim();
+      showToast('Preparando e enviando lote para o CRM da BRAG...');
+      const res = await fetch('/api/export/crm', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({filters, crm_url: crmUrl}),
+      });
+      const data = await res.json();
+      const box = document.getElementById('crmSyncResultBox');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <h3 style="margin-top:0; font-size:14px;">Resultado da Integração REST CRM (${esc(data.endpoint)})</h3>
+        <p><strong>Status:</strong> <span class="badge prio-${data.status === 'success' ? 'A' : 'B'}">${esc(data.status)}</span> — ${esc(data.message)}</p>
+        <p class="mono muted" style="font-size:11.5px;">Leads elegíveis no lote: ${data.total_targeted} • Sincronizados online: ${data.synced_live}</p>
+        ${data.sample_payload ? `<label>Amostra do Payload JSON Enviado (Seção 10):</label><pre style="max-height:200px; overflow:auto; background:var(--bg-void); padding:10px; border-radius:6px; font-size:11px;">${esc(JSON.stringify(data.sample_payload, null, 2))}</pre>` : ''}
+      `;
+      loadExportHistory();
+    }
+
+    async function syncSingleCompanyToCrm(companyId) {
+      const res = await fetch('/api/export/crm', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({company_ids: [companyId]}),
+      });
+      const data = await res.json();
+      showToast(data.message || 'Lead processado para o CRM da BRAG');
+    }
+
+    async function loadExportHistory() {
+      const res = await fetch('/api/export/history');
+      const data = await res.json();
+      document.getElementById('exportHistoryBody').innerHTML = (data.items || []).map(h => `
+        <tr>
+          <td class="mono" style="font-size:11px;">${esc(h.exported_at)}</td>
+          <td><span class="badge prio-B">${esc(h.export_type)}</span></td>
+          <td class="mono" style="font-size:11.5px;">${esc(h.destination)}</td>
+          <td class="mono gold-text">${h.records_count}</td>
+          <td>${esc(h.details)}</td>
+        </tr>
+      `).join('');
+    }
+
+    async function loadWorkforceAgents() {
+      const res = await fetch('/api/intelligence/agents');
+      const data = await res.json();
+
+      // AGENT 13
+      const a13 = data.agent_13_icp_market || {};
+      document.getElementById('agent13SegmentsBody').innerHTML = (a13.segments_comparison || []).map(s => `
+        <tr>
+          <td>
+            <strong>${esc(s.segment_name)}</strong>
+            <div class="muted" style="font-size:11px;">${esc(s.key_pain)}</div>
+          </td>
+          <td class="mono">${s.website_adherence_score}/100</td>
+          <td class="mono">${Number(s.estimated_available_companies_brazil).toLocaleString('pt-BR')}</td>
+          <td class="mono">${s.discovered_in_local_db}</td>
+          <td class="mono gold-text">${s.without_own_website_in_db} (${s.without_website_pct}%)</td>
+          <td class="mono"><span class="badge prio-A">${s.commercial_potential_index}</span></td>
+          <td style="font-size:11.5px;">${esc(s.recommendation_rationale)}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('agent13GeoBody').innerHTML = (a13.geographic_concentration || []).map(g => `
+        <tr>
+          <td><strong>${esc(g.city)}</strong> (${esc(g.state)})</td>
+          <td class="mono">${g.companies_count}</td>
+          <td class="mono gold-text">${g.without_website}</td>
+          <td class="mono" style="color:var(--emerald);">${g.priority_a}</td>
+          <td class="mono">${g.avg_score}</td>
+        </tr>
+      `).join('');
+
+      // AGENT 15
+      const a15 = data.agent_15_market_size || {};
+      const macro = a15.macro_market_estimates || {};
+      document.getElementById('agent15MacroKpis').innerHTML = ['TAM','SAM','SOM'].map(k => {
+        const item = macro[k] || {};
+        return `
+          <div class="kpi-card">
+            <div class="kpi-label">${k} (Empresas)</div>
+            <div class="kpi-value gold">${Number(item.companies_count || 0).toLocaleString('pt-BR')}</div>
+            <div class="kpi-sub">${esc(item.label || '')}</div>
+          </div>
+        `;
+      }).join('');
+
+      const dist = a15.local_database_funnel_distinction || {};
+      const f1 = dist.empresas_encontradas || {};
+      const f2 = dist.empresas_elegiveis || {};
+      const f3 = dist.empresas_efetivamente_alcancaveis || {};
+      document.getElementById('agent15FunnelDistinction').innerHTML = `
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:10px; margin-top:8px;">
+          <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border:1px solid var(--border);">
+            <div class="mono gold-text" style="font-size:20px; font-weight:700;">1. Encontradas: ${f1.count ?? 0}</div>
+            <div class="muted" style="font-size:11.5px;">${esc(f1.explanation || '')}</div>
+          </div>
+          <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border:1px solid var(--border);">
+            <div class="mono" style="font-size:20px; font-weight:700; color:var(--cyan);">2. Elegíveis: ${f2.count ?? 0} (${f2.pct_of_found ?? 0}%)</div>
+            <div class="muted" style="font-size:11.5px;">${esc(f2.explanation || '')}</div>
+          </div>
+          <div style="padding:10px; background:var(--bg-surface); border-radius:6px; border:1px solid var(--border);">
+            <div class="mono" style="font-size:20px; font-weight:700; color:var(--emerald);">3. Alcançáveis: ${f3.count ?? 0} (${f3.pct_of_eligible ?? 0}%)</div>
+            <div class="muted" style="font-size:11.5px;">${esc(f3.explanation || '')}</div>
+          </div>
+        </div>
+        <div class="muted" style="font-size:11.5px; margin-top:8px;">${esc(a15.methodological_note || '')}</div>
+      `;
+
+      document.getElementById('agent15ExpansionBody').innerHTML = (a15.geographic_expansion_opportunities || []).map(e => `
+        <tr>
+          <td><strong>${esc(e.city)}</strong> (${esc(e.state)})</td>
+          <td class="mono">${e.estimated_sam_hub}</td>
+          <td class="mono">${e.captured_in_local_db}</td>
+          <td class="mono">${e.sam_penetration_pct}%</td>
+          <td><span class="badge prio-${e.captured_in_local_db < 15 ? 'A' : 'B'}">${esc(e.expansion_status)}</span></td>
+        </tr>
+      `).join('');
+
+      // AGENT 14
+      const a14 = data.agent_14_offer_intelligence || {};
+      document.getElementById('agent14Guardrail').textContent = a14.policy_guardrail || '';
+      document.getElementById('agent14OfferCards').innerHTML = (a14.offer_matrix || []).map(o => `
+        <div class="card" style="background:var(--bg-void); margin-bottom:0;">
+          <h3 style="margin-top:0; color:var(--gold-bright); font-size:14.5px;">${esc(o.title)}</h3>
+          <p style="font-size:12px;"><strong>Problema Diagnosticado:</strong> ${esc(o.target_problem)}</p>
+          <p style="font-size:12px;"><strong>Solução BRAG:</strong> ${esc(o.brag_solution)}</p>
+          <p style="font-size:12px;"><strong>Manutenção &amp; Automação IA:</strong> ${esc(o.ai_maintenance_automation)}</p>
+          <div class="mono" style="font-size:11.5px; color:var(--emerald); margin-bottom:8px;">Setup: ${esc(o.setup_investment_range_brl)} • Recorrência: ${esc(o.monthly_recurrence_range_brl)}</div>
+          <label>Argumentos de Valor (Sem promessas irreais):</label>
+          <ul style="margin:4px 0 0; padding-left:18px; font-size:11.5px;" class="muted">
+            ${(o.value_arguments || []).map(v => `<li>${esc(v)}</li>`).join('')}
+          </ul>
+        </div>
+      `).join('');
+
+      // AGENT 16
+      const a16 = data.agent_16_sales_experiments || {};
+      document.getElementById('agent16VerdictBanner').innerHTML = `
+        <strong>Veredito Executivo (Agent 16):</strong> ${esc(a16.executive_verdict || '')}
+      `;
+
+      window._experimentsCache = a16.experiments || [];
+      document.getElementById('agent16ExperimentsBody').innerHTML = window._experimentsCache.map((ex, idx) => {
+        const m = ex.metrics || {};
+        const badgeClass = ex.worthy_of_scale ? 'A' : (ex.validation_status === 'EM_TRACAO_PROMISSORA' ? 'B' : 'D');
+        return `
+          <tr>
+            <td><strong>${esc(ex.name)}</strong></td>
+            <td>${esc(ex.niche)}<div class="muted" style="font-size:11px;">${esc(ex.city)}</div></td>
+            <td style="font-size:11.5px;"><div>${esc(ex.script_variant)}</div><div class="muted">${esc(ex.offer_type)}</div></td>
+            <td class="mono">${ex.leads_targeted}</td>
+            <td class="mono">${ex.contacts_made} <span class="muted">(${m.contact_rate_pct}%)</span></td>
+            <td class="mono">${ex.responses_received} <span class="gold-text">(${m.response_rate_pct}%)</span></td>
+            <td class="mono">${ex.meetings_booked} <span class="muted">(${m.meeting_rate_pct}%)</span></td>
+            <td class="mono">${ex.proposals_sent}</td>
+            <td class="mono"><strong style="color:var(--emerald);">${ex.sales_closed} vendas</strong><div>R$ ${Number(ex.revenue_brl || 0).toLocaleString('pt-BR')}</div></td>
+            <td style="max-width:270px;">
+              <span class="badge prio-${badgeClass}">${esc(ex.validation_status)}</span>
+              <div style="font-size:11px; margin-top:4px;"><strong>${esc(ex.scale_recommendation)}</strong></div>
+              <div class="muted" style="font-size:11px;">${esc(ex.validation_rationale)}</div>
+            </td>
+            <td>
+              <button type="button" class="btn btn-sm" onclick="populateExperimentForm(${idx})">Editar / Registrar</button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function populateExperimentForm(idx) {
+      const ex = (window._experimentsCache || [])[idx];
+      if (!ex) return;
+      document.getElementById('expIdInput').value = ex.id;
+      document.getElementById('expNameInput').value = ex.name;
+      document.getElementById('expNicheInput').value = ex.niche;
+      document.getElementById('expCityInput').value = ex.city;
+      document.getElementById('expScriptInput').value = ex.script_variant;
+      document.getElementById('expOfferInput').value = ex.offer_type;
+      document.getElementById('expLeadsInput').value = ex.leads_targeted;
+      document.getElementById('expContactsInput').value = ex.contacts_made;
+      document.getElementById('expResponsesInput').value = ex.responses_received;
+      document.getElementById('expMeetingsInput').value = ex.meetings_booked;
+      document.getElementById('expProposalsInput').value = ex.proposals_sent;
+      document.getElementById('expSalesInput').value = ex.sales_closed;
+      document.getElementById('expRevenueInput').value = ex.revenue_brl;
+      document.querySelector('#view-workforce details').open = true;
+      document.getElementById('expNameInput').focus();
+    }
+
+    function resetExperimentForm() {
+      document.getElementById('expIdInput').value = '';
+      document.getElementById('experimentForm').reset();
+    }
+
+    document.getElementById('experimentForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        id: document.getElementById('expIdInput').value || undefined,
+        name: document.getElementById('expNameInput').value.trim(),
+        niche: document.getElementById('expNicheInput').value,
+        city: document.getElementById('expCityInput').value.trim(),
+        script_variant: document.getElementById('expScriptInput').value.trim(),
+        offer_type: document.getElementById('expOfferInput').value.trim(),
+        leads_targeted: Number(document.getElementById('expLeadsInput').value) || 0,
+        contacts_made: Number(document.getElementById('expContactsInput').value) || 0,
+        responses_received: Number(document.getElementById('expResponsesInput').value) || 0,
+        meetings_booked: Number(document.getElementById('expMeetingsInput').value) || 0,
+        proposals_sent: Number(document.getElementById('expProposalsInput').value) || 0,
+        sales_closed: Number(document.getElementById('expSalesInput').value) || 0,
+        revenue_brl: Number(document.getElementById('expRevenueInput').value) || 0,
+      };
+      const res = await fetch('/api/intelligence/experiments', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        showToast('Experimento salvo e avaliado pela Regra Central (Agent 16)!');
+        resetExperimentForm();
+        loadWorkforceAgents();
+      }
+    });
+
+    // Demos View (60 Demos Split: 30 Denis + 30 Gabriel)
+    window._demosCache = [];
+    window._currentPartnerQueue = new URLSearchParams(window.location.search).get('fila') || 'denis';
+
+    function selectPartnerQueue(queue) {
+      window._currentPartnerQueue = queue;
+      const cDenis = document.getElementById('partnerCardDenis');
+      const cGabriel = document.getElementById('partnerCardGabriel');
+      const cAll = document.getElementById('partnerCardAll');
+      if (cDenis && cGabriel && cAll) {
+        cDenis.style.border = queue === 'denis' ? '2px solid var(--gold)' : '1px solid var(--border)';
+        cDenis.style.background = queue === 'denis' ? 'linear-gradient(135deg, rgba(212,175,55,0.12), var(--bg-surface))' : 'var(--bg-surface)';
+        cGabriel.style.border = queue === 'gabriel' ? '2px solid var(--cyan)' : '1px solid var(--border)';
+        cGabriel.style.background = queue === 'gabriel' ? 'linear-gradient(135deg, rgba(56,189,248,0.12), var(--bg-surface))' : 'var(--bg-surface)';
+        cAll.style.border = queue === 'all' ? '2px solid var(--emerald)' : '1px solid var(--border)';
+        cAll.style.background = queue === 'all' ? 'linear-gradient(135deg, rgba(16,185,129,0.12), var(--bg-surface))' : 'var(--bg-surface)';
+      }
+      renderDemosList();
+    }
+
+    function copyCurrentPartnerVercelUrl() {
+      const q = window._currentPartnerQueue === 'all' ? 'gabriel' : window._currentPartnerQueue;
+      const url = `https://brag-showroom-demos.vercel.app/?fila=${q}`;
+      navigator.clipboard.writeText(url);
+      showToast(`Link exclusivo da fila (${q.toUpperCase()}) copiado: ${url}`);
+    }
+
+    async function loadDemosView() {
+      const res = await fetch('/api/demos');
+      const data = await res.json();
+      window._demosCache = data.items || [];
+      selectPartnerQueue(window._currentPartnerQueue || 'denis');
+    }
+
+    async function regenerateAllDemos() {
+      showToast('Regerando os 60 Showrooms Digitais (30 Denis + 30 Gabriel)...');
+      const res = await fetch('/api/demos/regenerate', { method: 'POST' });
+      const data = await res.json();
+      window._demosCache = data.items || [];
+      renderDemosList();
+      showToast('60 Demos atualizadas com sucesso (30 Denis + 30 Gabriel)!');
+    }
+
+    function renderDemosList() {
+      const allItems = window._demosCache || [];
+      const queue = window._currentPartnerQueue || 'denis';
+      const sentStatuses = ['primeiro_contato_enviado', 'respondeu', 'proposta_enviada', 'venda_fechada'];
+
+      const denisAll = allItems.filter(d => (d.owner || 'denis') === 'denis');
+      const gabrielAll = allItems.filter(d => d.owner === 'gabriel');
+      const denisSent = denisAll.filter(d => sentStatuses.includes(d.commercial_status)).length;
+      const gabrielSent = gabrielAll.filter(d => sentStatuses.includes(d.commercial_status)).length;
+
+      const elDenisStats = document.getElementById('partnerCardDenisStats');
+      const elGabrielStats = document.getElementById('partnerCardGabrielStats');
+      const elAllStats = document.getElementById('partnerCardAllStats');
+      if (elDenisStats) elDenisStats.textContent = `${denisAll.length} Demos • ${denisSent} Enviados • ${denisAll.length - denisSent} Pendentes`;
+      if (elGabrielStats) elGabrielStats.textContent = `${gabrielAll.length} Demos • ${gabrielSent} Enviados • ${gabrielAll.length - gabrielSent} Pendentes`;
+      if (elAllStats) elAllStats.textContent = `${allItems.length} Demos • ${denisSent + gabrielSent} Enviados no Total`;
+
+      const queueItems = queue === 'all' ? allItems : allItems.filter(d => (d.owner || 'denis') === queue);
+      const q = (document.getElementById('fltDemosSearch')?.value || '').toLowerCase().trim();
+      const filtered = queueItems.filter(d =>
+        !q ||
+        (d.name || '').toLowerCase().includes(q) ||
+        (d.instagram_username || '').toLowerCase().includes(q) ||
+        (d.city || '').toLowerCase().includes(q) ||
+        (d.niche || '').toLowerCase().includes(q) ||
+        (d.owner_name || '').toLowerCase().includes(q)
+      );
+
+      const sentCount = queueItems.filter(d => sentStatuses.includes(d.commercial_status)).length;
+      const avgScore = queueItems.length ? (queueItems.reduce((acc, x) => acc + Number(x.score || 0), 0) / queueItems.length).toFixed(1) : '0.0';
+
+      document.getElementById('kpiDemosTotal').textContent = queueItems.length;
+      document.getElementById('kpiDemosSubLabel').textContent = queue === 'denis' ? 'Fila 1 — Denis (30 Demos)' : (queue === 'gabriel' ? 'Fila 2 — Gabriel (30 Demos)' : 'Todas as 60 Demos (Denis + Gabriel)');
+      document.getElementById('demosQueueTitle').textContent = queue === 'denis' ? 'Parte 1: Fila do Denis (30 Demos)' : (queue === 'gabriel' ? 'Parte 2: Fila do Gabriel / Sócio (30 Demos)' : 'Visão Completa: 60 Demos (30 Denis + 30 Gabriel)');
+      document.getElementById('kpiDemosAvgScore').textContent = avgScore;
+      document.getElementById('kpiDemosPending').textContent = Math.max(0, queueItems.length - sentCount);
+      document.getElementById('kpiDemosSent').textContent = sentCount;
+      document.getElementById('demosCountBadge').textContent = `${filtered.length} demos prontas`;
+
+      const tbody = document.getElementById('demosTableBody');
+      if (!filtered.length) {
+        tbody.innerHTML = `<tr><td colspan="9" class="muted" style="text-align:center; padding:24px;">Nenhuma demo encontrada para esse filtro.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map((d) => {
+        const idx = allItems.findIndex(x => x.slug === d.slug);
+        const isSent = sentStatuses.includes(d.commercial_status);
+        const pRank = d.partner_rank || d.rank;
+        const ownerBadge = d.owner === 'gabriel'
+          ? `<span class="badge prio-B" style="background:rgba(56,189,248,0.18); color:var(--cyan); border:1px solid rgba(56,189,248,0.4);">Gabriel #${String(pRank).padStart(2, '0')}</span>`
+          : `<span class="badge prio-A">Denis #${String(pRank).padStart(2, '0')}</span>`;
+        return `
+          <tr>
+            <td class="mono" style="font-weight:700; color:var(--gold-bright);">
+              #${String(pRank).padStart(2, '0')}
+              <div class="muted" style="font-size:10px;">Geral #${String(d.rank).padStart(2, '0')}</div>
+            </td>
+            <td>${ownerBadge}</td>
+            <td><span class="badge prio-${esc(d.priority || 'A')}">${d.score}/100 (${esc(d.priority || 'A')})</span></td>
+            <td>
+              <strong style="font-size:13.5px;">${esc(d.name)}</strong>
+              ${d.archetype ? `<div style="margin-top:3px;"><span class="ai-badge">${esc(d.archetype)}</span></div>` : ''}
+              <div class="muted" style="font-size:11px; margin-top:3px;">Vercel: <a href="${esc(d.demo_url)}" target="_blank" rel="noopener" class="mono gold-text">${esc(d.demo_url)}</a></div>
+            </td>
+            <td>
+              <div><strong>${esc(d.city)} - ${esc(d.state)}</strong></div>
+              <div class="muted" style="font-size:11px;">${esc(d.niche)}</div>
+            </td>
+            <td class="mono" style="font-size:11.5px;">
+              <div><a href="${esc(d.instagram_url)}" target="_blank" rel="noopener" class="gold-text">@${esc(d.instagram_username)}</a> ${d.followers_count ? `<span class="muted">(${Number(d.followers_count).toLocaleString('pt-BR')} seg.)</span>` : ''}</div>
+              <div style="color:var(--emerald); font-weight:700; margin-top:2px;">Wpp: ${esc(d.phone_display)}</div>
+            </td>
+            <td>
+              <a href="${esc(d.demo_url || d.demo_path)}" target="_blank" rel="noopener" class="btn btn-sm btn-primary" style="text-decoration:none; display:inline-block;">
+                Abrir Demo Vercel ↗
+              </a>
+              <div class="mono" style="font-size:10.5px; color:var(--emerald); margin-top:4px;">● Online na Vercel</div>
+            </td>
+            <td>
+              <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <a
+                  href="${esc(d.whatsapp_send_url)}"
+                  target="_blank"
+                  rel="noopener"
+                  onclick="markDemoSent('${esc(d.company_id)}', ${idx})"
+                  class="btn btn-sm"
+                  style="background:var(--emerald); color:#04130d; font-weight:800; border:none; text-decoration:none;"
+                >
+                  Enviar Agora no WhatsApp
+                </a>
+                <button type="button" class="btn btn-sm" onclick="copyDemoPitch(${idx})">Copiar Msg</button>
+                <button type="button" class="btn btn-sm" onclick="openDemoScriptModal(${idx})">Roteiro 60s</button>
+              </div>
+            </td>
+            <td>
+              <select onchange="updateDemoLeadStatus('${esc(d.company_id)}', ${idx}, this.value)" style="padding:4px 6px; font-size:11.5px; border-color:${isSent ? 'var(--emerald)' : 'var(--border)'};">
+                ${['demo_pronta','primeiro_contato_enviado','respondeu','proposta_enviada','venda_fechada'].map(st =>
+                  `<option value="${st}" ${d.commercial_status === st ? 'selected' : ''}>${st}</option>`
+                ).join('')}
+              </select>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    async function markDemoSent(companyId, idx) {
+      await updateDemoLeadStatus(companyId, idx, 'primeiro_contato_enviado');
+    }
+
+    async function updateDemoLeadStatus(companyId, idx, newStatus) {
+      await fetch(`/api/companies/${companyId}/status`, {
+        method: 'PATCH',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({commercial_status: newStatus}),
+      });
+      if (window._demosCache[idx]) {
+        window._demosCache[idx].commercial_status = newStatus;
+      }
+      renderDemosList();
+      showToast(`Status atualizado para: ${newStatus}`);
+    }
+
+    function copyDemoPitch(idx) {
+      const item = (window._demosCache || [])[idx];
+      if (!item) return;
+      navigator.clipboard.writeText(item.whatsapp_message || '');
+      showToast(`Mensagem + Link da Demo de "${item.short_name}" copiados!`);
+    }
+
+    function openDemoScriptModal(idx) {
+      const item = (window._demosCache || [])[idx];
+      if (!item) return;
+      document.getElementById('modalDemoTitle').textContent = `Kit de Envio Direto #${String(item.rank).padStart(2, '0')} — ${item.name}`;
+      document.getElementById('modalPitchText').value = item.whatsapp_message || '';
+      document.getElementById('modalVideoScriptText').value = item.video_script_60s || '';
+      document.getElementById('modalDirectWaLink').href = item.whatsapp_send_url || '#';
+      document.getElementById('modalOpenDemoLink').href = item.demo_url || item.demo_path || '#';
+      document.getElementById('demoScriptModal').style.display = 'flex';
+    }
+
+    function closeDemoScriptModal() {
+      document.getElementById('demoScriptModal').style.display = 'none';
+    }
+
+    function copyModalText(elId, toastMsg) {
+      const val = document.getElementById(elId)?.value || '';
+      navigator.clipboard.writeText(val);
+      showToast(toastMsg);
+    }
+
+    // Initial load
+    const urlTab = new URLSearchParams(window.location.search).get('tab');
+    if (urlTab) {
+      switchView(urlTab);
+    } else {
+      loadDemosView();
+      loadDashboard();
+    }
+  </script>
+</body>
+</html>

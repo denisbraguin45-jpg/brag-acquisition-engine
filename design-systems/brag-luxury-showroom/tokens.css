@@ -1,0 +1,48 @@
+:root {
+  /* Avantgarde Concept Store Palette — Campello Racing Portugal (#dfb858 / #0c0d0b) */
+  --color-bg-primary: #0c0d0b;
+  --color-bg-elevated: #141612;
+  --color-bg-light: #ededeb;
+  --color-card-light: #ffffff;
+  --color-text-primary: #f7f7ee;
+  --color-text-dark: #161814;
+  --color-text-secondary: #a2a59a;
+  --color-accent: #dfb858;
+  --color-accent-hover: #ecc972;
+  --color-accent-soft: #fdf7e7;
+  --color-accent-ink: #0c0d0b;
+  --brand-glow: rgba(223, 184, 88, 0.28);
+  --border-subtle: rgba(247, 247, 238, 0.12);
+  --border-accent: rgba(223, 184, 88, 0.50);
+
+  /* Typography Roles (Barlow Condensed = Trade Gothic Next Condensed equivalent) */
+  --font-display: 'Instrument Serif', 'Syne', serif;
+  --font-sans: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Calibrated Responsive Scale */
+  --text-xs: 0.72rem;
+  --text-sm: 0.84rem;
+  --text-base: 0.94rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 2.2vw, 1.65rem);
+  --text-2xl: clamp(1.55rem, 3.2vw, 2.65rem);
+  --text-hero: clamp(1.85rem, 4.4vw, 3.6rem);
+
+  /* Spatial Rhythm */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4.5rem;
+  --container-max: 84rem;
+
+  /* Avantgarde Motion & Easing */
+  --ease-ag: cubic-bezier(0.5, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 220ms;
+  --duration-ag: 650ms;
+}

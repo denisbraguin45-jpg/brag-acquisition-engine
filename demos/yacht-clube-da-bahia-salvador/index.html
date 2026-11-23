@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#cf4520" />
+  <title>Início | Yacht Clube da Bahia</title>
+  <meta name="description" content="A Yacht Clube da Bahia é referência no mercado de veículos premium em Salvador - BA. Conheça nosso estoque selecionado." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+:root {
+  /* Avantgarde Concept Store Palette — Avantgarde Concept Flame (#cf4520) */
+  --color-bg-primary: #0c0c0e;
+  --color-bg-elevated: #141418;
+  --color-bg-light: #eaeaed;
+  --color-card-light: #ffffff;
+  --color-text-primary: #ffffff;
+  --color-text-dark: #232323;
+  --color-text-secondary: #989898;
+  --color-accent: #cf4520;
+  --color-accent-hover: #a63111;
+  --color-accent-soft: #faece9;
+  --color-accent-ink: #ffffff;
+  --brand-glow: rgba(207, 69, 32, 0.22);
+  --border-subtle: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(207, 69, 32, 0.45);
+
+  /* Typography Roles (Barlow Condensed = Trade Gothic Next Condensed equivalent) */
+  --font-display: 'Barlow Condensed', sans-serif;
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Calibrated Responsive Scale */
+  --text-xs: 0.72rem;
+  --text-sm: 0.84rem;
+  --text-base: 0.94rem;
+  --text-lg: 1.125rem;
+  --text-xl: clamp(1.25rem, 2.2vw, 1.65rem);
+  --text-2xl: clamp(1.55rem, 3.2vw, 2.65rem);
+  --text-hero: clamp(1.85rem, 4.4vw, 3.6rem);
+
+  /* Spatial Rhythm */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-8: 3rem;
+  --space-10: 4.5rem;
+  --container-max: 84rem;
+
+  /* Avantgarde Motion & Easing */
+  --ease-ag: cubic-bezier(0.5, 0, 0, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 220ms;
+  --duration-ag: 650ms;
+}
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a, button, input, select { font: inherit; color: inherit; }
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+    .tabular {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .container {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    /* ======================================================================
+       AVANTGARDE BUTTON SYSTEM (.button-orange / .button-dark)
+       ====================================================================== */
+    .ag-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: 0.9rem 2rem;
+      font-family: var(--font-display);
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      overflow: hidden;
+      background: var(--color-accent);
+      color: var(--color-accent-ink);
+      transition: background-color var(--duration-ag) var(--ease-ag), transform var(--duration-fast) var(--ease-out-expo);
+    }
+    .ag-btn:hover {
+      background: #000000;
+      color: #ffffff;
+    }
+    .ag-btn-dark {
+      background: #141418;
+      color: var(--color-accent);
+      border: 1px solid var(--border-accent);
+    }
+    .ag-btn-dark:hover {
+      background: var(--color-accent);
+      color: #ffffff;
+    }
+
+    /* ======================================================================
+       HEADER (#main-header — Minimalist Dark Bar)
+       ====================================================================== */
+    #main-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10, 10, 12, 0.92);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .ag-header-inner {
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0.95rem var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+    .ag-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+    }
+    .ag-header-avatar {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--color-accent);
+    }
+    .ag-header-monogram {
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-accent);
+      color: #fff;
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: 0.1em;
+    }
+    .ag-brand-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      color: #ffffff;
+      line-height: 1;
+    }
+    .ag-brand-city {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--color-text-secondary);
+      margin-top: 3px;
+    }
+    .ag-nav {
+      display: flex;
+      align-items: center;
+      gap: 2.25rem;
+    }
+    .ag-nav a {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: #d9d9d9;
+      text-decoration: none;
+      transition: color var(--duration-fast);
+    }
+    .ag-nav a:hover {
+      color: var(--color-accent);
+    }
+    .ag-header-actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .ag-header-phone {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.55rem 1.1rem;
+      border: 1px solid var(--border-subtle);
+      transition: border-color var(--duration-fast), color var(--duration-fast);
+    }
+    .ag-header-phone:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    /* ======================================================================
+       SECTION 1: HERO SLIDER (.section-hero — Avantgarde Full-Stage)
+       ====================================================================== */
+    .section-hero {
+      position: relative;
+      background: radial-gradient(circle at 50% 42%, rgba(255, 255, 255, 0.07) 0%, #09090b 70%);
+      padding: 3.5rem 0 7.5rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .hero-Watermark {
+      position: absolute;
+      top: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 15vw, 13rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+      color: rgba(255, 255, 255, 0.025);
+      white-space: nowrap;
+      pointer-events: none;
+      user-select: none;
+      z-index: 1;
+    }
+    .hero-stage {
+      position: relative;
+      z-index: 2;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+    .hero-brand-overline {
+      color: var(--color-accent);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.52em;
+      margin-bottom: 0.45rem;
+    }
+    .hero-model-title {
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: var(--text-hero);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.34em;
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    .hero-image-frame {
+      position: relative;
+      width: 100%;
+      max-width: 56rem;
+      height: 23rem;
+      margin: 0 auto 1.75rem;
+      overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
+      border: 1px solid var(--border-subtle);
+    }
+    .hero-image-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-ag);
+    }
+    .hero-image-frame:hover img {
+      transform: scale(1.03);
+    }
+    .hero-bottom-bar {
+      width: 100%;
+      max-width: 56rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+    .hero-telemetry {
+      display: flex;
+      align-items: center;
+      gap: 2.75rem;
+    }
+    .telemetry-item {
+      text-align: left;
+    }
+    .telemetry-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: var(--color-text-secondary);
+      margin-bottom: 2px;
+    }
+    .telemetry-value {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: #ffffff;
+      font-variant-numeric: tabular-nums;
+    }
+    .hero-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+    .slide-dot {
+      width: 2.2rem;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.2);
+      border: none;
+      cursor: pointer;
+      transition: background var(--duration-fast), width var(--duration-fast);
+    }
+    .slide-dot.active {
+      background: var(--color-accent);
+      width: 3.4rem;
+    }
+
+    /* ======================================================================
+       SECTION 2: FLOATING SEARCH BAR (.section-filter — Avantgarde Overlap)
+       ====================================================================== */
+    .section-filter {
+      position: relative;
+      z-index: 10;
+      margin-top: -3.25rem;
+      padding: 0 var(--space-6);
+    }
+    .filter-dock {
+      max-width: 64rem;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #131313;
+      min-height: 5.6rem;
+      padding: 1rem 1.75rem;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.28);
+      display: grid;
+      grid-template-columns: auto 1fr 1fr 1.2fr auto;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .filter-dock-title {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      line-height: 1.1;
+      color: #131313;
+      padding-right: 1rem;
+      border-right: 1px solid #e5e5e5;
+    }
+    .filter-field {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .filter-field label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: var(--color-accent);
+    }
+    .filter-field select,
+    .filter-field input {
+      border: none;
+      border-bottom: 1px solid #d4d4d8;
+      background: transparent;
+      color: #131313;
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 0.35rem 0;
+      outline: none;
+    }
+    .filter-field select:focus,
+    .filter-field input:focus {
+      border-bottom-color: var(--color-accent);
+    }
+
+    /* ======================================================================
+       SECTION 3: SHOWROOM VEHICLES (.section-vehicles — Light Gallery Stage)
+       ====================================================================== */
+    .section-vehicles {
+      background: linear-gradient(180deg, var(--color-bg-light) 0%, #f7f7f9 100%);
+      color: var(--color-text-dark);
+      margin-top: -2.75rem;
+      padding: 7rem 0 6rem;
+      position: relative;
+      z-index: 1;
+    }
+    .ag-headline {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+      margin-bottom: 3.5rem;
+    }
+    .ag-headline-small {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.32em;
+      color: var(--color-accent);
+      margin-bottom: 0.35rem;
+    }
+    .ag-headline-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 4.25rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      line-height: 0.95;
+      color: #000000;
+    }
+    .ag-headline-right {
+      max-width: 28rem;
+      font-size: 0.92rem;
+      color: #414141;
+      line-height: 1.6;
+    }
+    .ag-headline-right strong {
+      display: block;
+      color: #000000;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    /* Category Quick Filter Bar */
+    .ag-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: 2.25rem;
+    }
+    .ag-pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .ag-pill {
+      background: #ffffff;
+      color: #414141;
+      border: 1px solid #d9d9de;
+      padding: 0.5rem 1.1rem;
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      cursor: pointer;
+      transition: all var(--duration-fast);
+    }
+    .ag-pill.active,
+    .ag-pill:hover {
+      background: var(--color-accent);
+      color: #ffffff;
+      border-color: var(--color-accent);
+    }
+
+    /* Chamfered Avantgarde Vehicle Grid & Cards */
+    .ag-vehicles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .ag-card {
+      position: relative;
+      background: #ffffff;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 54px), calc(100% - 54px) 100%, 0 100%);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.06);
+      transition: transform var(--duration-ag) var(--ease-ag), box-shadow var(--duration-ag) var(--ease-ag);
+      display: flex;
+      flex-direction: column;
+    }
+    .ag-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: 0 50%;
+      transition: transform var(--duration-ag) var(--ease-ag);
+      z-index: 4;
+    }
+    .ag-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.12);
+    }
+    .ag-card:hover::after {
+      transform: scaleX(1);
+    }
+    .ag-card-media {
+      position: relative;
+      height: 15rem;
+      overflow: hidden;
+      background: #111;
+    }
+    .ag-card-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--duration-ag) var(--ease-ag);
+    }
+    .ag-card:hover .ag-card-media img {
+      transform: scale(1.06);
+    }
+    .ag-card-armored {
+      position: absolute;
+      top: 0.85rem;
+      right: 0.85rem;
+      background: var(--color-accent-soft);
+      color: var(--color-accent);
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      z-index: 3;
+    }
+    .ag-card-content {
+      padding: 1.5rem 2.25rem 2.75rem;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .ag-card-brand {
+      color: var(--color-accent);
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 0.35rem;
+    }
+    .ag-card-title {
+      color: #232323;
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      position: relative;
+      padding-bottom: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .ag-card-title::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 62px;
+      height: 1px;
+      background: var(--color-accent);
+    }
+    .ag-card-info {
+      display: flex;
+      align-items: center;
+      gap: 2.25rem;
+      margin-bottom: 0.85rem;
+      color: #696969;
+      font-size: 0.86rem;
+      letter-spacing: 0.06em;
+      font-variant-numeric: tabular-nums;
+    }
+    .ag-card-specs {
+      font-size: 0.8rem;
+      color: #797979;
+      margin-bottom: 1.25rem;
+      flex: 1;
+    }
+    .ag-card-price {
+      color: #232323;
+      margin-bottom: 1.25rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .ag-card-price small {
+      font-size: 0.78rem;
+      font-weight: 500;
+      margin-right: 4px;
+      color: #696969;
+    }
+    .ag-card-price span {
+      font-family: var(--font-display);
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .ag-card-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .ag-card-actions .ag-btn {
+      padding: 0.65rem 1.25rem;
+      font-size: 0.8rem;
+      flex: 1;
+    }
+    .ag-card-sim {
+      background: transparent;
+      border: 1px solid #d0d0d5;
+      color: #414141;
+      padding: 0.65rem 0.95rem;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      cursor: pointer;
+      transition: border-color var(--duration-fast), color var(--duration-fast);
+    }
+    .ag-card-sim:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    /* ======================================================================
+       SECTION 4: BRAND MANIFESTO (.section-about — Full-Bleed Accent + Circles)
+       ====================================================================== */
+    .section-about {
+      position: relative;
+      background-color: var(--color-accent);
+      color: #ffffff;
+      padding: 6rem 0;
+      overflow: hidden;
+    }
+    .about-circles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .about-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 68rem;
+      height: 68rem;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    .about-circle:nth-child(2) {
+      width: 44rem;
+      height: 44rem;
+      border-color: rgba(255, 255, 255, 0.14);
+    }
+    .about-grid {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .about-brand-tag {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.36em;
+      opacity: 0.85;
+      margin-bottom: 0.5rem;
+    }
+    .about-small {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      line-height: 1;
+    }
+    .about-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 5.5vw, 4.8rem);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 0.95;
+      margin-bottom: 1.5rem;
+    }
+    .about-desc {
+      font-size: 1rem;
+      line-height: 1.65;
+      margin-bottom: 2rem;
+      max-width: 34rem;
+    }
+    .about-visual {
+      position: relative;
+      height: 24rem;
+      overflow: hidden;
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.35);
+    }
+    .about-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ======================================================================
+       SECTION 5: MODEL NOT FOUND (.section-model-not-found — Bespoke Order)
+       ====================================================================== */
+    .section-model-not-found {
+      background-color: #000000;
+      color: #ffffff;
+      padding: 6rem 0;
+      position: relative;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .mnf-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-5);
+      margin-bottom: 2.75rem;
+    }
+    .mnf-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+      font-weight: 400;
+      line-height: 1.15;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .mnf-title span {
+      display: block;
+      font-weight: 800;
+      color: var(--color-accent);
+    }
+    .mnf-desc {
+      max-width: 22rem;
+      color: var(--color-text-secondary);
+      font-size: 0.92rem;
+    }
+    .mnf-form {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr) auto;
+      gap: 1.25rem;
+      align-items: end;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .mnf-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 0.75rem 0;
+      font-size: 0.9rem;
+      outline: none;
+    }
+    .mnf-input:focus {
+      border-bottom-color: var(--color-accent);
+    }
+
+    /* ======================================================================
+       SECTION 6: EXPERIENCE BANNER (.section-general-experience)
+       ====================================================================== */
+    .section-experience {
+      background: var(--color-bg-elevated);
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .exp-box {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      background: #09090b;
+      border: 1px solid var(--border-subtle);
+      overflow: hidden;
+    }
+    .exp-img {
+      min-height: 18rem;
+      background: url("https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1000&q=85") center/cover no-repeat;
+    }
+    .exp-content {
+      padding: 3.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.25rem;
+    }
+    .exp-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3vw, 2.5rem);
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      line-height: 1.1;
+    }
+    .exp-title span {
+      display: block;
+      font-weight: 800;
+      color: var(--color-accent);
+    }
+
+    /* ======================================================================
+       FOOTER (#main-footer — "Conduzindo a excelência.")
+       ====================================================================== */
+    #main-footer {
+      background: #060608;
+      color: #ffffff;
+      padding: 4.5rem 0 calc(4.5rem + env(safe-area-inset-bottom, 0px));
+    }
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .footer-motto {
+      font-family: var(--font-display);
+      font-size: 1.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin: 0.75rem 0;
+    }
+    .footer-phone {
+      display: inline-block;
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--color-accent);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+    .footer-bottom {
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      font-size: 0.8rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* Simulator Modal */
+    .ag-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.84);
+      backdrop-filter: blur(8px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-5);
+      z-index: 80;
+    }
+    .ag-modal-backdrop.open { display: flex; }
+    .ag-modal {
+      background: #121216;
+      border: 1px solid var(--border-accent);
+      max-width: 32rem;
+      width: 100%;
+      padding: 2.25rem;
+      color: #ffffff;
+    }
+
+    /* Floating WhatsApp Concierge */
+    .wa-float {
+      position: fixed;
+      bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px));
+      right: 1.25rem;
+      background: var(--color-accent);
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.5rem;
+      text-decoration: none;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.65);
+      z-index: 60;
+      transition: transform var(--duration-fast);
+    }
+    .wa-float:hover { transform: translateY(-3px); }
+
+    /* ======================================================================
+       MOBILE CALIBRATION (@media max-width: 1023px & 640px)
+       ====================================================================== */
+    @media (max-width: 1023px) {
+      .ag-nav { display: none; }
+      .filter-dock {
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      .filter-dock-title {
+        grid-column: 1 / -1;
+        border-right: none;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 0.5rem;
+      }
+      .ag-vehicles-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .about-grid,
+      .exp-box,
+      .mnf-form {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      :root {
+        --text-xs: 0.68rem;
+        --text-sm: 0.78rem;
+        --text-base: 0.86rem;
+        --text-lg: 0.98rem;
+        --text-xl: 1.15rem;
+        --text-2xl: 1.45rem;
+        --text-hero: 1.55rem;
+      }
+      .container {
+        padding: 0 1rem;
+      }
+      .ag-header-inner {
+        padding: 0.75rem 1rem;
+      }
+      .ag-brand-name {
+        font-size: 1rem;
+        letter-spacing: 0.14em;
+        max-width: 11.5rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .ag-brand-city {
+        font-size: 0.6rem;
+        letter-spacing: 0.12em;
+      }
+      .ag-header-phone {
+        display: none;
+      }
+      .ag-btn {
+        padding: 0.65rem 1.1rem;
+        font-size: 0.76rem;
+        letter-spacing: 0.16em;
+      }
+      .section-hero {
+        padding: 1.75rem 0 5rem;
+      }
+      .hero-brand-overline {
+        font-size: 0.76rem;
+        letter-spacing: 0.34em;
+      }
+      .hero-model-title {
+        font-size: 1.5rem;
+        letter-spacing: 0.18em;
+        margin-bottom: 1rem;
+      }
+      .hero-image-frame {
+        height: 13.5rem;
+        margin-bottom: 1rem;
+      }
+      .hero-telemetry {
+        width: 100%;
+        justify-content: space-between;
+        gap: 0.75rem;
+      }
+      .telemetry-value {
+        font-size: 1rem;
+      }
+      .filter-dock {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+      }
+      .section-vehicles {
+        padding: 4.5rem 0 3.5rem;
+      }
+      .ag-headline-title {
+        font-size: 1.85rem;
+      }
+      .ag-vehicles-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .ag-card-media {
+        height: 12.5rem;
+      }
+      .ag-card-content {
+        padding: 1.25rem 1.35rem 2.25rem;
+      }
+      .ag-card-title {
+        font-size: 1.15rem;
+      }
+      .ag-card-price span {
+        font-size: 1.25rem;
+      }
+      .section-about,
+      .section-model-not-found,
+      .section-experience {
+        padding: 3.5rem 0;
+      }
+      .about-title {
+        font-size: 2.1rem;
+      }
+      .about-visual {
+        height: 14rem;
+      }
+      .exp-content {
+        padding: 1.75rem 1.25rem;
+      }
+      .wa-float {
+        left: 1rem;
+        right: 1rem;
+        text-align: center;
+        padding: 0.75rem 1rem;
+        font-size: 0.78rem;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- AVANTGARDE MINIMALIST HEADER -->
+  <header id="main-header">
+    <div class="ag-header-inner">
+      <a href="#" class="ag-brand" aria-label="Yacht Clube da Bahia">
+        <span class="ag-header-monogram" aria-hidden="true">YA</span>
+        <div>
+          <div class="ag-brand-name">Yacht Clube da Bahia</div>
+          <div class="ag-brand-city">Salvador - BA</div>
+        </div>
+      </a>
+      <nav class="ag-nav" aria-label="Navegação Principal">
+        <a href="#veiculos">Veículos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#encomenda">Venda / Encomenda</a>
+        <a href="#experience">Experiência</a>
+      </nav>
+      <div class="ag-header-actions">
+        <a href="https://wa.me/557121059145?text=Ol%C3%A1%20Yacht%20Clube%20da%20Bahia%21%20Acessei%20o%20site%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener" class="ag-header-phone">(71) 2105-9145</a>
+        <a href="https://wa.me/557121059145?text=Ol%C3%A1%20Yacht%20Clube%20da%20Bahia%21%20Acessei%20o%20site%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener" class="ag-btn"><span>Contato</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main id="page-home">
+    <!-- SECTION 1: AVANTGARDE HERO STAGE -->
+    <section class="section-hero" aria-label="Destaque Principal">
+      <div class="hero-Watermark" id="heroWatermark">Schaefer Yachts</div>
+      <div class="hero-stage">
+        <div class="hero-brand-overline" id="heroBrand">Schaefer Yachts</div>
+        <h1 class="hero-model-title" id="heroModel">510 GT PININFARINA</h1>
+
+        <div class="hero-image-frame">
+          <img id="heroImage" src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1000&q=85" alt="Schaefer Yachts 510 GT Pininfarina" fetchpriority="high" />
+        </div>
+
+        <div class="hero-bottom-bar">
+          <div class="hero-tagline" id="heroTagline">Design by Pininfarina</div>
+
+          <div class="hero-telemetry">
+            <div class="telemetry-item">
+              <div class="telemetry-label">Ano</div>
+              <div class="telemetry-value" id="heroYear">2024/2024</div>
+            </div>
+            <div class="telemetry-item">
+              <div class="telemetry-label">Km</div>
+              <div class="telemetry-value" id="heroKm">48h</div>
+            </div>
+            <div class="telemetry-item">
+              <div class="telemetry-label">Valor</div>
+              <div class="telemetry-value" id="heroPrice">R$ 6.450.000,00</div>
+            </div>
+          </div>
+
+          <div class="hero-controls">
+            <div style="display:flex;gap:6px;" role="tablist" aria-label="Selecionar destaque">
+              <button type="button" class="slide-dot active" onclick="setHeroSlide(0)" aria-label="Destaque 1"></button>
+              <button type="button" class="slide-dot" onclick="setHeroSlide(1)" aria-label="Destaque 2"></button>
+              <button type="button" class="slide-dot" onclick="setHeroSlide(2)" aria-label="Destaque 3"></button>
+            </div>
+            <a id="heroCta" href="https://wa.me/557121059145" target="_blank" rel="noopener" class="ag-btn">
+              <span>Conheça</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: OVERLAPPING FLOATING SEARCH DOCK -->
+    <section class="section-filter" aria-label="Filtro de Veículos">
+      <div class="filter-dock">
+        <div class="filter-dock-title">Encontre seu<br />próximo veículo</div>
+        <div class="filter-field">
+          <label for="fltBrand">Marcas</label>
+          <select id="fltBrand" onchange="syncModelsDropdown(); renderCatalog();">
+            <option value="">Todas as Marcas</option>
+            <option value="Azimut">Azimut</option><option value="Fibrafort">Fibrafort</option><option value="NX Boats">NX Boats</option><option value="Schaefer Yachts">Schaefer Yachts</option><option value="Sea-Doo">Sea-Doo</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="fltModel">Modelos</label>
+          <select id="fltModel" onchange="renderCatalog()">
+            <option value="">Todos os Modelos</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label for="searchInput">Busca Rápida / Blindagem</label>
+          <input type="search" id="searchInput" placeholder="Ex: Blindado, V8, 2024..." oninput="renderCatalog()" />
+        </div>
+        <div>
+          <a href="#veiculos" onclick="renderCatalog()" class="ag-btn" style="width:100%;"><span>Buscar</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: AVANTGARDE SHOWROOM GALLERY -->
+    <section class="section-vehicles" id="veiculos">
+      <div class="container">
+        <div class="ag-headline">
+          <div>
+            <div class="ag-headline-small">Mude suas perspectivas</div>
+            <h2 class="ag-headline-title">Mova a sua paixão</h2>
+          </div>
+          <div class="ag-headline-right">
+            <strong>Escolha o modelo ideal para o seu estilo de vida</strong>
+            <p>O propósito da Yacht Clube da Bahia é ser a melhor escolha em automóveis para seus clientes e fazer parte dos momentos especiais da sua vida em Salvador - BA.</p>
+          </div>
+        </div>
+
+        <div class="ag-pills-row">
+          <div class="ag-pill-list" role="group" aria-label="Filtrar por categoria">
+            <button type="button" class="ag-pill active" data-cat="ALL" onclick="filterByCategory('ALL')">Todos os Veículos (6)</button>
+            <button type="button" class="ag-pill" data-cat="BLINDADOS" onclick="filterByCategory('BLINDADOS')">Blindados</button>
+            <button type="button" class="ag-pill" data-cat="2024" onclick="filterByCategory('2024')">Safra 2024+</button>
+          </div>
+          <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#414141;" id="countLabel">
+            6 veículos disponíveis
+          </div>
+        </div>
+
+        <div class="ag-vehicles-grid" id="catalogGrid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: CONDUZINDO A EXCELÊNCIA (AVANTGARDE ABOUT STAGE) -->
+    <section class="section-about" id="sobre">
+      <div class="about-circles" aria-hidden="true">
+        <div class="about-circle"></div>
+        <div class="about-circle"></div>
+      </div>
+      <div class="container">
+        <div class="about-grid">
+          <div>
+            <div class="about-brand-tag">Yacht Clube da Bahia</div>
+            <div class="about-small">Conduzindo a</div>
+            <h2 class="about-title">Excelência</h2>
+            <div class="about-desc">
+              <p style="font-weight:700;margin-bottom:0.65rem;">A Yacht Clube da Bahia é referência no mercado de veículos premium em Salvador - BA.</p>
+              <p>Clube náutico de prestígio, vagas molhadas e atracadouros na Baía de Todos os Santos.</p>
+            </div>
+            <div style="display:flex;gap:1.5rem;flex-wrap:wrap;margin-bottom:2rem;">
+              <div>
+                <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;line-height:1;">100%</div>
+                <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;opacity:0.85;">Procedência &amp; Laudo</div>
+              </div>
+              <div>
+                <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;line-height:1;">+12.500</div>
+                <div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.15em;opacity:0.85;">Clientes &amp; Audiência @yachtclubedabahia</div>
+              </div>
+            </div>
+            <a href="https://wa.me/557121059145?text=Ol%C3%A1%20Yacht%20Clube%20da%20Bahia%21%20Quero%20conhecer%20o%20atendimento%20e%20estoque%20dispon%C3%ADvel%20em%20Salvador." target="_blank" rel="noopener" class="ag-btn" style="background:#000;color:#fff;">
+              <span>Conheça</span>
+            </a>
+          </div>
+          <div class="about-visual">
+            <img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1000&q=85" alt="Yacht Clube da Bahia Showroom" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 5: MODEL NOT FOUND (BESPOKE CONSIGNMENT & ORDER) -->
+    <section class="section-model-not-found" id="encomenda">
+      <div class="container">
+        <div class="mnf-head">
+          <h2 class="mnf-title">
+            Não encontrou o modelo
+            <span>que estava buscando?</span>
+          </h2>
+          <div class="mnf-desc">
+            <p>Deixe agora o seu contato ou envie no WhatsApp para ser notificado(a) quando chegar a configuração exata que você procura.</p>
+          </div>
+        </div>
+        <form class="mnf-form" onsubmit="submitBespokeOrder(event)">
+          <div>
+            <input type="text" id="mnfModel" class="mnf-input" placeholder="Modelo desejado" required />
+          </div>
+          <div>
+            <input type="text" id="mnfName" class="mnf-input" placeholder="Seu nome" required />
+          </div>
+          <div>
+            <input type="text" id="mnfTrade" class="mnf-input" placeholder="Veículo na troca (opcional)" />
+          </div>
+          <div>
+            <input type="tel" id="mnfPhone" class="mnf-input" placeholder="Telefone / WhatsApp" />
+          </div>
+          <div>
+            <button type="submit" class="ag-btn"><span>Enviar</span></button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- SECTION 6: AVANTGARDE EXPERIENCE -->
+    <section class="section-experience" id="experience">
+      <div class="container">
+        <div class="exp-box">
+          <div class="exp-img" role="img" aria-label="Showroom Yacht Clube da Bahia"></div>
+          <div class="exp-content">
+            <h2 class="exp-title">
+              Conheça a
+              <span>Yacht Clube da Bahia Experience</span>
+            </h2>
+            <p style="color:var(--color-text-secondary);max-width:30rem;">
+              Uma experiência de atendimento consultivo projetada para você negociar seu próximo veículo com segurança, sigilo e avaliação justa na troca.
+            </p>
+            <div>
+              <a href="https://wa.me/557121059145?text=Ol%C3%A1%20Yacht%20Clube%20da%20Bahia%21%20Gostaria%20de%20agendar%20uma%20visita%20%C3%A0%20loja%20%28Yacht%20Clube%20da%20Bahia%20Experience%29." target="_blank" rel="noopener" class="ag-btn">
+                <span>Agendar Visita</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- SIMULATOR MODAL -->
+  <div class="ag-modal-backdrop" id="simModal" role="dialog" aria-modal="true" aria-labelledby="simTitle">
+    <div class="ag-modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem;">
+        <h3 id="simTitle" style="font-family:var(--font-display);font-size:1.5rem;text-transform:uppercase;letter-spacing:0.12em;">Simular Proposta</h3>
+        <button type="button" onclick="closeSimulator()" style="background:none;border:1px solid var(--border-subtle);color:#fff;padding:0.3rem 0.75rem;cursor:pointer;">FECHAR</button>
+      </div>
+      <p id="simVehicleName" style="font-family:var(--font-display);font-size:1.2rem;color:var(--color-accent);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:1.25rem;"></p>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-text-secondary);">
+          Entrada ou Veículo na Troca (R$)
+          <input type="number" id="simDownPayment" class="mnf-input" value="150000" step="10000" oninput="updateSimMath()" />
+        </label>
+        <label style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--color-text-secondary);">
+          Prazo de Financiamento
+          <select id="simMonths" class="mnf-input" style="background:#121216;" onchange="updateSimMath()">
+            <option value="24">24 meses</option>
+            <option value="36">36 meses</option>
+            <option value="48" selected>48 meses</option>
+            <option value="60">60 meses</option>
+          </select>
+        </label>
+        <div style="padding:1rem;background:#09090b;border-left:3px solid var(--color-accent);">
+          <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--color-text-secondary);">Valor estimado da parcela:</div>
+          <div id="simResultValue" style="font-family:var(--font-display);font-size:1.75rem;font-weight:700;color:#fff;margin-top:4px;">R$ 0,00 / mês</div>
+        </div>
+        <a id="simWhatsAppBtn" href="#" target="_blank" rel="noopener" class="ag-btn" style="width:100%;">
+          <span>Enviar Proposta no WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING WHATSAPP CONCIERGE -->
+  <a class="wa-float" href="https://wa.me/557121059145?text=Ol%C3%A1%20Yacht%20Clube%20da%20Bahia%21%20Acessei%20o%20site%20e%20gostaria%20de%20atendimento." target="_blank" rel="noopener">
+    WhatsApp · (71) 2105-9145
+  </a>
+
+  <!-- AVANTGARDE FOOTER -->
+  <footer id="main-footer">
+    <div class="container">
+      <div class="footer-top">
+        <div>
+          <div class="ag-brand-name">Yacht Clube da Bahia</div>
+          <div class="footer-motto">Conduzindo a excelência.</div>
+          <a href="https://wa.me/557121059145" target="_blank" rel="noopener" class="footer-phone">(71) 2105-9145</a>
+          <p style="color:var(--color-text-secondary);font-size:0.88rem;">Salvador - BA · Instagram: @yachtclubedabahia</p>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:1.25rem;">
+          <a href="#veiculos" class="ag-btn ag-btn-dark"><span>Nossos veículos</span></a>
+          <div style="display:flex;gap:1.5rem;font-family:var(--font-display);font-size:0.85rem;text-transform:uppercase;letter-spacing:0.18em;">
+            <a href="#veiculos" style="text-decoration:none;color:#d9d9d9;">Estoque</a>
+            <a href="#sobre" style="text-decoration:none;color:#d9d9d9;">Sobre</a>
+            <a href="#encomenda" style="text-decoration:none;color:#d9d9d9;">Encomendar</a>
+            <a href="https://www.instagram.com/yachtclubedabahia/" target="_blank" rel="noopener" style="text-decoration:none;color:var(--color-accent);">Instagram</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 - Yacht Clube da Bahia - Todos os direitos reservados.</div>
+        <div>Atendimento Oficial · Salvador - BA</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const HERO_SLIDES = [{"brand": "Schaefer Yachts", "model": "510 GT PININFARINA", "title": "Schaefer Yachts 510 GT Pininfarina", "category": "Flybridge & HT", "year": 2024, "year_label": "2024/2024", "km_label": "48h", "price": 6450000, "tagline": "Design by Pininfarina", "specs": "51 pes · 2x Volvo Penta IPS 700 · 3 Cabines · Hardtop Panoramico", "badge": "PRONTA ENTREGA", "armored": false, "image": "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1000&q=85"}, {"brand": "Azimut", "model": "62 FLYBRIDGE COLLECTION", "title": "Azimut 62 Flybridge Collection", "category": "Yacht", "year": 2023, "year_label": "2023/2023", "km_label": "110h", "price": 11900000, "tagline": "Italian Yachting Excellence", "specs": "62 pes · 2x MAN i6 800hp · Estabilizador Seakeeper Gyro", "badge": "CURADORIA OFICIAL", "armored": false, "image": "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1000&q=85"}, {"brand": "Schaefer Yachts", "model": "V33 SPORT WALKAROUND", "title": "Schaefer V33 Sport Walkaround", "category": "Day Cruiser", "year": 2025, "year_label": "2024/2025", "km_label": "0h", "price": 1890000, "tagline": "Open Walkaround Performance", "specs": "33 pes · 2x Mercury V8 300hp · Gerador + Climatizacao Completa", "badge": "ZERO HORAS", "armored": false, "image": "https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=1000&q=85"}];
+    const CATALOG = [{"brand": "Schaefer Yachts", "model": "510 GT PININFARINA", "title": "Schaefer Yachts 510 GT Pininfarina", "category": "Flybridge & HT", "year": 2024, "year_label": "2024/2024", "km_label": "48h", "price": 6450000, "tagline": "Design by Pininfarina", "specs": "51 pes · 2x Volvo Penta IPS 700 · 3 Cabines · Hardtop Panoramico", "badge": "PRONTA ENTREGA", "armored": false, "image": "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&w=1000&q=85"}, {"brand": "Azimut", "model": "62 FLYBRIDGE COLLECTION", "title": "Azimut 62 Flybridge Collection", "category": "Yacht", "year": 2023, "year_label": "2023/2023", "km_label": "110h", "price": 11900000, "tagline": "Italian Yachting Excellence", "specs": "62 pes · 2x MAN i6 800hp · Estabilizador Seakeeper Gyro", "badge": "CURADORIA OFICIAL", "armored": false, "image": "https://images.unsplash.com/photo-1605281317010-fe5ffe798166?auto=format&fit=crop&w=1000&q=85"}, {"brand": "Schaefer Yachts", "model": "V33 SPORT WALKAROUND", "title": "Schaefer V33 Sport Walkaround", "category": "Day Cruiser", "year": 2025, "year_label": "2024/2025", "km_label": "0h", "price": 1890000, "tagline": "Open Walkaround Performance", "specs": "33 pes · 2x Mercury V8 300hp · Gerador + Climatizacao Completa", "badge": "ZERO HORAS", "armored": false, "image": "https://images.unsplash.com/photo-1540946485063-a40da27545f8?auto=format&fit=crop&w=1000&q=85"}, {"brand": "NX Boats", "model": "370 HT GOURMET EDITION", "title": "NX Boats 370 HT Gourmet Edition", "category": "Flybridge & HT", "year": 2024, "year_label": "2024/2024", "km_label": "65h", "price": 1620000, "tagline": "Sport Luxury Hardtop", "specs": "37 pes · 2x Mercruiser 300hp · Plataforma Hidraulica Submersivel", "badge": "UNICO DONO", "armored": false, "image": "https://images.unsplash.com/photo-1569263979104-865ab7cd8d13?auto=format&fit=crop&w=1000&q=85"}, {"brand": "Fibrafort", "model": "FOCKER 333 GRAN TURISMO", "title": "Focker 333 Gran Turismo Targa", "category": "Day Cruiser", "year": 2024, "year_label": "2023/2024", "km_label": "92h", "price": 1150000, "tagline": "Navigate Beyond Limits", "specs": "33 pes · 2x Mercruiser 250hp · Cockpit Gourmet · Revisada", "badge": "PROCEDENCIA", "armored": false, "image": "https://images.unsplash.com/photo-1520637836862-4d197d17c93a?auto=format&fit=crop&w=1000&q=85"}, {"brand": "Sea-Doo", "model": "GTX LIMITED 300 IDF", "title": "Sea-Doo GTX Limited 300 IDF Audio", "category": "Jet & Lazer", "year": 2024, "year_label": "2024/2024", "km_label": "18h", "price": 148900, "tagline": "Supercharged Marine Power", "specs": "Rotax 1630 ACE 300hp · Sistema BRP Bluetooth · Carreta Rodoviaria", "badge": "SELECAO NAUTICA", "armored": false, "image": "https://images.unsplash.com/photo-1544551763-46a013bb70d5?auto=format&fit=crop&w=1000&q=85"}];
+    const WA_E164 = "557121059145";
+    const STORE_NAME = "Yacht Clube da Bahia";
+    let activeCategory = "ALL";
+    let selectedVehicleIndex = 0;
+    let currentHeroIndex = 0;
+
+    function formatBRLAvantgarde(val) {
+      return Number(val || 0).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function setHeroSlide(idx) {
+      currentHeroIndex = idx % HERO_SLIDES.length;
+      const s = HERO_SLIDES[currentHeroIndex];
+      document.getElementById("heroWatermark").textContent = s.brand;
+      document.getElementById("heroBrand").textContent = s.brand;
+      document.getElementById("heroModel").textContent = s.model;
+      document.getElementById("heroImage").src = s.image;
+      document.getElementById("heroImage").alt = s.title;
+      document.getElementById("heroTagline").textContent = s.tagline;
+      document.getElementById("heroYear").textContent = s.year_label;
+      document.getElementById("heroKm").textContent = s.km_label;
+      document.getElementById("heroPrice").textContent = "R$ " + formatBRLAvantgarde(s.price);
+      const waMsg = encodeURIComponent(`Olá ${STORE_NAME}! Vi o destaque *${s.brand} ${s.model}* (${s.year_label}) no site e gostaria de mais informações.`);
+      document.getElementById("heroCta").href = `https://wa.me/${WA_E164}?text=${waMsg}`;
+      document.querySelectorAll(".slide-dot").forEach((d, i) => d.classList.toggle("active", i === currentHeroIndex));
+    }
+
+    function syncModelsDropdown() {
+      const brand = document.getElementById("fltBrand").value;
+      const modelSelect = document.getElementById("fltModel");
+      const models = CATALOG.filter(i => !brand || i.brand === brand).map(i => i.model);
+      modelSelect.innerHTML = '<option value="">Todos os Modelos</option>' +
+        models.map(m => `<option value="${m}">${m}</option>`).join("");
+    }
+
+    function filterByCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll(".ag-pill").forEach(btn => {
+        btn.classList.toggle("active", btn.getAttribute("data-cat") === cat);
+      });
+      renderCatalog();
+    }
+
+    function renderCatalog() {
+      const brand = document.getElementById("fltBrand").value;
+      const model = document.getElementById("fltModel").value;
+      const q = (document.getElementById("searchInput").value || "").toLowerCase().trim();
+
+      const items = CATALOG.map((item, idx) => ({ ...item, _idx: idx })).filter(item => {
+        if (brand && item.brand !== brand) return false;
+        if (model && item.model !== model) return false;
+        if (activeCategory === "BLINDADOS" && !item.armored && !item.specs.toLowerCase().includes("blind")) return false;
+        if (activeCategory === "2024" && Number(item.year) < 2024) return false;
+        if (q && !`${item.brand} ${item.model} ${item.specs} ${item.category} ${item.badge}`.toLowerCase().includes(q)) return false;
+        return true;
+      });
+
+      document.getElementById("countLabel").textContent = `${items.length} veículos disponíveis`;
+
+      const grid = document.getElementById("catalogGrid");
+      if (!items.length) {
+        grid.innerHTML = `<div style="grid-column:1/-1;background:#fff;padding:3rem;text-align:center;color:#414141;">Nenhum veículo encontrado com estes filtros. Utilize o formulário abaixo para encomendar seu modelo sob medida.</div>`;
+        return;
+      }
+
+      grid.innerHTML = items.map(item => {
+        const waText = encodeURIComponent(`Olá ${STORE_NAME}! Tenho interesse no *${item.brand} ${item.model}* (${item.year_label} · R$ ${formatBRLAvantgarde(item.price)}) que vi no site.`);
+        return `
+          <article class="ag-card">
+            <div class="ag-card-media">
+              <img src="${item.image}" alt="${item.brand} ${item.model}" loading="lazy" />
+              <span class="ag-card-armored">${item.badge}</span>
+            </div>
+            <div class="ag-card-content">
+              <div class="ag-card-brand">${item.brand}</div>
+              <h3 class="ag-card-title">${item.model}</h3>
+              <div class="ag-card-info">
+                <span>${item.year_label}</span>
+                <span>${item.km_label}</span>
+              </div>
+              <p class="ag-card-specs">${item.specs}</p>
+              <div class="ag-card-price">
+                <small>R$</small><span>${formatBRLAvantgarde(item.price)}</span>
+              </div>
+              <div class="ag-card-actions">
+                <a href="https://wa.me/${WA_E164}?text=${waText}" target="_blank" rel="noopener" class="ag-btn">
+                  <span>Conheça</span>
+                </a>
+                <button type="button" class="ag-card-sim" onclick="openSimulator(${item._idx})">
+                  Simular
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function submitBespokeOrder(e) {
+      e.preventDefault();
+      const m = document.getElementById("mnfModel").value.trim();
+      const n = document.getElementById("mnfName").value.trim();
+      const t = document.getElementById("mnfTrade").value.trim();
+      const msg = encodeURIComponent(
+        `Olá ${STORE_NAME}! Meu nome é ${n}. Procuro o modelo *${m}*` +
+        (t ? ` (tenho para avaliação na troca: ${t})` : "") +
+        `. Podem me avisar sobre disponibilidade?`
+      );
+      window.open(`https://wa.me/${WA_E164}?text=${msg}`, "_blank");
+    }
+
+    function openSimulator(idx) {
+      selectedVehicleIndex = idx || 0;
+      const item = CATALOG[selectedVehicleIndex] || CATALOG[0];
+      document.getElementById("simVehicleName").textContent = `${item.brand} ${item.model} (${item.year_label})`;
+      document.getElementById("simDownPayment").value = Math.round(item.price * 0.3);
+      updateSimMath();
+      document.getElementById("simModal").classList.add("open");
+    }
+
+    function closeSimulator() {
+      document.getElementById("simModal").classList.remove("open");
+    }
+
+    function updateSimMath() {
+      const item = CATALOG[selectedVehicleIndex] || CATALOG[0];
+      const down = Math.max(0, Number(document.getElementById("simDownPayment").value || 0));
+      const months = Number(document.getElementById("simMonths").value || 48);
+      const financed = Math.max(0, item.price - down);
+      const rate = 0.0149;
+      const pmt = financed > 0
+        ? Math.round((financed * rate) / (1 - Math.pow(1 + rate, -months)))
+        : 0;
+      document.getElementById("simResultValue").textContent = `R$ ${formatBRLAvantgarde(pmt)} / mês (${months}x)`;
+      const msg = encodeURIComponent(
+        `Olá ${STORE_NAME}! Fiz uma simulação no site para o *${item.brand} ${item.model} (${item.year_label})*:\n` +
+        `• Valor: R$ ${formatBRLAvantgarde(item.price)}\n` +
+        `• Entrada/Troca: R$ ${formatBRLAvantgarde(down)}\n` +
+        `• Saldo em ${months}x (~R$ ${formatBRLAvantgarde(pmt)}/mês)`
+      );
+      document.getElementById("simWhatsAppBtn").href = `https://wa.me/${WA_E164}?text=${msg}`;
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeSimulator();
+    });
+
+    syncModelsDropdown();
+    setHeroSlide(0);
+    renderCatalog();
+  </script>
+</body>
+</html>

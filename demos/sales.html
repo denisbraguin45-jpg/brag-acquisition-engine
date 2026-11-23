@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRAG International — Módulo Comercial &amp; Operação de Vendas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --color-bg-primary: #09090b;
+      --color-bg-elevated: #121216;
+      --color-bg-card: #16161c;
+      --color-text-primary: #ffffff;
+      --color-text-secondary: #989898;
+      --color-accent: #cf4520;
+      --color-bruce: #d97706;
+      --color-gabriel: #1d5bd6;
+      --color-emerald: #10b981;
+      --color-gold: #dfb858;
+      --color-hot: #ef4444;
+      --color-warm: #f59e0b;
+      --color-cold: #3b82f6;
+      --color-lost: #6b7280;
+      --border-subtle: rgba(255, 255, 255, 0.10);
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --text-xs: 0.75rem;
+      --text-sm: 0.875rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.5rem;
+      --space-6: 2rem;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+      padding: var(--space-5);
+      line-height: 1.45;
+    }
+    .wrap { max-width: 104rem; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: var(--space-4);
+    }
+    .eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.88rem;
+      color: var(--color-gold);
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    h1 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 4px;
+    }
+    .sub { color: var(--color-text-secondary); font-size: var(--text-sm); margin-top: 4px; max-width: 60rem; }
+    .actions-top {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+    .btn-top {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.45rem 0.85rem;
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      font-weight: 600;
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--border-subtle);
+      color: var(--color-text-primary);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-top:hover {
+      border-color: rgba(255, 255, 255, 0.35);
+      background: #18181f;
+    }
+    .btn-top-gold {
+      background: rgba(223, 184, 88, 0.15);
+      border-color: var(--color-gold);
+      color: #f7f7ee;
+    }
+    .btn-top-gold:hover { background: rgba(223, 184, 88, 0.25); }
+
+    /* PARTNER TABS */
+    .partner-switcher {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+    .partner-tab {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 1rem 1.25rem;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .partner-tab:hover { border-color: rgba(255, 255, 255, 0.28); }
+    .partner-tab.active-bruce {
+      border-color: #f59e0b;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.16), rgba(18, 18, 22, 0.95));
+      box-shadow: 0 10px 24px rgba(245, 158, 11, 0.12);
+    }
+    .partner-tab.active-gabriel {
+      border-color: var(--color-gabriel);
+      background: linear-gradient(135deg, rgba(29, 91, 214, 0.18), rgba(18, 18, 22, 0.95));
+      box-shadow: 0 10px 24px rgba(29, 91, 214, 0.12);
+    }
+    .partner-tab.active-general {
+      border-color: var(--color-emerald);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.14), rgba(18, 18, 22, 0.95));
+      box-shadow: 0 10px 24px rgba(16, 185, 129, 0.12);
+    }
+    .partner-tab-kicker {
+      font-family: var(--font-display);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+    .partner-tab-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+    .partner-tab-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: var(--text-xs);
+      font-family: var(--font-mono);
+      color: var(--color-text-secondary);
+      margin-top: 2px;
+    }
+
+    /* KPI METRICS GRID */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+    .kpi-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 0.75rem 0.9rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .kpi-card-title {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+    }
+    .kpi-card-value {
+      font-family: var(--font-mono);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+    .kpi-card-sub {
+      font-size: 0.7rem;
+      color: var(--color-text-secondary);
+    }
+
+    /* WORKSPACE QUICK FILTERS (ATENDEU / INTERESSADO / NÃO ATENDEU / RETOMADA) */
+    .outcome-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: var(--space-3);
+      padding: 0.65rem 0.85rem;
+      background: #111116;
+      border: 1px solid var(--border-subtle);
+      align-items: center;
+    }
+    .outcome-pill-btn {
+      background: #1a1a22;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e5e7eb;
+      padding: 0.35rem 0.75rem;
+      font-size: 0.78rem;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .outcome-pill-btn:hover { border-color: rgba(255, 255, 255, 0.35); }
+    .outcome-pill-btn.active {
+      background: #ffffff;
+      color: #09090b;
+      font-weight: 700;
+      border-color: #ffffff;
+    }
+    .outcome-pill-btn.pill-retry {
+      border-color: #f59e0b;
+      color: #fbbf24;
+    }
+    .outcome-pill-btn.pill-retry.active {
+      background: #f59e0b;
+      color: #09090b;
+    }
+
+    /* TOOLBAR FILTERS */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 0.75rem 1rem;
+      margin-bottom: var(--space-4);
+    }
+    .search-input {
+      background: #09090b;
+      border: 1px solid var(--border-subtle);
+      color: #ffffff;
+      padding: 0.45rem 0.85rem;
+      font-size: var(--text-sm);
+      min-width: 240px;
+      outline: none;
+      font-family: var(--font-sans);
+    }
+    .search-input:focus { border-color: var(--color-gold); }
+    .select-filter {
+      background: #09090b;
+      border: 1px solid var(--border-subtle);
+      color: #ffffff;
+      padding: 0.45rem 0.85rem;
+      font-size: var(--text-sm);
+      font-family: var(--font-sans);
+      outline: none;
+    }
+
+    /* WORKSPACE SPLIT: TABLE (LEFT) + ASSISTANT & INSTAGRAM (RIGHT) */
+    .sales-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(360px, 1fr);
+      gap: var(--space-4);
+      align-items: start;
+    }
+    @media (max-width: 1080px) {
+      .sales-workspace { grid-template-columns: 1fr; }
+    }
+
+    /* LEADS TABLE */
+    .leads-table-container {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--border-subtle);
+      overflow-x: auto;
+      max-height: 78vh;
+      overflow-y: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th {
+      text-align: left;
+      padding: 0.75rem 0.85rem;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-text-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+      background: #0d0d10;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    td {
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: var(--text-sm);
+      vertical-align: middle;
+    }
+    tr:hover td { background: rgba(255, 255, 255, 0.02); }
+    tr.selected-row td {
+      background: rgba(223, 184, 88, 0.08) !important;
+      border-left: 3px solid var(--color-gold);
+    }
+    .tabular { font-family: var(--font-mono); }
+
+    /* BADGES */
+    .badge-hot { background: rgba(239, 68, 68, 0.18); border: 1px solid rgba(239, 68, 68, 0.5); color: #f87171; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); }
+    .badge-warm { background: rgba(245, 158, 11, 0.18); border: 1px solid rgba(245, 158, 11, 0.5); color: #fbbf24; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); }
+    .badge-cold { background: rgba(59, 130, 246, 0.18); border: 1px solid rgba(59, 130, 246, 0.5); color: #60a5fa; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); }
+    .badge-lost { background: rgba(107, 114, 128, 0.18); border: 1px solid rgba(107, 114, 128, 0.5); color: #9ca3af; padding: 2px 7px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; font-family: var(--font-mono); }
+    .badge-prio { font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; padding: 2px 6px; }
+    .badge-prio-a { background: rgba(16, 185, 129, 0.18); border: 1px solid rgba(16, 185, 129, 0.45); color: #34d399; }
+    .badge-prio-b { background: rgba(59, 130, 246, 0.15); border: 1px solid rgba(59, 130, 246, 0.35); color: #93c5fd; }
+
+    /* ASSISTANT SIDEBAR */
+    .assistant-sidebar {
+      background: var(--color-bg-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 1.25rem;
+      position: sticky;
+      top: 1rem;
+      max-height: 85vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .assistant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 0.75rem;
+    }
+    .assistant-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+    }
+
+    /* INSTAGRAM PREVIEW BOX */
+    .insta-briefing-box {
+      background: linear-gradient(135deg, rgba(131, 58, 180, 0.12), rgba(225, 48, 108, 0.12), rgba(253, 29, 29, 0.12));
+      border: 1px solid rgba(225, 48, 108, 0.35);
+      padding: 0.85rem;
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .insta-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .insta-handle {
+      font-family: var(--font-mono);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #f43f5e;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .insta-handle:hover { text-decoration: underline; }
+    .insta-link-btn {
+      background: rgba(225, 48, 108, 0.2);
+      border: 1px solid rgba(225, 48, 108, 0.5);
+      color: #ffffff;
+      padding: 0.25rem 0.6rem;
+      font-size: 0.72rem;
+      font-family: var(--font-sans);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .insta-link-btn:hover {
+      background: rgba(225, 48, 108, 0.4);
+    }
+    .insta-intel-note {
+      font-size: 0.76rem;
+      color: #e5e7eb;
+      line-height: 1.4;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 6px 8px;
+      border-radius: 2px;
+      border-left: 2px solid #e1306c;
+    }
+
+    /* INTEL GRID */
+    .intel-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.6rem;
+      background: #09090b;
+      padding: 0.85rem;
+      border: 1px solid var(--border-subtle);
+    }
+    .intel-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .intel-label {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-secondary);
+    }
+    .intel-value {
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: #ffffff;
+      word-break: break-word;
+    }
+
+    /* SCRIPT BOX */
+    .script-box {
+      background: #09090b;
+      border: 1px solid var(--border-subtle);
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .script-select {
+      background: #141418;
+      border: 1px solid var(--border-subtle);
+      color: var(--color-gold);
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 700;
+      padding: 0.4rem;
+      outline: none;
+    }
+    .script-text {
+      background: #000000;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.5;
+      color: #e5e7eb;
+      white-space: pre-wrap;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+
+    /* ACTION BUTTONS */
+    .action-btn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+    }
+    .btn-action {
+      padding: 0.55rem 0.75rem;
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border: 1px solid var(--border-subtle);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      color: #ffffff;
+      background: #17171c;
+    }
+    .btn-action:hover { border-color: rgba(255, 255, 255, 0.4); }
+    .btn-call { background: #10b981; border-color: #10b981; color: #ffffff; }
+    .btn-call:hover { background: #059669; }
+    .btn-demo { background: #ffffff; border-color: #ffffff; color: #09090b; }
+    .btn-demo:hover { opacity: 0.9; }
+    .btn-hot { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5; }
+    .btn-deal { background: rgba(223, 184, 88, 0.2); border-color: var(--color-gold); color: #fef08a; }
+    .btn-lost { background: rgba(107, 114, 128, 0.2); border-color: #6b7280; color: #d1d5db; }
+
+    /* LOG MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      place-items: center;
+      padding: 1rem;
+      z-index: 9999;
+    }
+    .modal-backdrop.open { display: grid; }
+    .modal-box {
+      background: #141418;
+      border: 1px solid var(--border-subtle);
+      max-width: 42rem;
+      width: 100%;
+      padding: 1.5rem;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin-bottom: 0.85rem;
+    }
+    .form-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-secondary);
+    }
+    .form-control {
+      background: #09090b;
+      border: 1px solid var(--border-subtle);
+      color: #ffffff;
+      padding: 0.55rem;
+      font-size: 0.85rem;
+      outline: none;
+      font-family: var(--font-sans);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <div class="eyebrow">BRAG INTERNATIONAL · SALES OPERATION MODULE · BASE INTEGRADA</div>
+        <h1>Módulo Comercial &amp; Operação de Vendas</h1>
+        <p class="sub">Distribuição balanceada de <strong>todas as 458 demonstrações na esteira de abordagem</strong> (229 Bruce / 229 Gabriel). Inteligência de Instagram integrada para briefing pré-ligação, controle de retomadas para 100% de cobertura e anotação obrigatória de respostas.</p>
+      </div>
+      <div class="actions-top">
+        <a href="/demos/sales_distribution_400.json" download class="btn-top btn-top-gold">
+          📥 Baixar Distribuição JSON (458)
+        </a>
+        <a href="/demos/" class="btn-top">
+          ⚡ Ver Todas as 458 Demos
+        </a>
+        <a href="/demos/crm.html" class="btn-top" style="border-color:var(--color-emerald);background:rgba(16,185,129,0.18);">
+          📱 Base CRM (WhatsApp)
+        </a>
+        <button type="button" class="btn-top" onclick="triggerRedistribute()">
+          🔄 Re-sincronizar Distribuição
+        </button>
+      </div>
+    </header>
+
+    <!-- 1. VENDOR / GENERAL SWITCHER -->
+    <div class="partner-switcher" role="tablist">
+      <button type="button" id="tabBtnBruce" class="partner-tab active-bruce" onclick="setVendorView('bruce')">
+        <span class="partner-tab-kicker">CARTEIRA COMERCIAL BRUCE</span>
+        <span class="partner-tab-title">Painel Bruce (229 Leads)</span>
+        <div class="partner-tab-meta">
+          <span id="bruceMetaCalls">0 ligações realizadas</span>
+          <span style="color:#fbbf24;">Meta: 229/229</span>
+        </div>
+      </button>
+
+      <button type="button" id="tabBtnGabriel" class="partner-tab" onclick="setVendorView('gabriel')">
+        <span class="partner-tab-kicker">CARTEIRA COMERCIAL GABRIEL</span>
+        <span class="partner-tab-title">Painel Gabriel (229 Leads)</span>
+        <div class="partner-tab-meta">
+          <span id="gabrielMetaCalls">0 ligações realizadas</span>
+          <span style="color:#93c5fd;">Meta: 229/229</span>
+        </div>
+      </button>
+
+      <button type="button" id="tabBtnGeneral" class="partner-tab" onclick="setVendorView('general')">
+        <span class="partner-tab-kicker">PAINEL GERAL DO ADMINISTRADOR</span>
+        <span class="partner-tab-title">Visão Consolidada (458 Demos)</span>
+        <div class="partner-tab-meta">
+          <span id="generalMetaSummary">Comparativo Bruce vs Gabriel</span>
+          <span style="color:#10b981;">Meta Total: 458</span>
+        </div>
+      </button>
+    </div>
+
+    <!-- 2. KPI METRICS -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-card-title">Leads Atribuídos</span>
+        <span class="kpi-card-value" id="kpiTotalLeads">229</span>
+        <span class="kpi-card-sub" id="kpiSubOwner">Carteira ativa</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Ligações Realizadas</span>
+        <span class="kpi-card-value" id="kpiCallsMade" style="color:#38bdf8;">0</span>
+        <span class="kpi-card-sub">Tentativas totais</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Atendidas</span>
+        <span class="kpi-card-value" id="kpiCallsAnswered" style="color:#34d399;">0</span>
+        <span class="kpi-card-sub">Contato efetivo</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Não Atendeu (Retomar)</span>
+        <span class="kpi-card-value" id="kpiNoAnswer" style="color:#fbbf24;">0</span>
+        <span class="kpi-card-sub">Fila de recall</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Decisores</span>
+        <span class="kpi-card-value" id="kpiDecisors" style="color:#fbbf24;">0</span>
+        <span class="kpi-card-sub">Sócios/Diretores</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Interessados (Qualif.)</span>
+        <span class="kpi-card-value" id="kpiInterested" style="color:#f472b6;">0</span>
+        <span class="kpi-card-sub">Avanço comercial</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Propostas Enviadas</span>
+        <span class="kpi-card-value" id="kpiProposals" style="color:#60a5fa;">0</span>
+        <span class="kpi-card-sub">Em alinhamento</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Vendas Fechadas</span>
+        <span class="kpi-card-value" id="kpiDealsClosed" style="color:#4ade80;">0</span>
+        <span class="kpi-card-sub">Contratos fechados</span>
+      </div>
+      <div class="kpi-card" style="border-color:rgba(223,184,88,0.3);background:linear-gradient(135deg, rgba(223,184,88,0.12), rgba(22,22,28,0.95));">
+        <span class="kpi-card-title" style="color:var(--color-gold);">Potencial a R$ 1,5k/lead</span>
+        <span class="kpi-card-value" id="kpiRevenuePotential" style="color:var(--color-gold);">R$ 343.500</span>
+        <span class="kpi-card-sub" id="kpiSubPotential">229 leads x R$ 1.500</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Faturamento</span>
+        <span class="kpi-card-value" id="kpiRevenue" style="color:var(--color-emerald);">R$ 0</span>
+        <span class="kpi-card-sub">Receita realizada</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Conversão</span>
+        <span class="kpi-card-value" id="kpiConversion">0.0%</span>
+        <span class="kpi-card-sub">Vendas / Chamadas</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-card-title">Próximos Agendados</span>
+        <span class="kpi-card-value" id="kpiCallbacks" style="color:#facc15;">0</span>
+        <span class="kpi-card-sub">Retornos marcados</span>
+      </div>
+    </div>
+
+    <!-- 3. RELATÓRIOS & ATALHOS RÁPIDOS DE RETOMADA DE LIGAÇÃO -->
+    <div class="outcome-pills">
+      <span style="font-family:var(--font-display);font-size:0.82rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-gold);margin-right:6px;">
+        FILTRO POR RESPOSTA DA LIGAÇÃO:
+      </span>
+      <button type="button" class="outcome-pill-btn active" id="pillAll" onclick="setOutcomeFilter('all')">
+        Todos os Leads (<span id="countPillAll">458</span>)
+      </button>
+      <button type="button" class="outcome-pill-btn" id="pillPending" onclick="setOutcomeFilter('pending')">
+        ⏳ Ainda Não Abordados (<span id="countPillPending">0</span>)
+      </button>
+      <button type="button" class="outcome-pill-btn" id="pillAnswered" onclick="setOutcomeFilter('answered')">
+        📞 Cliente Que Atendeu (<span id="countPillAnswered">0</span>)
+      </button>
+      <button type="button" class="outcome-pill-btn" id="pillInterested" onclick="setOutcomeFilter('interested')">
+        🔥 Demonstrou Interesse (<span id="countPillInterested">0</span>)
+      </button>
+      <button type="button" class="outcome-pill-btn pill-retry" id="pillNoAnswer" onclick="setOutcomeFilter('no_answer')">
+        🔄 Não Atendeu · Retomar Ligação (<span id="countPillNoAnswer">0</span>)
+      </button>
+      <button type="button" class="outcome-pill-btn" id="pillDeal" onclick="setOutcomeFilter('deal')">
+        🤝 Vendas Fechadas (<span id="countPillDeal">0</span>)
+      </button>
+    </div>
+
+    <!-- 4. SIMULAÇÃO DE RECEITA POTENCIAL (TICKET MÉDIO R$ 1.500) -->
+    <div style="background:#111116;border:1px solid rgba(223,184,88,0.25);padding:0.9rem 1.25rem;margin-bottom:var(--space-4);border-radius:4px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px;">
+        <div>
+          <span style="font-family:var(--font-display);font-size:0.85rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--color-gold);">
+            💰 PROJEÇÃO DE RECEITA DA CARTEIRA · TICKET MÉDIO R$ 1.500 / CLIENTE
+          </span>
+          <div style="font-size:0.78rem;color:var(--color-text-secondary);margin-top:2px;">
+            Simulação de faturamento por taxa de conversão sobre <strong id="simBaseCount" style="color:#ffffff;">458</strong> leads com demos prontas para venda:
+          </div>
+        </div>
+        <div style="text-align:right;">
+          <span style="font-size:0.75rem;color:var(--color-text-secondary);text-transform:uppercase;font-family:var(--font-mono);">Potencial Máximo (100%):</span>
+          <div style="font-family:var(--font-mono);font-size:1.35rem;font-weight:700;color:var(--color-gold);" id="simMaxRevenue">R$ 687.000,00</div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:0.5rem;margin-top:8px;">
+        <div style="background:#09090b;border:1px solid rgba(255,255,255,0.08);padding:0.6rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--color-text-secondary);font-family:var(--font-mono);">CONVERSÃO 5%</div>
+          <div style="font-family:var(--font-mono);font-size:0.95rem;font-weight:700;color:#38bdf8;margin:2px 0;" id="simP5">R$ 34.500</div>
+          <div style="font-size:0.68rem;color:#9ca3af;" id="simClients5">~23 clientes</div>
+        </div>
+        <div style="background:#09090b;border:1px solid rgba(255,255,255,0.08);padding:0.6rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--color-text-secondary);font-family:var(--font-mono);">CONVERSÃO 10%</div>
+          <div style="font-family:var(--font-mono);font-size:0.95rem;font-weight:700;color:#34d399;margin:2px 0;" id="simP10">R$ 69.000</div>
+          <div style="font-size:0.68rem;color:#9ca3af;" id="simClients10">~46 clientes</div>
+        </div>
+        <div style="background:#09090b;border:1px solid rgba(255,255,255,0.08);padding:0.6rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--color-text-secondary);font-family:var(--font-mono);">CONVERSÃO 15%</div>
+          <div style="font-family:var(--font-mono);font-size:0.95rem;font-weight:700;color:#facc15;margin:2px 0;" id="simP15">R$ 103.500</div>
+          <div style="font-size:0.68rem;color:#9ca3af;" id="simClients15">~69 clientes</div>
+        </div>
+        <div style="background:#09090b;border:1px solid rgba(255,255,255,0.08);padding:0.6rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--color-text-secondary);font-family:var(--font-mono);">CONVERSÃO 20%</div>
+          <div style="font-family:var(--font-mono);font-size:0.95rem;font-weight:700;color:#f472b6;margin:2px 0;" id="simP20">R$ 137.400</div>
+          <div style="font-size:0.68rem;color:#9ca3af;" id="simClients20">~92 clientes</div>
+        </div>
+        <div style="background:#09090b;border:1px solid rgba(223,184,88,0.4);background:rgba(223,184,88,0.08);padding:0.6rem;text-align:center;">
+          <div style="font-size:0.7rem;color:var(--color-gold);font-family:var(--font-mono);font-weight:700;">CONVERSÃO 30%</div>
+          <div style="font-family:var(--font-mono);font-size:1.05rem;font-weight:800;color:var(--color-gold);margin:2px 0;" id="simP30">R$ 206.100</div>
+          <div style="font-size:0.68rem;color:#fef08a;" id="simClients30">~137 clientes</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. TOOLBAR FILTERS -->
+    <div class="toolbar">
+      <div style="display:flex;align-items:center;gap:0.75rem;flex-wrap:wrap;">
+        <input type="search" id="salesSearch" class="search-input" placeholder="Buscar por empresa, telefone, @instagram, cidade..." oninput="applyFilters()" />
+        <select id="filterPriority" class="select-filter" onchange="applyFilters()">
+          <option value="all">Todas as Prioridades (A &amp; B)</option>
+          <option value="A">Prioridade A (Alta)</option>
+          <option value="B">Prioridade B (Média)</option>
+        </select>
+        <select id="filterClassification" class="select-filter" onchange="applyFilters()">
+          <option value="all">Todas as Classificações</option>
+          <option value="HOT">🔥 HOT (Interessado / Decisor)</option>
+          <option value="WARM">⚡ WARM (Potencial / Abertura)</option>
+          <option value="COLD">❄️ COLD (Ainda não abordado)</option>
+          <option value="LOST">⛔ LOST (Sem perfil / Recusado)</option>
+        </select>
+        <select id="filterStage" class="select-filter" onchange="applyFilters()">
+          <option value="all">Todas as Etapas do Funil</option>
+          <option value="novo_lead">1. Novo Lead</option>
+          <option value="primeira_ligacao">2. Primeira Ligação</option>
+          <option value="decisor">3. Falar com Decisor</option>
+          <option value="apresentacao_demo">4. Apresentação da Demo</option>
+          <option value="qualificacao">5. Cliente Interessado</option>
+          <option value="proposta">6. Proposta Enviada</option>
+          <option value="negociacao">7. Em Negociação</option>
+          <option value="fechamento">8. Venda Fechada</option>
+          <option value="perdido">9. Perdido / Recusado</option>
+        </select>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:var(--text-xs);color:var(--color-text-secondary);">
+        Mostrando <strong id="filterCount" style="color:#ffffff;">0</strong> leads na visualização
+      </div>
+    </div>
+
+    <!-- 5. WORKSPACE: LEADS TABLE (LEFT) + ASSISTANT (RIGHT) -->
+    <div class="sales-workspace">
+      <!-- LEADS TABLE -->
+      <div class="leads-table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Vendedor</th>
+              <th>Empresa &amp; Segmento</th>
+              <th>Instagram Oficial</th>
+              <th>Telefone / WhatsApp</th>
+              <th>Cidade/UF</th>
+              <th>Score ICP</th>
+              <th>Status Ligação</th>
+              <th>Ação</th>
+            </tr>
+          </thead>
+          <tbody id="salesTableBody"></tbody>
+        </table>
+      </div>
+
+      <!-- BRAG SALES ASSISTANT (SIDEBAR) -->
+      <aside class="assistant-sidebar">
+        <div class="assistant-header">
+          <div>
+            <div class="eyebrow" style="font-size:0.75rem;">CO-PILOTO DE CONVERSÃO</div>
+            <div class="assistant-title">BRAG SALES ASSISTANT</div>
+          </div>
+          <span id="sideClassificationBadge" class="badge-cold">COLD</span>
+        </div>
+
+        <!-- INSTAGRAM BRIEFING CARD (ENTENDER ANTES DE ENTRAR EM CONTATO) -->
+        <div class="insta-briefing-box">
+          <div class="insta-header">
+            <span style="font-family:var(--font-display);font-size:0.78rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#fca5a5;">
+              📸 BRIEFING DO INSTAGRAM:
+            </span>
+            <a id="sideInstagramBtn" href="#" target="_blank" rel="noopener" class="insta-link-btn">
+              Abrir Perfil ↗
+            </a>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin:2px 0;">
+            <a id="sideInstagramHandle" href="#" target="_blank" rel="noopener" class="insta-handle">
+              @carregando
+            </a>
+          </div>
+          <div class="insta-intel-note" id="sideInstagramNote">
+            Consulte as postagens recentes, bio e estilo do cliente no Instagram antes de discar para conectar o script à realidade da loja.
+          </div>
+        </div>
+
+        <!-- LEAD INTELLIGENCE SUMMARY -->
+        <div class="intel-grid">
+          <div class="intel-item">
+            <span class="intel-label">Empresa</span>
+            <span class="intel-value" id="sideCompanyName">Selecione um lead</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Decisor / Contato</span>
+            <span class="intel-value" id="sideContactName">-</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Segmento</span>
+            <span class="intel-value" id="sideSegment">-</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Telefone Direto</span>
+            <span class="intel-value tabular" id="sidePhone" style="color:#10b981;">-</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Prioridade / Tier</span>
+            <span class="intel-value tabular" id="sidePrioTier">-</span>
+          </div>
+          <div class="intel-item">
+            <span class="intel-label">Vendedor Atribuído</span>
+            <span class="intel-value" id="sideVendor">-</span>
+          </div>
+          <div class="intel-item" style="grid-column: span 2;">
+            <span class="intel-label">Última Interação</span>
+            <span class="intel-value tabular" id="sideLastInteraction" style="font-size:0.75rem;color:var(--color-text-secondary);">-</span>
+          </div>
+          <div class="intel-item" style="grid-column: span 2;">
+            <span class="intel-label">Próxima Ação Definida</span>
+            <span class="intel-value" id="sideNextAction" style="color:#f59e0b;">Realizar primeira ligação</span>
+          </div>
+        </div>
+
+        <!-- QUICK ACTION BUTTONS -->
+        <div class="action-btn-grid">
+          <a id="btnCallLead" href="#" class="btn-action btn-call" onclick="handleStartCall()">
+            📞 Iniciar Ligação
+          </a>
+          <a id="btnOpenDemo" href="#" target="_blank" rel="noopener" class="btn-action btn-demo">
+            🌐 Abrir Demo
+          </a>
+          <button type="button" class="btn-action btn-hot" onclick="openLogModal('hot')">
+            🔥 Marcar HOT
+          </button>
+          <button type="button" class="btn-action btn-deal" onclick="openLogModal('deal')">
+            🤝 Venda Fechada
+          </button>
+          <button type="button" class="btn-action" style="background:#f59e0b;color:#09090b;font-weight:700;" onclick="openLogModal('no_answer')">
+            🔄 Não Atendeu
+          </button>
+          <button type="button" class="btn-action btn-lost" onclick="openLogModal('lost')">
+            ⛔ Marcar Perdido
+          </button>
+        </div>
+
+        <!-- DYNAMIC SCRIPTS SELECTOR & TEXT -->
+        <div class="script-box">
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <label class="intel-label">Script Comercial Dinâmico:</label>
+            <button type="button" class="btn-top" style="padding:0.25rem 0.55rem;font-size:0.75rem;" onclick="copyActiveScript()">
+              📋 Copiar Script
+            </button>
+          </div>
+          <select id="scriptSelector" class="script-select" onchange="renderActiveScript()">
+            <option value="script_1">SCRIPT 1 — PRIMEIRA LIGAÇÃO</option>
+            <option value="script_2">SCRIPT 2 — FALAR COM O DECISOR</option>
+            <option value="script_3">SCRIPT 3 — APRESENTAÇÃO DA DEMO</option>
+            <option value="script_4">SCRIPT 4 — CLIENTE INTERESSADO</option>
+            <option value="script_5">SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM</option>
+            <option value="script_6">SCRIPT 6 — OBJEÇÃO: ESTÁ CARO</option>
+            <option value="script_7">SCRIPT 7 — OBJEÇÃO: VOU PENSAR</option>
+            <option value="script_8">SCRIPT 8 — NÃO ATENDEU (REAGENDAR RETORNO)</option>
+            <option value="script_9">SCRIPT 9 — FOLLOW-UP</option>
+          </select>
+          <div id="scriptDisplay" class="script-text">Carregando script...</div>
+        </div>
+
+        <!-- LOG INTERACTION BUTTON -->
+        <button type="button" class="btn-top btn-top-gold" style="width:100%;justify-content:center;padding:0.75rem;font-weight:700;" onclick="openLogModal('general')">
+          📝 Registrar Resposta da Ligação (Obrigatório)
+        </button>
+
+        <!-- RECENT CALL HISTORY FOR SELECTED LEAD -->
+        <div>
+          <div class="intel-label" style="margin-bottom:6px;">Histórico de Respostas Deste Lead:</div>
+          <div id="leadHistoryBox" style="font-size:0.75rem;color:var(--color-text-secondary);max-height:160px;overflow-y:auto;background:#09090b;padding:0.6rem;border:1px solid var(--border-subtle);display:flex;flex-direction:column;gap:6px;">
+            Nenhuma resposta anotada ainda.
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- MODAL: REGISTRO DE RESPOSTA DA LIGAÇÃO (OBRIGATÓRIO) -->
+  <div id="logModal" class="modal-backdrop" onclick="if(event.target===this) closeLogModal()">
+    <div class="modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding-bottom:0.75rem;margin-bottom:1rem;">
+        <h3 id="modalTitle" style="font-family:var(--font-display);font-size:1.35rem;text-transform:uppercase;color:var(--color-gold);">
+          Registrar Resposta da Ligação
+        </h3>
+        <button type="button" class="btn-top" onclick="closeLogModal()">✕</button>
+      </div>
+
+      <form id="logForm" onsubmit="submitInteraction(event)">
+        <div class="form-group">
+          <label class="form-label">Desfecho da Chamada</label>
+          <select id="modalCallOutcome" class="form-control" onchange="syncOutcomeToStage()">
+            <option value="interested">🔥 Cliente Demonstrou Interesse (Avançar Funil)</option>
+            <option value="answered">📞 Atendeu / Decisor Conversou</option>
+            <option value="meeting_set">⏰ Demonstração / Reunião Agendada</option>
+            <option value="proposal_sent">📄 Proposta Enviada</option>
+            <option value="deal_closed">🤝 Venda Fechada / Pagamento Recebido</option>
+            <option value="no_answer">🔄 Não Atendeu (Programar Retorno para Retomada)</option>
+            <option value="busy">⏳ Ocupado / Pediu para Ligar Mais Tarde</option>
+            <option value="objection">💬 Apresentou Objeção (Trabalhar)</option>
+            <option value="not_decision_maker">👤 Secretária / Decisor Ausente</option>
+            <option value="rejected">⛔ Recusou / Sem Perfil Comercial</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Anotação da Resposta do Cliente <strong style="color:#ef4444;">* (Obrigatório)</strong></label>
+          <textarea id="modalNotes" required class="form-control" rows="3" placeholder="REGRA COMERCIAL: Anote exatamente o que o cliente ou atendente respondeu (ex: 'Falou com o sócio Carlos, ele gostou da vitrine e pediu para retornar às 16h', ou 'Chamou até cair na caixa postal')."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Próxima Ação Definida <span style="color:#f59e0b;">(Obrigatória para HOT e Retomadas)</span></label>
+          <input type="text" id="modalNextAction" class="form-control" placeholder="Ex: Retornar amanhã às 10h para falar com o proprietário" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Data &amp; Hora da Retomada / Próximo Contato</label>
+          <input type="datetime-local" id="modalScheduledAt" class="form-control" />
+        </div>
+
+        <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+          <div>
+            <label class="form-label">Nova Etapa do Funil</label>
+            <select id="modalStage" class="form-control">
+              <option value="primeira_ligacao">2. Primeira Ligação</option>
+              <option value="decisor">3. Decisor Identificado</option>
+              <option value="apresentacao_demo">4. Apresentação da Demo</option>
+              <option value="qualificacao">5. Cliente Interessado</option>
+              <option value="proposta">6. Proposta Enviada</option>
+              <option value="negociacao">7. Em Negociação</option>
+              <option value="fechamento">8. Venda Fechada</option>
+              <option value="perdido">9. Perdido / Recusado</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Classificação da Oportunidade</label>
+            <select id="modalClassification" class="form-control">
+              <option value="WARM">⚡ WARM (Potencial / Abertura)</option>
+              <option value="HOT">🔥 HOT (Interessado / Negociação)</option>
+              <option value="COLD">❄️ COLD (Ainda sem resposta)</option>
+              <option value="LOST">⛔ LOST (Recusa definitiva)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="groupDealValue" style="display:none;">
+          <label class="form-label">Valor do Contrato / Fechamento (R$)</label>
+          <input type="number" step="0.01" id="modalDealValue" class="form-control" placeholder="Ex: 5000.00" />
+        </div>
+
+        <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:1.25rem;">
+          <button type="button" class="btn-top" onclick="closeLogModal()">Cancelar</button>
+          <button type="submit" class="btn-top btn-top-gold" style="font-weight:700;">Salvar e Atualizar Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}};
+    let currentVendorView = "bruce";
+    let currentOutcomeFilter = "all";
+    let allLeads = [];
+    let selectedLead = null;
+    let globalStats = {};
+
+    async function loadData() {
+      try {
+        // Load stats from API or compute from local distribution
+        let statsLoaded = false;
+        try {
+          const statsRes = await fetch("/api/sales/stats");
+          if (statsRes.ok) {
+            globalStats = await statsRes.json();
+            renderStats();
+            statsLoaded = true;
+          }
+        } catch (e) {}
+
+        // Load leads from API, or fallback to static sales_distribution_400.json
+        let leadsLoaded = false;
+        try {
+          const leadsRes = await fetch("/api/sales/leads");
+          if (leadsRes.ok) {
+            const data = await leadsRes.json();
+            allLeads = data.items || data;
+            leadsLoaded = true;
+          }
+        } catch (e) {}
+
+        if (!leadsLoaded) {
+          // Production static fallback for Vercel
+          const staticRes = await fetch("/demos/sales_distribution_400.json");
+          if (staticRes.ok) {
+            allLeads = await staticRes.json();
+            leadsLoaded = true;
+          } else {
+            const staticResAlt = await fetch("/sales_distribution_400.json");
+            if (staticResAlt.ok) {
+              allLeads = await staticResAlt.json();
+              leadsLoaded = true;
+            }
+          }
+        }
+
+        // Sync local storage state for logged answers if running static
+        syncLocalStoredInteractions();
+
+        if (!statsLoaded && allLeads.length > 0) {
+          globalStats = {
+            bruce: computeVendorStats(allLeads.filter(x => x.assigned_vendor === "bruce")),
+            gabriel: computeVendorStats(allLeads.filter(x => x.assigned_vendor === "gabriel")),
+            general: computeVendorStats(allLeads)
+          };
+          renderStats();
+        }
+
+        updateOutcomePillsCount();
+        applyFilters();
+      } catch (err) {
+        console.error("Erro carregando dados de vendas:", err);
+      }
+    }
+
+    function syncLocalStoredInteractions() {
+      try {
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+        for (const slug in stored) {
+          const item = allLeads.find(x => x.slug === slug);
+          if (item) {
+            const st = stored[slug];
+            item.calls_made = st.calls_made || item.calls_made;
+            item.calls_answered = st.calls_answered || item.calls_answered;
+            item.last_call_outcome = st.last_call_outcome || item.last_call_outcome;
+            item.last_interaction_at = st.last_interaction_at || item.last_interaction_at;
+            item.classification = st.classification || item.classification;
+            item.stage = st.stage || item.stage;
+            item.notes = st.notes || item.notes;
+            item.next_action = st.next_action || item.next_action;
+            item.scheduled_callback_at = st.scheduled_callback_at || item.scheduled_callback_at;
+          }
+        }
+      } catch (e) {}
+    }
+
+    function computeVendorStats(list) {
+      const st = {
+        total_leads: list.length,
+        calls_made: list.reduce((acc, x) => acc + (x.calls_made || 0), 0),
+        calls_answered: list.reduce((acc, x) => acc + (x.calls_answered || 0), 0),
+        no_answer: list.filter(x => x.last_call_outcome === "no_answer" || (x.calls_made > 0 && x.calls_answered === 0)).length,
+        decision_maker_contacted: list.reduce((acc, x) => acc + (x.decision_maker_contacted || 0), 0),
+        demo_presented: list.reduce((acc, x) => acc + (x.demo_presented || 0), 0),
+        interested: list.reduce((acc, x) => acc + (x.interested || 0), 0),
+        proposal_sent: list.reduce((acc, x) => acc + (x.proposal_sent || 0), 0),
+        negotiation_opened: list.reduce((acc, x) => acc + (x.negotiation_opened || 0), 0),
+        deal_closed: list.reduce((acc, x) => acc + (x.deal_closed || 0), 0),
+        revenue: list.reduce((acc, x) => acc + (x.deal_value || 0), 0),
+        conversion_rate: 0,
+        scheduled_callbacks: list.filter(x => !!x.scheduled_callback_at).length
+      };
+      if (st.calls_made > 0) {
+        st.conversion_rate = parseFloat(((st.deal_closed / st.calls_made) * 100).toFixed(1));
+      }
+      return st;
+    }
+
+    function setVendorView(view) {
+      currentVendorView = view;
+      document.getElementById("tabBtnBruce").className = "partner-tab" + (view === "bruce" ? " active-bruce" : "");
+      document.getElementById("tabBtnGabriel").className = "partner-tab" + (view === "gabriel" ? " active-gabriel" : "");
+      document.getElementById("tabBtnGeneral").className = "partner-tab" + (view === "general" ? " active-general" : "");
+      renderStats();
+      updateOutcomePillsCount();
+      applyFilters();
+    }
+
+    function setOutcomeFilter(outcome) {
+      currentOutcomeFilter = outcome;
+      document.querySelectorAll(".outcome-pill-btn").forEach(btn => btn.classList.remove("active"));
+      const btnMap = {
+        "all": "pillAll",
+        "pending": "pillPending",
+        "answered": "pillAnswered",
+        "interested": "pillInterested",
+        "no_answer": "pillNoAnswer",
+        "deal": "pillDeal"
+      };
+      const id = btnMap[outcome] || "pillAll";
+      document.getElementById(id).classList.add("active");
+      applyFilters();
+    }
+
+    function updateOutcomePillsCount() {
+      const base = allLeads.filter(d => currentVendorView === "general" || d.assigned_vendor === currentVendorView);
+      document.getElementById("countPillAll").textContent = base.length;
+      document.getElementById("countPillPending").textContent = base.filter(d => !d.calls_made || d.calls_made === 0).length;
+      document.getElementById("countPillAnswered").textContent = base.filter(d => (d.calls_answered || 0) > 0).length;
+      document.getElementById("countPillInterested").textContent = base.filter(d => d.classification === "HOT" || d.stage === "qualificacao" || (d.interested || 0) > 0).length;
+      document.getElementById("countPillNoAnswer").textContent = base.filter(d => d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0)).length;
+      document.getElementById("countPillDeal").textContent = base.filter(d => (d.deal_closed || 0) > 0 || d.stage === "fechamento").length;
+    }
+
+    function renderStats() {
+      const st = globalStats[currentVendorView] || {
+        total_leads: 0, calls_made: 0, calls_answered: 0, no_answer: 0, decision_maker_contacted: 0,
+        demo_presented: 0, interested: 0, proposal_sent: 0, negotiation_opened: 0,
+        deal_closed: 0, revenue: 0, conversion_rate: 0, scheduled_callbacks: 0
+      };
+
+      document.getElementById("kpiTotalLeads").textContent = st.total_leads;
+      document.getElementById("kpiCallsMade").textContent = st.calls_made;
+      document.getElementById("kpiCallsAnswered").textContent = st.calls_answered;
+      document.getElementById("kpiNoAnswer").textContent = st.no_answer;
+      document.getElementById("kpiDecisors").textContent = st.decision_maker_contacted;
+      document.getElementById("kpiInterested").textContent = st.interested;
+      document.getElementById("kpiProposals").textContent = st.proposal_sent;
+      document.getElementById("kpiDealsClosed").textContent = st.deal_closed;
+      document.getElementById("kpiRevenue").textContent = "R$ " + Number(st.revenue || 0).toLocaleString("pt-BR", {minimumFractionDigits: 2});
+      document.getElementById("kpiConversion").textContent = st.conversion_rate + "%";
+      document.getElementById("kpiCallbacks").textContent = st.scheduled_callbacks;
+
+      // Cálculo de Potencial a R$ 1.500 por lead
+      const ticket = 1500;
+      const potential = st.total_leads * ticket;
+      document.getElementById("kpiRevenuePotential").textContent = "R$ " + potential.toLocaleString("pt-BR", {minimumFractionDigits: 0});
+      document.getElementById("kpiSubPotential").textContent = `${st.total_leads} leads x R$ 1.500`;
+
+      // Atualizar Simulação de Faturamento por Taxa de Conversão
+      document.getElementById("simBaseCount").textContent = st.total_leads;
+      document.getElementById("simMaxRevenue").textContent = "R$ " + potential.toLocaleString("pt-BR", {minimumFractionDigits: 2});
+
+      const c5 = Math.round(st.total_leads * 0.05);
+      const c10 = Math.round(st.total_leads * 0.10);
+      const c15 = Math.round(st.total_leads * 0.15);
+      const c20 = Math.round(st.total_leads * 0.20);
+      const c30 = Math.round(st.total_leads * 0.30);
+
+      document.getElementById("simP5").textContent = "R$ " + (c5 * ticket).toLocaleString("pt-BR", {minimumFractionDigits: 0});
+      document.getElementById("simClients5").textContent = `~${c5} clientes`;
+
+      document.getElementById("simP10").textContent = "R$ " + (c10 * ticket).toLocaleString("pt-BR", {minimumFractionDigits: 0});
+      document.getElementById("simClients10").textContent = `~${c10} clientes`;
+
+      document.getElementById("simP15").textContent = "R$ " + (c15 * ticket).toLocaleString("pt-BR", {minimumFractionDigits: 0});
+      document.getElementById("simClients15").textContent = `~${c15} clientes`;
+
+      document.getElementById("simP20").textContent = "R$ " + (c20 * ticket).toLocaleString("pt-BR", {minimumFractionDigits: 0});
+      document.getElementById("simClients20").textContent = `~${c20} clientes`;
+
+      document.getElementById("simP30").textContent = "R$ " + (c30 * ticket).toLocaleString("pt-BR", {minimumFractionDigits: 0});
+      document.getElementById("simClients30").textContent = `~${c30} clientes`;
+
+      document.getElementById("kpiSubOwner").textContent = currentVendorView === "bruce" ? "Carteira Bruce (229)" : (currentVendorView === "gabriel" ? "Carteira Gabriel (229)" : "Carteira Geral (458)");
+
+      if (globalStats.bruce) {
+        document.getElementById("bruceMetaCalls").textContent = `${globalStats.bruce.calls_made} ligações · ${globalStats.bruce.deal_closed} vendas`;
+      }
+      if (globalStats.gabriel) {
+        document.getElementById("gabrielMetaCalls").textContent = `${globalStats.gabriel.calls_made} ligações · ${globalStats.gabriel.deal_closed} vendas`;
+      }
+    }
+
+    function applyFilters() {
+      const q = (document.getElementById("salesSearch").value || "").toLowerCase().trim();
+      const prio = document.getElementById("filterPriority").value;
+      const classif = document.getElementById("filterClassification").value;
+      const stage = document.getElementById("filterStage").value;
+
+      const filtered = allLeads.filter(d => {
+        if (currentVendorView !== "general" && d.assigned_vendor !== currentVendorView) return false;
+        if (prio !== "all" && d.priority !== prio) return false;
+        if (classif !== "all" && d.classification !== classif) return false;
+        if (stage !== "all" && d.stage !== stage) return false;
+
+        // Outcome Pills Filter
+        if (currentOutcomeFilter === "pending" && (d.calls_made || 0) > 0) return false;
+        if (currentOutcomeFilter === "answered" && (d.calls_answered || 0) === 0) return false;
+        if (currentOutcomeFilter === "interested" && !(d.classification === "HOT" || d.stage === "qualificacao" || (d.interested || 0) > 0)) return false;
+        if (currentOutcomeFilter === "no_answer" && !(d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0))) return false;
+        if (currentOutcomeFilter === "deal" && !((d.deal_closed || 0) > 0 || d.stage === "fechamento")) return false;
+
+        if (!q) return true;
+        const hay = `${d.company_name} ${d.phone} ${d.instagram_username} ${d.city} ${d.state} ${d.contact_name} ${d.slug} ${d.notes || ''}`.toLowerCase();
+        return hay.includes(q);
+      });
+
+      document.getElementById("filterCount").textContent = filtered.length;
+      renderTable(filtered);
+
+      if (filtered.length > 0) {
+        if (!selectedLead || !filtered.find(x => x.slug === selectedLead.slug)) {
+          selectLead(filtered[0].slug);
+        }
+      }
+    }
+
+    function renderTable(leads) {
+      const tbody = document.getElementById("salesTableBody");
+      tbody.innerHTML = leads.map(d => {
+        const isSel = selectedLead && selectedLead.slug === d.slug;
+        const classBadge = `<span class="badge-${d.classification.toLowerCase()}">${d.classification}</span>`;
+        const prioBadge = `<span class="badge-prio badge-prio-${d.priority.toLowerCase()}">${d.priority}</span>`;
+        const vendorBadge = d.assigned_vendor === "bruce"
+          ? `<span style="color:#fbbf24;font-weight:700;font-family:var(--font-mono);font-size:0.75rem;">BRUCE #${String(d.vendor_rank).padStart(3, '0')}</span>`
+          : `<span style="color:#93c5fd;font-weight:700;font-family:var(--font-mono);font-size:0.75rem;">GABRIEL #${String(d.vendor_rank).padStart(3, '0')}</span>`;
+
+        let statusCallBadge = "";
+        if (!d.calls_made || d.calls_made === 0) {
+          statusCallBadge = `<span style="color:#9ca3af;font-size:0.75rem;font-family:var(--font-mono);">⏳ Pendente</span>`;
+        } else if (d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0)) {
+          statusCallBadge = `<span style="color:#fbbf24;font-weight:700;font-size:0.75rem;font-family:var(--font-mono);">🔄 Não Atendeu</span>`;
+        } else if (d.classification === "HOT" || (d.interested || 0) > 0) {
+          statusCallBadge = `<span style="color:#f87171;font-weight:700;font-size:0.75rem;font-family:var(--font-mono);">🔥 Interessado</span>`;
+        } else {
+          statusCallBadge = `<span style="color:#34d399;font-weight:700;font-size:0.75rem;font-family:var(--font-mono);">📞 Atendido (${d.calls_answered}x)</span>`;
+        }
+
+        const instaCol = d.instagram_username
+          ? `<a href="${d.instagram_url || ('https://www.instagram.com/' + d.instagram_username + '/')}" target="_blank" rel="noopener" style="color:#e1306c;font-family:var(--font-mono);font-size:0.78rem;font-weight:700;text-decoration:none;" onclick="event.stopPropagation()">@${escapeHtml(d.instagram_username)} ↗</a>`
+          : `<span style="color:#6b7280;font-size:0.75rem;">-</span>`;
+
+        return `
+          <tr class="${isSel ? 'selected-row' : ''}" onclick="selectLead('${d.slug}')">
+            <td class="tabular" style="color:var(--color-text-secondary);font-size:0.75rem;">#${String(d.vendor_rank).padStart(3, '0')}</td>
+            <td>${vendorBadge}</td>
+            <td>
+              <strong style="font-size:0.95rem;font-family:var(--font-display);letter-spacing:0.04em;">${escapeHtml(d.company_name)}</strong>
+              <div style="font-size:0.7rem;color:var(--color-text-secondary);">${escapeHtml(d.segment)}</div>
+            </td>
+            <td>${instaCol}</td>
+            <td class="tabular">
+              <div style="color:#10b981;font-weight:600;font-size:0.84rem;">${escapeHtml(d.phone)}</div>
+            </td>
+            <td>${escapeHtml(d.city)} / ${escapeHtml(d.state)}</td>
+            <td>${prioBadge} <span class="tabular" style="font-size:0.75rem;color:var(--color-text-secondary);">${d.score}</span></td>
+            <td>${statusCallBadge}</td>
+            <td>
+              <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="event.stopPropagation(); selectLead('${d.slug}');">Atender</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function selectLead(slug) {
+      selectedLead = allLeads.find(x => x.slug === slug);
+      if (!selectedLead) return;
+
+      document.querySelectorAll("#salesTableBody tr").forEach(tr => tr.classList.remove("selected-row"));
+      const rows = document.querySelectorAll("#salesTableBody tr");
+
+      // Sidebar Data
+      document.getElementById("sideCompanyName").textContent = selectedLead.company_name;
+      document.getElementById("sideContactName").textContent = selectedLead.contact_name || "Diretoria / Sócio";
+      document.getElementById("sideSegment").textContent = selectedLead.segment;
+      document.getElementById("sidePhone").textContent = selectedLead.phone || "Sem telefone";
+      document.getElementById("sidePrioTier").textContent = `Prio ${selectedLead.priority} (${selectedLead.potential_tier.toUpperCase()}) · ${selectedLead.score} pts`;
+      document.getElementById("sideVendor").textContent = selectedLead.assigned_vendor.toUpperCase();
+      document.getElementById("sideLastInteraction").textContent = selectedLead.last_interaction_at ? new Date(selectedLead.last_interaction_at).toLocaleString("pt-BR") : "Ainda não contatado";
+      document.getElementById("sideNextAction").textContent = selectedLead.next_action || "Definir próxima ação";
+
+      // Instagram Sidebar Card
+      const instaUser = selectedLead.instagram_username || selectedLead.slug.replace(/-/g, "");
+      const instaLink = selectedLead.instagram_url || `https://www.instagram.com/${instaUser}/`;
+      const instaHandleEl = document.getElementById("sideInstagramHandle");
+      instaHandleEl.textContent = `@${instaUser} ↗`;
+      instaHandleEl.href = instaLink;
+      document.getElementById("sideInstagramBtn").href = instaLink;
+      document.getElementById("sideInstagramNote").textContent = `Loja em ${selectedLead.city}/${selectedLead.state}. Abra o Instagram da ${selectedLead.company_name} para checar os modelos em destaque antes de ligar.`;
+
+      // Classification badge
+      const badge = document.getElementById("sideClassificationBadge");
+      badge.className = "badge-" + selectedLead.classification.toLowerCase();
+      badge.textContent = selectedLead.classification;
+
+      // Direct Links
+      const phoneDigits = (selectedLead.phone || "").replace(/\D/g, "");
+      document.getElementById("btnCallLead").href = phoneDigits ? `tel:+${phoneDigits}` : "#";
+      document.getElementById("btnOpenDemo").href = selectedLead.demo_url;
+
+      syncScriptToStage(selectedLead.stage);
+      renderActiveScript();
+      loadLeadHistory(selectedLead.slug);
+    }
+
+    function syncScriptToStage(stage) {
+      const map = {
+        "novo_lead": "script_1",
+        "primeira_ligacao": "script_1",
+        "decisor": "script_2",
+        "apresentacao_demo": "script_3",
+        "qualificacao": "script_4",
+        "proposta": "script_6",
+        "negociacao": "script_7",
+        "fechamento": "script_4"
+      };
+      const targetScript = map[stage] || "script_1";
+      document.getElementById("scriptSelector").value = targetScript;
+    }
+
+    function renderActiveScript() {
+      const scriptId = document.getElementById("scriptSelector").value;
+      const text = renderScriptText(scriptId);
+      document.getElementById("scriptDisplay").textContent = text;
+    }
+
+    function renderScriptText(scriptId) {
+      if (!selectedLead) return "Selecione um lead";
+      const sc = SCRIPTS[scriptId] || SCRIPTS["script_1"];
+      const vendorName = selectedLead.assigned_vendor === "bruce" ? "Bruce" : "Gabriel";
+      return sc.text
+        .replace(/\{vendedor\}/g, vendorName)
+        .replace(/\{empresa\}/g, selectedLead.company_name)
+        .replace(/\{nome\}/g, selectedLead.contact_name || "Diretor")
+        .replace(/\{demo_url\}/g, selectedLead.demo_url);
+    }
+
+    function copyActiveScript() {
+      const text = document.getElementById("scriptDisplay").textContent;
+      navigator.clipboard.writeText(text);
+      alert("Script copiado para a área de transferência!");
+    }
+
+    async function handleStartCall() {
+      if (!selectedLead) return;
+      openLogModal('general');
+    }
+
+    async function loadLeadHistory(slug) {
+      const box = document.getElementById("leadHistoryBox");
+      try {
+        let list = [];
+        try {
+          const res = await fetch(`/api/sales/leads/${slug}/interactions`);
+          if (res.ok) {
+            const data = await res.json();
+            list = data.interactions || data;
+          }
+        } catch(e) {}
+
+        // Local storage fallback history
+        if (list.length === 0) {
+          const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+          if (stored[slug] && stored[slug].history) {
+            list = stored[slug].history;
+          }
+        }
+
+        if (!list || list.length === 0) {
+          box.innerHTML = selectedLead.notes
+            ? `<div style="color:#e5e7eb;"><strong>Última Resposta:</strong> ${selectedLead.notes}</div>`
+            : "Nenhuma resposta anotada ainda.";
+          return;
+        }
+
+        box.innerHTML = list.map(item => `
+          <div style="border-bottom:1px solid rgba(255,255,255,0.06);padding-bottom:4px;">
+            <div style="display:flex;justify-content:space-between;color:var(--color-gold);font-weight:600;">
+              <span>${item.call_outcome ? item.call_outcome.toUpperCase() : 'LIGAÇÃO'}</span>
+              <span class="tabular" style="font-size:0.7rem;color:var(--color-text-secondary);">${new Date(item.created_at).toLocaleString("pt-BR")}</span>
+            </div>
+            <div style="color:#e5e7eb;margin-top:2px;font-style:italic;">"${item.notes || 'Sem observações'}"</div>
+          </div>
+        `).join("");
+      } catch (e) {
+        box.innerHTML = "Histórico registrado.";
+      }
+    }
+
+    /* MODAL MANAGEMENT COM ANOTAÇÃO OBRIGATÓRIA */
+    function openLogModal(mode) {
+      if (!selectedLead) {
+        alert("Selecione um cliente primeiro.");
+        return;
+      }
+      const modal = document.getElementById("logModal");
+      document.getElementById("modalTitle").textContent = `Registrar Resposta da Ligação — ${selectedLead.company_name}`;
+      document.getElementById("modalStage").value = selectedLead.stage;
+      document.getElementById("modalClassification").value = selectedLead.classification;
+      document.getElementById("modalNextAction").value = selectedLead.next_action || "";
+      document.getElementById("modalNotes").value = "";
+      document.getElementById("modalScheduledAt").value = "";
+      document.getElementById("modalDealValue").value = "";
+
+      if (mode === "hot") {
+        document.getElementById("modalClassification").value = "HOT";
+        document.getElementById("modalCallOutcome").value = "interested";
+        document.getElementById("modalStage").value = "qualificacao";
+      } else if (mode === "deal") {
+        document.getElementById("modalClassification").value = "HOT";
+        document.getElementById("modalCallOutcome").value = "deal_closed";
+        document.getElementById("modalStage").value = "fechamento";
+        document.getElementById("groupDealValue").style.display = "block";
+      } else if (mode === "lost") {
+        document.getElementById("modalClassification").value = "LOST";
+        document.getElementById("modalCallOutcome").value = "rejected";
+        document.getElementById("modalStage").value = "perdido";
+      } else if (mode === "no_answer") {
+        document.getElementById("modalCallOutcome").value = "no_answer";
+        document.getElementById("modalNextAction").value = "Retomar ligação em outro turno";
+      }
+
+      modal.classList.add("open");
+      document.getElementById("modalNotes").focus();
+    }
+
+    function closeLogModal() {
+      document.getElementById("logModal").classList.remove("open");
+    }
+
+    function syncOutcomeToStage() {
+      const outcome = document.getElementById("modalCallOutcome").value;
+      const groupVal = document.getElementById("groupDealValue");
+      if (outcome === "deal_closed") {
+        groupVal.style.display = "block";
+        document.getElementById("modalStage").value = "fechamento";
+        document.getElementById("modalClassification").value = "HOT";
+      } else {
+        groupVal.style.display = "none";
+        if (outcome === "answered") {
+          document.getElementById("modalStage").value = "primeira_ligacao";
+        } else if (outcome === "interested") {
+          document.getElementById("modalStage").value = "qualificacao";
+          document.getElementById("modalClassification").value = "HOT";
+        } else if (outcome === "proposal_sent") {
+          document.getElementById("modalStage").value = "proposta";
+          document.getElementById("modalClassification").value = "HOT";
+        } else if (outcome === "rejected") {
+          document.getElementById("modalStage").value = "perdido";
+          document.getElementById("modalClassification").value = "LOST";
+        } else if (outcome === "no_answer") {
+          document.getElementById("modalNextAction").value = "Retomar ligação em novo turno";
+        }
+      }
+    }
+
+    async function submitInteraction(e) {
+      e.preventDefault();
+      if (!selectedLead) return;
+
+      const outcome = document.getElementById("modalCallOutcome").value;
+      const stage = document.getElementById("modalStage").value;
+      const classification = document.getElementById("modalClassification").value;
+      const nextAction = document.getElementById("modalNextAction").value.trim();
+      const scheduledAt = document.getElementById("modalScheduledAt").value;
+      const notes = document.getElementById("modalNotes").value.trim();
+      const dealVal = document.getElementById("modalDealValue").value;
+
+      // REGRA: Anotação é OBRIGATÓRIA
+      if (!notes) {
+        alert("REGRA OPERACIONAL BRAG: É obrigatório anotar a resposta da ligação antes de salvar!");
+        document.getElementById("modalNotes").focus();
+        return;
+      }
+
+      // REGRA: HOT e NÃO ATENDEU exigem próxima ação para recall
+      if ((classification === "HOT" || outcome === "no_answer") && !nextAction) {
+        alert("Atenção: Defina a próxima ação para garantir o retorno deste lead!");
+        document.getElementById("modalNextAction").focus();
+        return;
+      }
+
+      // Update client-side lead immediately
+      selectedLead.calls_made = (selectedLead.calls_made || 0) + 1;
+      if (outcome !== "no_answer") {
+        selectedLead.calls_answered = (selectedLead.calls_answered || 0) + 1;
+      }
+      selectedLead.last_call_outcome = outcome;
+      selectedLead.stage = stage;
+      selectedLead.classification = classification;
+      selectedLead.next_action = nextAction;
+      selectedLead.notes = notes;
+      selectedLead.last_interaction_at = new Date().toISOString();
+      if (scheduledAt) selectedLead.scheduled_callback_at = scheduledAt;
+      if (dealVal) selectedLead.deal_value = parseFloat(dealVal);
+
+      // Persist locally in LocalStorage (permite persistência mesmo em Vercel estático)
+      try {
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+        if (!stored[selectedLead.slug]) stored[selectedLead.slug] = {history: []};
+        stored[selectedLead.slug].calls_made = selectedLead.calls_made;
+        stored[selectedLead.slug].calls_answered = selectedLead.calls_answered;
+        stored[selectedLead.slug].last_call_outcome = outcome;
+        stored[selectedLead.slug].last_interaction_at = selectedLead.last_interaction_at;
+        stored[selectedLead.slug].classification = classification;
+        stored[selectedLead.slug].stage = stage;
+        stored[selectedLead.slug].notes = notes;
+        stored[selectedLead.slug].next_action = nextAction;
+        stored[selectedLead.slug].scheduled_callback_at = scheduledAt;
+        stored[selectedLead.slug].history.unshift({
+          created_at: new Date().toISOString(),
+          call_outcome: outcome,
+          notes: notes,
+          stage: stage
+        });
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      } catch (e) {}
+
+      // Try sending to backend server if available
+      try {
+        await fetch("/api/sales/interaction", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({
+            slug: selectedLead.slug,
+            vendor: selectedLead.assigned_vendor,
+            interaction_type: outcome === "deal_closed" ? "deal_closed" : "call",
+            script_used: document.getElementById("scriptSelector").value,
+            call_outcome: outcome,
+            notes: notes,
+            next_action: nextAction,
+            scheduled_at: scheduledAt,
+            new_classification: classification,
+            new_stage: stage,
+            deal_value: dealVal ? parseFloat(dealVal) : null
+          })
+        });
+      } catch (err) {}
+
+      closeLogModal();
+      globalStats = {
+        bruce: computeVendorStats(allLeads.filter(x => x.assigned_vendor === "bruce")),
+        gabriel: computeVendorStats(allLeads.filter(x => x.assigned_vendor === "gabriel")),
+        general: computeVendorStats(allLeads)
+      };
+      renderStats();
+      updateOutcomePillsCount();
+      applyFilters();
+      selectLead(selectedLead.slug);
+    }
+
+    async function triggerRedistribute() {
+      if (!confirm("Deseja re-executar a distribuição proporcional das demonstrações entre Bruce e Gabriel?")) return;
+      try {
+        const res = await fetch("/api/sales/distribute", {method: "POST"});
+        if (res.ok) {
+          alert("Distribuição 229/229 realizada com sucesso!");
+          await loadData();
+        }
+      } catch (e) {
+        alert("Erro ao redistribuir: " + e);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Boot
+    loadData();
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+# BRAG Lead Hunter — Zero-dependency standard library runtime (Python 3.12+)
+# Built with Python stdlib (sqlite3, urllib.request, html.parser, http.server, unittest)
+# Optional packages if you wish to extend with external runners:
+# pytest>=8.0.0
