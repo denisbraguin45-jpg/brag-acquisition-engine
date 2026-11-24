@@ -1463,7 +1463,7 @@ def render_sales_module_html() -> str:
         return;
       }}
 
-      let csv = "Data_Hora;Vendedor;Empresa;Contato;Telefone;Cidade;Estado;Demo_URL;Link_Reuniao;Pauta_Notas\n";
+      const csvRows = ["Data_Hora;Vendedor;Empresa;Contato;Telefone;Cidade;Estado;Demo_URL;Link_Reuniao;Pauta_Notas"];
       list.forEach(d => {{
         const dt = d.meeting_scheduled_at ? new Date(d.meeting_scheduled_at).toLocaleString("pt-BR") : "";
         const row = [
@@ -1478,10 +1478,10 @@ def render_sales_module_html() -> str:
           `"${{d.meeting_link || ""}}"`,
           `"${{(d.meeting_notes || d.notes || "").replace(/"/g, '""')}}"`
         ];
-        csv += row.join(";") + "\n";
+        csvRows.push(row.join(";"));
       }});
 
-      const blob = new Blob([csv], {{ type: "text/csv;charset=utf-8;" }});
+      const blob = new Blob([csvRows.join(String.fromCharCode(10)) + String.fromCharCode(10)], {{ type: "text/csv;charset=utf-8;" }});
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
