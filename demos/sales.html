@@ -43,7 +43,103 @@
       padding: var(--space-5);
       line-height: 1.45;
     }
-    .wrap { max-width: 104rem; margin: 0 auto; }
+    .wrap { max-width: 100%; padding: 0 1rem; margin: 0 auto; }
+    
+    /* Responsive enlarged layout & mobile calling bar */
+    .sales-workspace {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(420px, 1fr);
+      gap: 1.25rem;
+      align-items: start;
+    }
+    @media (max-width: 1200px) {
+      .sales-workspace { grid-template-columns: 1fr; }
+      .assistant-sidebar { position: static; max-height: none; }
+    }
+    @media (max-width: 768px) {
+      body { padding: 0.75rem 0.5rem 5.5rem 0.5rem; }
+      .wrap { padding: 0; }
+      .header { flex-direction: column; align-items: flex-start; }
+      .partner-tab { padding: 0.75rem; }
+      .partner-tab-title { font-size: 1.15rem; }
+      .toolbar { padding: 0.6rem; }
+      th, td { padding: 0.75rem 0.5rem; font-size: 0.88rem; }
+    }
+    
+    /* Dedicated quick call buttons */
+    .btn-call-direct {
+      background: #10b981;
+      border: 1px solid #059669;
+      color: #ffffff;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-call-direct:hover {
+      background: #059669;
+      color: #ffffff;
+    }
+    .btn-wa-call {
+      background: #25d366;
+      border: 1px solid #1ebe57;
+      color: #09090b;
+      padding: 0.45rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 800;
+      border-radius: 4px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn-wa-call:hover {
+      background: #1ebe57;
+      color: #ffffff;
+    }
+
+    /* Floating Mobile Call Action Bar */
+    .mobile-float-bar {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #121217;
+      border-top: 2px solid var(--color-gold);
+      padding: 0.75rem 1rem;
+      z-index: 9998;
+      box-shadow: 0 -8px 24px rgba(0,0,0,0.7);
+    }
+    .mobile-float-inner {
+      max-width: 48rem;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .mobile-float-leadinfo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+    .mobile-float-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0.5rem;
+    }
+    @media (max-width: 900px) {
+      .mobile-float-bar { display: block; }
+    }
     header {
       display: flex;
       justify-content: space-between;
@@ -866,8 +962,11 @@
 
         <!-- QUICK ACTION BUTTONS -->
         <div class="action-btn-grid">
-          <a id="btnCallLead" href="#" class="btn-action btn-call" onclick="handleStartCall()">
-            📞 Iniciar Ligação
+          <a id="btnCallLead" href="#" class="btn-action btn-call" style="font-size:0.88rem;padding:0.75rem;" onclick="handleStartCall()">
+            📞 Ligar Direto (Celular)
+          </a>
+          <a id="btnWaCallLead" href="#" target="_blank" rel="noopener" class="btn-action btn-wa" style="font-size:0.88rem;padding:0.75rem;" onclick="recordQuickWaCall(selectedLead?.slug)">
+            📱 Ligar no WhatsApp (Sem Ban)
           </a>
           <a id="btnOpenDemo" href="#" target="_blank" rel="noopener" class="btn-action btn-demo">
             🌐 Abrir Demo
@@ -1490,6 +1589,45 @@ Deseja copiar a mensagem de confirmação para mandar no WhatsApp de ${selectedL
       URL.revokeObjectURL(url);
     }
 
+    
+    function buildWhatsAppChatOrCallUrl(item) {
+      const phoneDigits = (item.whatsapp_e164 || item.phone || "").replace(/\D/g, "");
+      if (!phoneDigits) return "#";
+      // Link direto para abrir a tela de conversa/chamada no WhatsApp sem pré-enviar texto (para ligar direto antes de mandar msg)
+      return `https://wa.me/${phoneDigits}`;
+    }
+
+    function recordQuickCall(slug) {
+      const item = allLeads.find(x => x.slug === slug);
+      if (!item) return;
+      item.calls_made = (item.calls_made || 0) + 1;
+      item.last_interaction_at = new Date().toISOString();
+      item.last_call_outcome = item.last_call_outcome || "calling";
+      syncSingleLeadUpdate(item);
+    }
+
+    function recordQuickWaCall(slug) {
+      const item = allLeads.find(x => x.slug === slug);
+      if (!item) return;
+      item.calls_made = (item.calls_made || 0) + 1;
+      item.last_interaction_at = new Date().toISOString();
+      item.last_call_outcome = "wa_call_started";
+      syncSingleLeadUpdate(item);
+    }
+
+    function syncSingleLeadUpdate(item) {
+      try {
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+        stored[item.slug] = Object.assign(stored[item.slug] || {}, {
+          calls_made: item.calls_made,
+          last_interaction_at: item.last_interaction_at,
+          last_call_outcome: item.last_call_outcome
+        });
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      } catch (e) {}
+      updateOutcomePillsCount();
+    }
+
     function syncLocalStoredInteractions() {
       try {
         const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
@@ -1701,8 +1839,18 @@ Deseja copiar a mensagem de confirmação para mandar no WhatsApp de ${selectedL
               <div style="font-size:0.7rem;color:var(--color-text-secondary);">${escapeHtml(d.segment)}</div>
             </td>
             <td>${instaCol}</td>
-            <td class="tabular">
-              <div style="color:#10b981;font-weight:600;font-size:0.84rem;">${escapeHtml(d.phone)}</div>
+            <td class="tabular" style="min-width:180px;">
+              <div style="color:#10b981;font-weight:700;font-size:0.92rem;letter-spacing:0.02em;margin-bottom:4px;">
+                ${escapeHtml(d.phone || "Sem telefone")}
+              </div>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                <a href="${d.phone ? ('tel:+' + (d.phone).replace(/\D/g, '')) : '#'}" class="btn-call-direct" onclick="event.stopPropagation(); recordQuickCall('${d.slug}');" title="Ligar Direto pelo Celular (Linha Telefônica)">
+                  📞 Ligar
+                </a>
+                <a href="${buildWhatsAppChatOrCallUrl(d)}" target="_blank" rel="noopener" class="btn-wa-call" onclick="event.stopPropagation(); recordQuickWaCall('${d.slug}');" title="Ligar ou Chamar no WhatsApp sem Ban">
+                  📱 Ligar WA
+                </a>
+              </div>
             </td>
             <td>${escapeHtml(d.city)} / ${escapeHtml(d.state)}</td>
             <td>${prioBadge} <span class="tabular" style="font-size:0.75rem;color:var(--color-text-secondary);">${d.score}</span></td>
@@ -2245,6 +2393,33 @@ Lead: ${selectedLead.company_name}`);
 
       <div id="agendaEmptyNotice" style="display:none;text-align:center;padding:2.5rem 1rem;color:var(--color-text-secondary);">
         Nenhuma reunião agendada no momento. Use o botão <strong>"📅 Agendar Reunião"</strong> na barra lateral de qualquer lead que aceitou conversar!
+      </div>
+    </div>
+  </div>
+
+
+  <!-- FLOATING CALL BAR FOR MOBILE -->
+  <div id="mobileFloatBar" class="mobile-float-bar">
+    <div class="mobile-float-inner">
+      <div class="mobile-float-leadinfo">
+        <div>
+          <strong id="mLeadName" style="color:var(--color-gold);font-family:var(--font-display);font-size:1.1rem;text-transform:uppercase;">Selecione um cliente</strong>
+          <span id="mLeadPhone" style="margin-left:8px;font-family:var(--font-mono);color:#34d399;font-size:0.88rem;">-</span>
+        </div>
+        <button type="button" class="btn-top" style="padding:0.2rem 0.5rem;font-size:0.72rem;" onclick="openLogModal('general')">
+          📝 Anotar
+        </button>
+      </div>
+      <div class="mobile-float-actions">
+        <a id="mBtnCallDirect" href="#" class="btn-call-direct" style="justify-content:center;padding:0.65rem;font-size:0.85rem;" onclick="recordQuickCall(selectedLead?.slug)">
+          📞 Ligar Celular
+        </a>
+        <a id="mBtnCallWa" href="#" target="_blank" rel="noopener" class="btn-wa-call" style="justify-content:center;padding:0.65rem;font-size:0.85rem;" onclick="recordQuickWaCall(selectedLead?.slug)">
+          📱 Ligar WA
+        </a>
+        <button type="button" id="mBtnSendWa" class="btn-top btn-top-gold" style="justify-content:center;padding:0.65rem;font-size:0.85rem;" onclick="sendWhatsAppForCurrentLead()">
+          ⚡ Msg 1-Clique
+        </button>
       </div>
     </div>
   </div>
