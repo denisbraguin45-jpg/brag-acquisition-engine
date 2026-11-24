@@ -565,6 +565,9 @@
         <a href="/demos/crm.html" class="btn-top" style="border-color:var(--color-emerald);background:rgba(16,185,129,0.18);">
           📱 Base CRM (WhatsApp)
         </a>
+        <button type="button" class="btn-top" style="border-color:#f59e0b;background:rgba(245,158,11,0.18);color:#fbbf24;font-weight:700;" onclick="openAgendaModal()">
+          📅 Abrir Agenda de Reuniões (<span id="topAgendaCount">0</span>)
+        </button>
         <button type="button" class="btn-top" onclick="triggerRedistribute()">
           🔄 Re-sincronizar Distribuição
         </button>
@@ -681,6 +684,9 @@
       </button>
       <button type="button" class="outcome-pill-btn" id="pillInterested" onclick="setOutcomeFilter('interested')">
         🔥 Demonstrou Interesse (<span id="countPillInterested">0</span>)
+      </button>
+      <button type="button" class="outcome-pill-btn" style="border-color:#ea580c;color:#fdba74;" id="pillMeeting" onclick="setOutcomeFilter('meeting')">
+        📅 Reuniões Agendadas (<span id="countPillMeeting">0</span>)
       </button>
       <button type="button" class="outcome-pill-btn pill-retry" id="pillNoAnswer" onclick="setOutcomeFilter('no_answer')">
         🔄 Não Atendeu · Retomar Ligação (<span id="countPillNoAnswer">0</span>)
@@ -872,6 +878,9 @@
           <button type="button" class="btn-action" style="background:#18181b;color:var(--color-gold);border-color:rgba(223,184,88,0.4);" onclick="copyLeadMessage()">
             📋 Copiar Mensagem
           </button>
+          <button type="button" class="btn-action" style="background:#7c2d12;border-color:#ea580c;color:#fed7aa;font-weight:700;" onclick="openScheduleMeetingModal()">
+            📅 Agendar Reunião
+          </button>
           <button type="button" class="btn-action btn-hot" onclick="openLogModal('hot')">
             🔥 Marcar HOT
           </button>
@@ -907,6 +916,7 @@
             <option value="script_7">SCRIPT 7 — OBJEÇÃO: VOU PENSAR</option>
             <option value="script_8">SCRIPT 8 — NÃO ATENDEU (REAGENDAR RETORNO)</option>
             <option value="script_9">SCRIPT 9 — FOLLOW-UP</option>
+            <option value="script_10">SCRIPT 10 — CONFIRMAÇÃO DE REUNIÃO (AGENDADA)</option>
             <option value="script_mensagem">💬 SCRIPT DE MENSAGEM (WHATSAPP &amp; INSTAGRAM DIRECT)</option>
           </select>
           <div id="scriptDisplay" class="script-text">Carregando script...</div>
@@ -1009,7 +1019,7 @@
   </div>
 
   <script>
-    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}, "script_mensagem": {"id": "script_mensagem", "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT", "stage": "mensagem_direta", "text": "Olá, diretoria da *{empresa}*! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nAcompanhamos a presença de vocês no Instagram e notamos que a vitrine digital de vocês ainda não conta com um catálogo moderno, rápido e com showroom filtrável no celular.\n\nEm vez de enviar uma apresentação comercial teórica, nós desenvolvemos e colocamos no ar uma demonstração personalizada exclusiva para a *{empresa}*:\n\n{demo_url}\n\nPodem abrir direto no celular para testar a experiência. O projeto já está estruturado. Gostaria de entender se faz sentido ativarmos essa vitrine oficial para vocês!"}};
+    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}, "script_10": {"id": "script_10", "title": "SCRIPT 10 — CONFIRMAÇÃO DE REUNIÃO (AGENDADA)", "stage": "reuniao_agendada", "text": "Olá, {nome}! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nConfirmando nossa reunião agendada para conversarmos sobre a implementação oficial do Showroom Digital da {empresa}.\n\n📌 Data e Horário: {meeting_time}\n🌐 Demonstração do Projeto: {demo_url}\n\nEstarei pronto para te apresentar os detalhes técnicos e comerciais em 15 minutos objetivos. Qualquer ajuste de horário só me avisar por aqui!"}, "script_mensagem": {"id": "script_mensagem", "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT", "stage": "mensagem_direta", "text": "Olá, diretoria da *{empresa}*! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nAcompanhamos a presença de vocês no Instagram e notamos que a vitrine digital de vocês ainda não conta com um catálogo moderno, rápido e com showroom filtrável no celular.\n\nEm vez de enviar uma apresentação comercial teórica, nós desenvolvemos e colocamos no ar uma demonstração personalizada exclusiva para a *{empresa}*:\n\n{demo_url}\n\nPodem abrir direto no celular para testar a experiência. O projeto já está estruturado. Gostaria de entender se faz sentido ativarmos essa vitrine oficial para vocês!"}};
     let currentVendorView = "bruce";
     let currentOutcomeFilter = "all";
     let allLeads = [];
@@ -1146,6 +1156,342 @@ Esta ação removerá o contato inválido da lista de vendas e recalculará as m
       deleteLeadBySlug(selectedLead.slug, selectedLead.company_name);
     }
 
+    
+    let agendaVendorFilter = "all";
+
+    function openAgendaModal() {
+      renderAgendaTable();
+      document.getElementById("agendaModal").classList.add("open");
+    }
+
+    function closeAgendaModal() {
+      document.getElementById("agendaModal").classList.remove("open");
+    }
+
+    function setAgendaVendorFilter(v) {
+      agendaVendorFilter = v;
+      ["all", "bruce", "gabriel"].forEach(name => {
+        const btn = document.getElementById("agendaFilter" + name.charAt(0).toUpperCase() + name.slice(1));
+        if (btn) {
+          if (name === v) {
+            btn.style.background = "#ffffff";
+            btn.style.color = "#09090b";
+            btn.style.fontWeight = "700";
+          } else {
+            btn.style.background = "";
+            btn.style.color = "";
+            btn.style.fontWeight = "";
+          }
+        }
+      });
+      renderAgendaTable();
+    }
+
+    function openScheduleMeetingModal() {
+      if (!selectedLead) {
+        alert("Selecione um cliente primeiro.");
+        return;
+      }
+      document.getElementById("schMeetingCompany").value = selectedLead.company_name;
+      document.getElementById("schMeetingContact").value = selectedLead.contact_name || "";
+      document.getElementById("schMeetingLink").value = selectedLead.meeting_link || "";
+      document.getElementById("schMeetingNotes").value = selectedLead.meeting_notes || selectedLead.notes || "";
+      
+      // Default to tomorrow 10:00 if not set
+      if (selectedLead.meeting_scheduled_at) {
+        const dt = new Date(selectedLead.meeting_scheduled_at);
+        const yyyy = dt.getFullYear();
+        const mm = String(dt.getMonth() + 1).padStart(2, '0');
+        const dd = String(dt.getDate()).padStart(2, '0');
+        const hh = String(dt.getHours()).padStart(2, '0');
+        const min = String(dt.getMinutes()).padStart(2, '0');
+        document.getElementById("schMeetingDatetime").value = `${yyyy}-${mm}-${dd}T${hh}:${min}`;
+      } else {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(10, 0, 0, 0);
+        const yyyy = tomorrow.getFullYear();
+        const mm = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const dd = String(tomorrow.getDate()).padStart(2, '0');
+        document.getElementById("schMeetingDatetime").value = `${yyyy}-${mm}-${dd}T10:00`;
+      }
+
+      document.getElementById("scheduleMeetingModal").classList.add("open");
+    }
+
+    function closeScheduleMeetingModal() {
+      document.getElementById("scheduleMeetingModal").classList.remove("open");
+    }
+
+    async function submitScheduledMeeting(e) {
+      e.preventDefault();
+      if (!selectedLead) return;
+
+      const dt = document.getElementById("schMeetingDatetime").value;
+      const contact = document.getElementById("schMeetingContact").value.trim();
+      const link = document.getElementById("schMeetingLink").value.trim();
+      const notes = document.getElementById("schMeetingNotes").value.trim();
+
+      if (!dt) {
+        alert("Por favor selecione a data e o horário da reunião.");
+        return;
+      }
+
+      // Atualiza o lead
+      selectedLead.meeting_scheduled_at = dt;
+      selectedLead.scheduled_callback_at = dt;
+      selectedLead.meeting_link = link;
+      selectedLead.meeting_notes = notes;
+      selectedLead.last_call_outcome = "meeting_set";
+      selectedLead.stage = "reuniao_agendada";
+      selectedLead.classification = "HOT";
+      if (contact) selectedLead.contact_name = contact;
+      selectedLead.next_action = `Reunião agendada para ${new Date(dt).toLocaleString('pt-BR')}`;
+      selectedLead.last_interaction_at = new Date().toISOString();
+
+      // Salva no LocalStorage
+      try {
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+        stored[selectedLead.slug] = Object.assign(stored[selectedLead.slug] || {}, {
+          meeting_scheduled_at: dt,
+          scheduled_callback_at: dt,
+          meeting_link: link,
+          meeting_notes: notes,
+          contact_name: selectedLead.contact_name,
+          last_call_outcome: "meeting_set",
+          stage: "reuniao_agendada",
+          classification: "HOT",
+          next_action: selectedLead.next_action,
+          last_interaction_at: selectedLead.last_interaction_at
+        });
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      } catch (err) {}
+
+      // Envia ao backend local se disponível
+      try {
+        await fetch("/api/sales/interaction", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slug: selectedLead.slug,
+            vendor: selectedLead.assigned_vendor,
+            interaction_type: "call",
+            script_used: "script_10",
+            call_outcome: "meeting_set",
+            notes: notes || "Reunião agendada com decisor",
+            next_action: selectedLead.next_action,
+            scheduled_at: dt,
+            new_classification: "HOT",
+            new_stage: "reuniao_agendada",
+            meeting_scheduled_at: dt,
+            meeting_notes: notes
+          })
+        });
+      } catch (err) {}
+
+      closeScheduleMeetingModal();
+      updateAgendaCounts();
+      updateOutcomePillsCount();
+      applyFilters();
+      selectLead(selectedLead.slug);
+
+      // Oferece copiar o script de confirmação
+      if (confirm(`Reunião agendada com sucesso para ${new Date(dt).toLocaleString('pt-BR')}!
+
+Deseja copiar a mensagem de confirmação para mandar no WhatsApp de ${selectedLead.company_name} agora?`)) {
+        sendMeetingConfirmationWhatsApp(selectedLead.slug);
+      }
+    }
+
+    function sendMeetingConfirmationWhatsApp(slug) {
+      const item = allLeads.find(x => x.slug === slug);
+      if (!item) return;
+
+      const vendorName = item.assigned_vendor === "bruce" ? "Bruce" : "Gabriel";
+      const dtStr = item.meeting_scheduled_at ? new Date(item.meeting_scheduled_at).toLocaleString("pt-BR") : "Horário a combinar";
+      const contactName = item.contact_name || "Diretoria";
+      
+      const msg = `Olá, ${contactName}! Tudo bem? Aqui é ${vendorName}, da BRAG International.
+
+` +
+        `Confirmando nossa reunião agendada para conversarmos sobre a implementação oficial do Showroom Digital da *${item.company_name}*:
+
+` +
+        `📌 Data e Horário: ${dtStr}
+` +
+        (item.meeting_link ? `🌐 Link da Reunião: ${item.meeting_link}
+` : ``) +
+        `📱 Demonstração do Projeto: ${item.demo_url}
+
+` +
+        `Estarei pronto para te apresentar os detalhes técnicos e comerciais em 15 minutos objetivos. Qualquer ajuste de horário só me avisar por aqui!`;
+
+      navigator.clipboard.writeText(msg);
+
+      const phoneClean = (item.whatsapp_e164 || item.phone || "").replace(/\D/g, "");
+      if (phoneClean) {
+        window.open(`https://wa.me/${phoneClean}?text=${encodeURIComponent(msg)}`, "_blank", "noopener,noreferrer");
+      } else {
+        alert("Mensagem de confirmação copiada para a área de transferência!");
+      }
+    }
+
+    function getScheduledMeetingsList() {
+      return allLeads.filter(d => {
+        return !!d.meeting_scheduled_at || d.stage === "reuniao_agendada" || d.last_call_outcome === "meeting_set";
+      }).sort((a, b) => {
+        const tA = a.meeting_scheduled_at ? new Date(a.meeting_scheduled_at).getTime() : 0;
+        const tB = b.meeting_scheduled_at ? new Date(b.meeting_scheduled_at).getTime() : 0;
+        return tA - tB;
+      });
+    }
+
+    function updateAgendaCounts() {
+      const allMeetings = getScheduledMeetingsList();
+      const bruceMeetings = allMeetings.filter(x => x.assigned_vendor === "bruce");
+      const gabrielMeetings = allMeetings.filter(x => x.assigned_vendor === "gabriel");
+
+      const topCountEl = document.getElementById("topAgendaCount");
+      if (topCountEl) topCountEl.textContent = allMeetings.length;
+
+      const pillMeetingCount = document.getElementById("countPillMeeting");
+      if (pillMeetingCount) {
+        const base = allLeads.filter(d => currentVendorView === "general" || d.assigned_vendor === currentVendorView);
+        pillMeetingCount.textContent = base.filter(d => !!d.meeting_scheduled_at || d.stage === "reuniao_agendada" || d.last_call_outcome === "meeting_set").length;
+      }
+
+      const kpiTot = document.getElementById("agendaKpiTotal");
+      if (kpiTot) kpiTot.textContent = allMeetings.length;
+
+      const kpiB = document.getElementById("agendaKpiBruce");
+      if (kpiB) kpiB.textContent = bruceMeetings.length;
+
+      const kpiG = document.getElementById("agendaKpiGabriel");
+      if (kpiG) kpiG.textContent = gabrielMeetings.length;
+
+      const kpiNext = document.getElementById("agendaKpiNext");
+      if (kpiNext) {
+        const now = new Date().getTime();
+        const upcoming = allMeetings.filter(x => x.meeting_scheduled_at && new Date(x.meeting_scheduled_at).getTime() >= (now - 3600000));
+        if (upcoming.length > 0) {
+          const first = upcoming[0];
+          const d = new Date(first.meeting_scheduled_at);
+          kpiNext.textContent = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth()+1).padStart(2, '0')} às ${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
+        } else if (allMeetings.length > 0) {
+          kpiNext.textContent = `${allMeetings.length} agendada(s)`;
+        } else {
+          kpiNext.textContent = "Nenhuma";
+        }
+      }
+    }
+
+    function renderAgendaTable() {
+      const q = (document.getElementById("agendaSearch")?.value || "").toLowerCase().trim();
+      let list = getScheduledMeetingsList();
+
+      if (agendaVendorFilter !== "all") {
+        list = list.filter(x => x.assigned_vendor === agendaVendorFilter);
+      }
+
+      if (q) {
+        list = list.filter(x => {
+          const hay = `${x.company_name} ${x.contact_name} ${x.phone} ${x.city} ${x.state} ${x.meeting_notes}`.toLowerCase();
+          return hay.includes(q);
+        });
+      }
+
+      const tbody = document.getElementById("agendaTableBody");
+      const empty = document.getElementById("agendaEmptyNotice");
+      if (!tbody) return;
+
+      if (list.length === 0) {
+        tbody.innerHTML = "";
+        if (empty) empty.style.display = "block";
+        return;
+      }
+      if (empty) empty.style.display = "none";
+
+      tbody.innerHTML = list.map(d => {
+        const dtFormatted = d.meeting_scheduled_at
+          ? new Date(d.meeting_scheduled_at).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" })
+          : "Horário a definir";
+
+        const vendorBadge = d.assigned_vendor === "bruce"
+          ? `<span style="color:#fbbf24;font-weight:700;font-family:var(--font-mono);font-size:0.75rem;">BRUCE</span>`
+          : `<span style="color:#93c5fd;font-weight:700;font-family:var(--font-mono);font-size:0.75rem;">GABRIEL</span>`;
+
+        return `
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.06);">
+            <td style="padding:0.65rem 0.5rem;font-family:var(--font-mono);color:#fbbf24;font-weight:700;">
+              ⏰ ${dtFormatted}
+            </td>
+            <td style="padding:0.65rem 0.5rem;">
+              ${vendorBadge}
+            </td>
+            <td style="padding:0.65rem 0.5rem;">
+              <strong style="color:#ffffff;font-size:0.95rem;">${escapeHtml(d.company_name)}</strong>
+              <div style="font-size:0.75rem;color:var(--color-text-secondary);">${escapeHtml(d.contact_name || "Diretoria")} · ${escapeHtml(d.city)}/${escapeHtml(d.state)}</div>
+            </td>
+            <td style="padding:0.65rem 0.5rem;font-family:var(--font-mono);color:#34d399;">
+              ${escapeHtml(d.phone || d.whatsapp_e164)}
+            </td>
+            <td style="padding:0.65rem 0.5rem;font-size:0.78rem;color:#d1d5db;max-width:18rem;">
+              ${escapeHtml(d.meeting_notes || d.notes || "Apresentação do showroom interativo")}
+            </td>
+            <td style="padding:0.65rem 0.5rem;text-align:right;">
+              <div style="display:inline-flex;gap:4px;">
+                <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;background:#25d366;color:#09090b;font-weight:700;border-color:#25d366;" title="Enviar Confirmação WhatsApp" onclick="sendMeetingConfirmationWhatsApp('${d.slug}')">
+                  💬 Confirmar WA
+                </button>
+                <a href="${d.demo_url}" target="_blank" rel="noopener" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;">
+                  🌐 Demo
+                </a>
+                <button type="button" class="btn-top" style="padding:0.25rem 0.5rem;font-size:0.72rem;" onclick="closeAgendaModal(); selectLead('${d.slug}');">
+                  Ver Lead
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function exportAgendaToCsv() {
+      const list = getScheduledMeetingsList();
+      if (list.length === 0) {
+        alert("Nenhuma reunião agendada para exportar.");
+        return;
+      }
+
+      let csv = "Data_Hora;Vendedor;Empresa;Contato;Telefone;Cidade;Estado;Demo_URL;Link_Reuniao;Pauta_Notas
+";
+      list.forEach(d => {
+        const dt = d.meeting_scheduled_at ? new Date(d.meeting_scheduled_at).toLocaleString("pt-BR") : "";
+        const row = [
+          `"${dt}"`,
+          `"${d.assigned_vendor}"`,
+          `"${d.company_name.replace(/"/g, '""')}"`,
+          `"${(d.contact_name || "").replace(/"/g, '""')}"`,
+          `"${d.phone || d.whatsapp_e164 || ""}"`,
+          `"${d.city || ""}"`,
+          `"${d.state || ""}"`,
+          `"${d.demo_url || ""}"`,
+          `"${d.meeting_link || ""}"`,
+          `"${(d.meeting_notes || d.notes || "").replace(/"/g, '""')}"`
+        ];
+        csv += row.join(";") + "
+";
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `brag_agenda_reunioes_${new Date().toISOString().slice(0, 10)}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     function syncLocalStoredInteractions() {
       try {
         const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
@@ -1207,6 +1553,7 @@ Esta ação removerá o contato inválido da lista de vendas e recalculará as m
         "pending": "pillPending",
         "answered": "pillAnswered",
         "interested": "pillInterested",
+        "meeting": "pillMeeting",
         "no_answer": "pillNoAnswer",
         "deal": "pillDeal"
       };
@@ -1301,6 +1648,7 @@ Esta ação removerá o contato inválido da lista de vendas e recalculará as m
         if (currentOutcomeFilter === "pending" && (d.calls_made || 0) > 0) return false;
         if (currentOutcomeFilter === "answered" && (d.calls_answered || 0) === 0) return false;
         if (currentOutcomeFilter === "interested" && !(d.classification === "HOT" || d.stage === "qualificacao" || (d.interested || 0) > 0)) return false;
+        if (currentOutcomeFilter === "meeting" && !(!!d.meeting_scheduled_at || d.stage === "reuniao_agendada" || d.last_call_outcome === "meeting_set")) return false;
         if (currentOutcomeFilter === "no_answer" && !(d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0))) return false;
         if (currentOutcomeFilter === "deal" && !((d.deal_closed || 0) > 0 || d.stage === "fechamento")) return false;
 
@@ -1779,5 +2127,129 @@ Lead: ${selectedLead.company_name}`);
     // Boot
     loadData();
   </script>
+
+  <!-- MODAL: AGENDAR REUNIÃO COM CLIENTE -->
+  <div id="scheduleMeetingModal" class="modal-backdrop" onclick="if(event.target===this) closeScheduleMeetingModal()">
+    <div class="modal-box" style="max-width:38rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding-bottom:0.75rem;margin-bottom:1rem;">
+        <h3 id="scheduleMeetingTitle" style="font-family:var(--font-display);font-size:1.35rem;text-transform:uppercase;color:var(--color-gold);">
+          📅 Agendar Reunião Comercial
+        </h3>
+        <button type="button" class="btn-top" onclick="closeScheduleMeetingModal()">✕</button>
+      </div>
+
+      <form id="scheduleMeetingForm" onsubmit="submitScheduledMeeting(event)">
+        <div class="form-group">
+          <label class="form-label">Cliente / Empresa</label>
+          <input type="text" id="schMeetingCompany" class="form-control" readonly style="opacity:0.85;color:#ffffff;font-weight:700;" />
+        </div>
+
+        <div class="form-group" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+          <div>
+            <label class="form-label">Data e Hora da Reunião (Obrigatório)</label>
+            <input type="datetime-local" id="schMeetingDatetime" class="form-control" required />
+          </div>
+          <div>
+            <label class="form-label">Responsável / Decisor</label>
+            <input type="text" id="schMeetingContact" class="form-control" placeholder="Nome do sócio / decisor" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Link da Reunião (Google Meet / Zoom ou WhatsApp Vídeo)</label>
+          <input type="url" id="schMeetingLink" class="form-control" placeholder="https://meet.google.com/abc-defg-hij ou deixe em branco para WhatsApp" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pauta / Observações da Reunião</label>
+          <textarea id="schMeetingNotes" class="form-control" rows="3" placeholder="Ex: Cliente tem interesse no showroom para carros blindados. Apresentar filtro mobile e proposta de R$ 1.500."></textarea>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;">
+          <button type="button" class="btn-top" onclick="closeScheduleMeetingModal()">Cancelar</button>
+          <div style="display:flex;gap:0.5rem;">
+            <button type="submit" class="btn-top btn-top-gold" style="font-weight:700;">
+              💾 Confirmar e Salvar Reunião na Agenda
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: PAINEL GERAL DA AGENDA DE REUNIÕES -->
+  <div id="agendaModal" class="modal-backdrop" onclick="if(event.target===this) closeAgendaModal()">
+    <div class="modal-box" style="max-width:68rem;max-height:90vh;overflow-y:auto;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding-bottom:0.75rem;margin-bottom:1rem;">
+        <div>
+          <div class="eyebrow" style="font-size:0.78rem;">BRAG INTERNATIONAL · GESTÃO DE REUNIÕES COMERCIAIS</div>
+          <h2 style="font-family:var(--font-display);font-size:1.6rem;text-transform:uppercase;color:#ffffff;margin-top:2px;">
+            📅 Agenda de Reuniões com Decisores
+          </h2>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center;">
+          <button type="button" class="btn-top btn-top-gold" onclick="exportAgendaToCsv()">
+            📥 Exportar Agenda (.CSV)
+          </button>
+          <button type="button" class="btn-top" onclick="closeAgendaModal()">✕ Fechar</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));gap:0.75rem;margin-bottom:1rem;">
+        <div class="kpi-card" style="padding:0.75rem 1rem;">
+          <span class="kpi-card-title">Total Agendadas</span>
+          <span class="kpi-card-value" id="agendaKpiTotal" style="color:var(--color-gold);">0</span>
+          <span class="kpi-card-sub">Toparam reunião</span>
+        </div>
+        <div class="kpi-card" style="padding:0.75rem 1rem;">
+          <span class="kpi-card-title">Carteira Bruce</span>
+          <span class="kpi-card-value" id="agendaKpiBruce" style="color:#fbbf24;">0</span>
+          <span class="kpi-card-sub">Reuniões marcadas</span>
+        </div>
+        <div class="kpi-card" style="padding:0.75rem 1rem;">
+          <span class="kpi-card-title">Carteira Gabriel</span>
+          <span class="kpi-card-value" id="agendaKpiGabriel" style="color:#93c5fd;">0</span>
+          <span class="kpi-card-sub">Reuniões marcadas</span>
+        </div>
+        <div class="kpi-card" style="padding:0.75rem 1rem;">
+          <span class="kpi-card-title">Próxima Reunião</span>
+          <span class="kpi-card-value" id="agendaKpiNext" style="font-size:1.05rem;color:#34d399;">Nenhuma</span>
+          <span class="kpi-card-sub">Horário mais próximo</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom:0.75rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+        <input type="text" id="agendaSearch" class="form-control" style="max-width:20rem;" placeholder="Buscar na agenda por empresa, contato ou cidade..." oninput="renderAgendaTable()" />
+        <div style="display:flex;gap:0.5rem;">
+          <button type="button" class="btn-top" id="agendaFilterAll" onclick="setAgendaVendorFilter('all')">Todas</button>
+          <button type="button" class="btn-top" id="agendaFilterBruce" onclick="setAgendaVendorFilter('bruce')">Bruce</button>
+          <button type="button" class="btn-top" id="agendaFilterGabriel" onclick="setAgendaVendorFilter('gabriel')">Gabriel</button>
+        </div>
+      </div>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;font-size:0.84rem;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border-subtle);text-align:left;color:var(--color-text-secondary);font-family:var(--font-mono);font-size:0.72rem;text-transform:uppercase;">
+              <th style="padding:0.5rem;">Data &amp; Hora</th>
+              <th style="padding:0.5rem;">Vendedor</th>
+              <th style="padding:0.5rem;">Empresa &amp; Contato</th>
+              <th style="padding:0.5rem;">Telefone / WhatsApp</th>
+              <th style="padding:0.5rem;">Pauta / Observação</th>
+              <th style="padding:0.5rem;text-align:right;">Ações Rápidas</th>
+            </tr>
+          </thead>
+          <tbody id="agendaTableBody">
+            <!-- Dinâmico -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="agendaEmptyNotice" style="display:none;text-align:center;padding:2.5rem 1rem;color:var(--color-text-secondary);">
+        Nenhuma reunião agendada no momento. Use o botão <strong>"📅 Agendar Reunião"</strong> na barra lateral de qualquer lead que aceitou conversar!
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

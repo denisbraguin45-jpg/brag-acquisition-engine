@@ -80,6 +80,19 @@ Conseguiu avaliar a demonstração que preparamos para a {empresa}?
 
 Gostaria de saber sua opinião e entender se podemos avançar com a implementação."""
     },
+    "script_10": {
+        "id": "script_10",
+        "title": "SCRIPT 10 — CONFIRMAÇÃO DE REUNIÃO (AGENDADA)",
+        "stage": "reuniao_agendada",
+        "text": """Olá, {nome}! Tudo bem? Aqui é {vendedor}, da BRAG International.
+
+Confirmando nossa reunião agendada para conversarmos sobre a implementação oficial do Showroom Digital da {empresa}.
+
+📌 Data e Horário: {meeting_time}
+🌐 Demonstração do Projeto: {demo_url}
+
+Estarei pronto para te apresentar os detalhes técnicos e comerciais em 15 minutos objetivos. Qualquer ajuste de horário só me avisar por aqui!"""
+    },
     "script_mensagem": {
         "id": "script_mensagem",
         "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT",
@@ -198,7 +211,9 @@ def record_interaction(
     scheduled_at: Optional[str] = None,
     new_classification: Optional[str] = None,
     new_stage: Optional[str] = None,
-    deal_value: Optional[float] = None
+    deal_value: Optional[float] = None,
+    meeting_scheduled_at: Optional[str] = None,
+    meeting_notes: Optional[str] = None
 ) -> dict[str, Any]:
     conn = sqlite3.connect(DB_PATH)
     c = conn.cursor()
