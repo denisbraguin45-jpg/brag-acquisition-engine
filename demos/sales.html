@@ -1330,7 +1330,9 @@ Esta ação removerá o contato inválido da lista de vendas e recalculará as m
           : `<span style="color:#93c5fd;font-weight:700;font-family:var(--font-mono);font-size:0.75rem;">GABRIEL #${String(d.vendor_rank).padStart(3, '0')}</span>`;
 
         let statusCallBadge = "";
-        if (!d.calls_made || d.calls_made === 0) {
+        if ((d.deal_closed || 0) > 0 || (d.deal_value || 0) > 0 || d.stage === "fechamento") {
+          statusCallBadge = `<span style="color:#10b981;font-weight:800;font-size:0.75rem;font-family:var(--font-mono);background:rgba(16,185,129,0.15);padding:0.18rem 0.45rem;border:1px solid rgba(16,185,129,0.4);border-radius:2px;">🤝 Venda Fechada (R$ ${Number(d.deal_value || 1550).toLocaleString('pt-BR')})</span>`;
+        } else if (!d.calls_made || d.calls_made === 0) {
           statusCallBadge = `<span style="color:#9ca3af;font-size:0.75rem;font-family:var(--font-mono);">⏳ Pendente</span>`;
         } else if (d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0)) {
           statusCallBadge = `<span style="color:#fbbf24;font-weight:700;font-size:0.75rem;font-family:var(--font-mono);">🔄 Não Atendeu</span>`;
