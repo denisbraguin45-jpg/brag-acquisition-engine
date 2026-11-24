@@ -802,6 +802,9 @@ def render_sales_module_html() -> str:
       <button type="button" class="outcome-pill-btn" id="pillDeal" onclick="setOutcomeFilter('deal')">
         🤝 Vendas Fechadas (<span id="countPillDeal">0</span>)
       </button>
+      <button type="button" class="outcome-pill-btn" style="border-color:#ef4444;color:#fca5a5;" id="pillLost" onclick="setOutcomeFilter('lost')">
+        ⛔ Perdidos / Desqualificados (<span id="countPillLost">0</span>)
+      </button>
     </div>
 
     <!-- 4. SIMULAÇÃO DE RECEITA POTENCIAL (TICKET MÉDIO R$ 1.500) -->
@@ -1001,8 +1004,11 @@ def render_sales_module_html() -> str:
           <button type="button" class="btn-action" style="background:#f59e0b;color:#09090b;font-weight:700;" onclick="openLogModal('no_answer')">
             🔄 Não Atendeu
           </button>
-          <button type="button" class="btn-action btn-lost" onclick="openLogModal('lost')">
-            ⛔ Marcar Perdido
+          <button type="button" class="btn-action" style="background:rgba(239,68,68,0.22);border-color:#ef4444;color:#fca5a5;font-weight:700;" onclick="quickMarkAlreadyHasSite()">
+            🚫 Já Tem Site (Perdido)
+          </button>
+          <button type="button" class="btn-action" style="background:#1e1e24;border-color:rgba(225,48,108,0.5);color:#f43f5e;font-weight:700;" onclick="openEditInstagramModal()">
+            ✏️ Corrigir Instagram
           </button>
           <button type="button" class="btn-action btn-delete" style="grid-column: span 2;" onclick="deleteCurrentLead()">
             🗑️ Excluir Contato Inválido
@@ -1023,6 +1029,7 @@ def render_sales_module_html() -> str:
             <option value="script_3">SCRIPT 3 — APRESENTAÇÃO DA DEMO</option>
             <option value="script_4">SCRIPT 4 — CLIENTE INTERESSADO</option>
             <option value="script_5">SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM</option>
+            <option value="script_objecao_site">SCRIPT 5.1 — OBJEÇÃO: JÁ TEMOS SITE (SHOWROOM MOBILE)</option>
             <option value="script_6">SCRIPT 6 — OBJEÇÃO: ESTÁ CARO</option>
             <option value="script_7">SCRIPT 7 — OBJEÇÃO: VOU PENSAR</option>
             <option value="script_8">SCRIPT 8 — NÃO ATENDEU (REAGENDAR RETORNO)</option>
@@ -1628,6 +1635,116 @@ def render_sales_module_html() -> str:
       updateOutcomePillsCount();
     }}
 
+    
+    function openEditInstagramModal() {{
+      if (!selectedLead) {{
+        alert("Selecione um cliente primeiro.");
+        return;
+      }}
+      document.getElementById("editLeadName").value = selectedLead.company_name;
+      document.getElementById("editLeadInstagram").value = selectedLead.instagram_username || "";
+      document.getElementById("editLeadPhone").value = selectedLead.phone || "";
+      document.getElementById("editInstagramModal").classList.add("open");
+    }}
+
+    function closeEditInstagramModal() {{
+      document.getElementById("editInstagramModal").classList.remove("open");
+    }}
+
+    function saveInstagramCorrection(e) {{
+      e.preventDefault();
+      if (!selectedLead) return;
+
+      const newIg = document.getElementById("editLeadInstagram").value.trim().replace(/^@/, "");
+      const newPhone = document.getElementById("editLeadPhone").value.trim();
+
+      if (!newIg) {{
+        alert("Informe o usuário do Instagram.");
+        return;
+      }}
+
+      selectedLead.instagram_username = newIg;
+      selectedLead.instagram_url = `https://www.instagram.com/${{newIg}}/`;
+      if (newPhone) selectedLead.phone = newPhone;
+
+      // Persist in localStorage
+      try {{
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{{}}");
+        stored[selectedLead.slug] = Object.assign(stored[selectedLead.slug] || {{}}, {{
+          instagram_username: newIg,
+          instagram_url: selectedLead.instagram_url,
+          phone: selectedLead.phone
+        }});
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      }} catch (err) {{}}
+
+      closeEditInstagramModal();
+      selectLead(selectedLead.slug);
+      applyFilters();
+      alert(`Instagram corrigido com sucesso para @${{newIg}}!`);
+    }}
+
+    async function quickMarkAlreadyHasSite() {{
+      if (!selectedLead) {{
+        alert("Selecione um lead primeiro.");
+        return;
+      }}
+
+      const reason = prompt(
+        `Marcar "${{selectedLead.company_name}}" como PERDIDO / DESQUALIFICADO?\n\n` +
+        `Motivo: Já possui site estruturado ou não tem fit com o showroom digital.\n\n` +
+        `Digite observações adicionais ou confirme:`,
+        "Cliente já possui site próprio estruturado e operante"
+      );
+
+      if (reason === null) return;
+
+      selectedLead.classification = "LOST";
+      selectedLead.stage = "perdido";
+      selectedLead.last_call_outcome = "already_has_website";
+      selectedLead.notes = reason || "Já possui site próprio";
+      selectedLead.next_action = "Desqualificado da prospecção ativa";
+      selectedLead.last_interaction_at = new Date().toISOString();
+
+      // Salva no LocalStorage
+      try {{
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{{}}");
+        stored[selectedLead.slug] = Object.assign(stored[selectedLead.slug] || {{}}, {{
+          classification: "LOST",
+          stage: "perdido",
+          last_call_outcome: "already_has_website",
+          notes: selectedLead.notes,
+          next_action: selectedLead.next_action,
+          last_interaction_at: selectedLead.last_interaction_at
+        }});
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      }} catch (err) {{}}
+
+      // Envia ao backend local
+      try {{
+        await fetch("/api/sales/interaction", {{
+          method: "POST",
+          headers: {{ "Content-Type": "application/json" }},
+          body: JSON.stringify({{
+            slug: selectedLead.slug,
+            vendor: selectedLead.assigned_vendor,
+            interaction_type: "call",
+            script_used: "script_objecao_site",
+            call_outcome: "rejected",
+            notes: selectedLead.notes,
+            next_action: selectedLead.next_action,
+            new_classification: "LOST",
+            new_stage: "perdido"
+          }})
+        }});
+      }} catch (err) {{}}
+
+      updateOutcomePillsCount();
+      applyFilters();
+      selectLead(selectedLead.slug);
+      alert(`Lead marcado como PERDIDO / DESQUALIFICADO (Já tem site). Ele foi movido para o filtro de Perdidos.`);
+    }}
+
     function syncLocalStoredInteractions() {{
       try {{
         const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{{}}");
@@ -1690,6 +1807,7 @@ def render_sales_module_html() -> str:
         "answered": "pillAnswered",
         "interested": "pillInterested",
         "meeting": "pillMeeting",
+        "lost": "pillLost",
         "no_answer": "pillNoAnswer",
         "deal": "pillDeal"
       }};
@@ -1785,6 +1903,7 @@ def render_sales_module_html() -> str:
         if (currentOutcomeFilter === "answered" && (d.calls_answered || 0) === 0) return false;
         if (currentOutcomeFilter === "interested" && !(d.classification === "HOT" || d.stage === "qualificacao" || (d.interested || 0) > 0)) return false;
         if (currentOutcomeFilter === "meeting" && !(!!d.meeting_scheduled_at || d.stage === "reuniao_agendada" || d.last_call_outcome === "meeting_set")) return false;
+        if (currentOutcomeFilter === "lost" && !(d.classification === "LOST" || d.stage === "perdido" || d.last_call_outcome === "already_has_website")) return false;
         if (currentOutcomeFilter === "no_answer" && !(d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0))) return false;
         if (currentOutcomeFilter === "deal" && !((d.deal_closed || 0) > 0 || d.stage === "fechamento")) return false;
 
@@ -2407,6 +2526,46 @@ def render_sales_module_html() -> str:
           ⚡ Msg 1-Clique
         </button>
       </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: CORRIGIR / EDITAR INSTAGRAM E DADOS DO LEAD -->
+  <div id="editInstagramModal" class="modal-backdrop" onclick="if(event.target===this) closeEditInstagramModal()">
+    <div class="modal-box" style="max-width:32rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding-bottom:0.75rem;margin-bottom:1rem;">
+        <h3 style="font-family:var(--font-display);font-size:1.3rem;text-transform:uppercase;color:#f43f5e;">
+          📸 Corrigir Instagram do Lead
+        </h3>
+        <button type="button" class="btn-top" onclick="closeEditInstagramModal()">✕</button>
+      </div>
+
+      <form onsubmit="saveInstagramCorrection(event)">
+        <div class="form-group">
+          <label class="form-label">Nome da Empresa</label>
+          <input type="text" id="editLeadName" class="form-control" readonly style="opacity:0.85;color:#ffffff;" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Usuário Correto do Instagram (Sem @)</label>
+          <div style="display:flex;align-items:center;background:#09090b;border:1px solid var(--border-subtle);padding:0 0.5rem;">
+            <span style="color:#f43f5e;font-weight:700;">@</span>
+            <input type="text" id="editLeadInstagram" class="form-control" style="border:none;background:transparent;" placeholder="perfil_oficial" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telefone / WhatsApp</label>
+          <input type="text" id="editLeadPhone" class="form-control" placeholder="(00) 00000-0000" />
+        </div>
+
+        <div style="display:flex;justify-content:space-between;margin-top:1.25rem;">
+          <button type="button" class="btn-top" onclick="closeEditInstagramModal()">Cancelar</button>
+          <button type="submit" class="btn-top btn-top-gold" style="font-weight:700;">
+            💾 Salvar Correção
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

@@ -790,6 +790,9 @@
       <button type="button" class="outcome-pill-btn" id="pillDeal" onclick="setOutcomeFilter('deal')">
         🤝 Vendas Fechadas (<span id="countPillDeal">0</span>)
       </button>
+      <button type="button" class="outcome-pill-btn" style="border-color:#ef4444;color:#fca5a5;" id="pillLost" onclick="setOutcomeFilter('lost')">
+        ⛔ Perdidos / Desqualificados (<span id="countPillLost">0</span>)
+      </button>
     </div>
 
     <!-- 4. SIMULAÇÃO DE RECEITA POTENCIAL (TICKET MÉDIO R$ 1.500) -->
@@ -989,8 +992,11 @@
           <button type="button" class="btn-action" style="background:#f59e0b;color:#09090b;font-weight:700;" onclick="openLogModal('no_answer')">
             🔄 Não Atendeu
           </button>
-          <button type="button" class="btn-action btn-lost" onclick="openLogModal('lost')">
-            ⛔ Marcar Perdido
+          <button type="button" class="btn-action" style="background:rgba(239,68,68,0.22);border-color:#ef4444;color:#fca5a5;font-weight:700;" onclick="quickMarkAlreadyHasSite()">
+            🚫 Já Tem Site (Perdido)
+          </button>
+          <button type="button" class="btn-action" style="background:#1e1e24;border-color:rgba(225,48,108,0.5);color:#f43f5e;font-weight:700;" onclick="openEditInstagramModal()">
+            ✏️ Corrigir Instagram
           </button>
           <button type="button" class="btn-action btn-delete" style="grid-column: span 2;" onclick="deleteCurrentLead()">
             🗑️ Excluir Contato Inválido
@@ -1011,6 +1017,7 @@
             <option value="script_3">SCRIPT 3 — APRESENTAÇÃO DA DEMO</option>
             <option value="script_4">SCRIPT 4 — CLIENTE INTERESSADO</option>
             <option value="script_5">SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM</option>
+            <option value="script_objecao_site">SCRIPT 5.1 — OBJEÇÃO: JÁ TEMOS SITE (SHOWROOM MOBILE)</option>
             <option value="script_6">SCRIPT 6 — OBJEÇÃO: ESTÁ CARO</option>
             <option value="script_7">SCRIPT 7 — OBJEÇÃO: VOU PENSAR</option>
             <option value="script_8">SCRIPT 8 — NÃO ATENDEU (REAGENDAR RETORNO)</option>
@@ -1118,7 +1125,7 @@
   </div>
 
   <script>
-    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}, "script_10": {"id": "script_10", "title": "SCRIPT 10 — CONFIRMAÇÃO DE REUNIÃO (AGENDADA)", "stage": "reuniao_agendada", "text": "Olá, {nome}! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nConfirmando nossa reunião agendada para conversarmos sobre a implementação oficial do Showroom Digital da {empresa}.\n\n📌 Data e Horário: {meeting_time}\n🌐 Demonstração do Projeto: {demo_url}\n\nEstarei pronto para te apresentar os detalhes técnicos e comerciais em 15 minutos objetivos. Qualquer ajuste de horário só me avisar por aqui!"}, "script_mensagem": {"id": "script_mensagem", "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT", "stage": "mensagem_direta", "text": "Olá, diretoria da *{empresa}*! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nAcompanhamos a presença de vocês no Instagram e notamos que a vitrine digital de vocês ainda não conta com um catálogo moderno, rápido e com showroom filtrável no celular.\n\nEm vez de enviar uma apresentação comercial teórica, nós desenvolvemos e colocamos no ar uma demonstração personalizada exclusiva para a *{empresa}*:\n\n{demo_url}\n\nPodem abrir direto no celular para testar a experiência. O projeto já está estruturado. Gostaria de entender se faz sentido ativarmos essa vitrine oficial para vocês!"}};
+    const SCRIPTS = {"script_1": {"id": "script_1", "title": "SCRIPT 1 — PRIMEIRA LIGAÇÃO", "stage": "primeira_ligacao", "text": "Olá, tudo bem? Aqui é {vendedor}, da BRAG International.\n\nEstou entrando em contato porque analisamos a presença digital da {empresa} e preparamos uma demonstração personalizada de como ela poderia apresentar seus produtos e serviços de forma mais profissional na internet.\n\nGostaria de falar rapidamente com o responsável pela empresa. Ele está disponível?"}, "script_2": {"id": "script_2", "title": "SCRIPT 2 — FALAR COM O DECISOR", "stage": "decisor", "text": "Perfeito. Nós desenvolvemos uma demonstração para a {empresa}, pensando em como apresentar melhor os produtos, fortalecer a presença digital e facilitar o contato de potenciais clientes.\n\nGostaria de te mostrar o projeto. Você consegue dedicar dois minutos?"}, "script_3": {"id": "script_3", "title": "SCRIPT 3 — APRESENTAÇÃO DA DEMO", "stage": "apresentacao_demo", "text": "Essa demonstração foi desenvolvida considerando a identidade da sua empresa.\n\nA proposta é transformar o site em uma verdadeira vitrine comercial, onde seus clientes conseguem visualizar os produtos, conhecer a empresa e entrar em contato com mais facilidade.\n\nO projeto já está estruturado ({demo_url}). Podemos conversar sobre a implementação?"}, "script_4": {"id": "script_4", "title": "SCRIPT 4 — CLIENTE INTERESSADO", "stage": "qualificacao", "text": "Perfeito. O próximo passo é alinharmos a implementação e os detalhes do projeto.\n\nNossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."}, "script_objecao_site": {"id": "script_objecao_site", "title": "SCRIPT 5.1 — OBJEÇÃO: JÁ TEMOS SITE", "stage": "objecao_site", "text": "Perfeito, eu cheguei a ver o site atual de vocês!\n\nA grande questão é que os sites tradicionais foram feitos para desktop há anos atrás: são lentos no 4G/5G, não têm filtros instantâneos no mobile e quem clica no link da bio do Instagram hoje cai num formulário frio ou PDF pesado.\n\nNós não queremos substituir a infraestrutura de vocês, mas sim ativar esse Showroom Digital exclusivo ({demo_url}) como a vitrine mobile oficial do Instagram da {empresa}, com filtro por marca/modelo em 1 segundo e botão direto para o WhatsApp dos seus vendedores.\n\nPodemos dar uma olhada na comparação de 2 minutos para você ver a diferença de conversão no celular?"}, "script_5": {"id": "script_5", "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM", "stage": "objecao_instagram", "text": "Excelente. O Instagram é importante, mas o site cumpre outro papel: funciona como uma estrutura própria para apresentar sua empresa e seus produtos, organizar informações e facilitar o contato comercial.\n\nA ideia não é substituir o Instagram, mas complementar sua presença digital."}, "script_6": {"id": "script_6", "title": "SCRIPT 6 — OBJEÇÃO: ESTÁ CARO", "stage": "objecao_caro", "text": "Entendo perfeitamente. A questão é avaliar o valor que uma presença digital profissional pode agregar à empresa.\n\nNão estamos oferecendo apenas uma página, mas uma estrutura comercial para apresentar melhor seus produtos e facilitar oportunidades de negócio."}, "script_7": {"id": "script_7", "title": "SCRIPT 7 — OBJEÇÃO: VOU PENSAR", "stage": "objecao_pensar", "text": "Claro. Só gostaria de entender uma coisa: existe alguma dúvida específica sobre o projeto, o investimento ou a implementação que eu possa esclarecer agora?"}, "script_8": {"id": "script_8", "title": "SCRIPT 8 — NÃO ATENDEU (REAGENDAR)", "stage": "nao_atendeu", "text": "(Sem contato direto) Registrar tentativa de chamada sem resposta e programar nova ligação para outro turno/horário. Oportunidade mantida ativa no pipeline."}, "script_9": {"id": "script_9", "title": "SCRIPT 9 — FOLLOW-UP", "stage": "follow_up", "text": "Olá, {nome}. Tudo bem?\n\nConseguiu avaliar a demonstração que preparamos para a {empresa}?\n\nGostaria de saber sua opinião e entender se podemos avançar com a implementação."}, "script_10": {"id": "script_10", "title": "SCRIPT 10 — CONFIRMAÇÃO DE REUNIÃO (AGENDADA)", "stage": "reuniao_agendada", "text": "Olá, {nome}! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nConfirmando nossa reunião agendada para conversarmos sobre a implementação oficial do Showroom Digital da {empresa}.\n\n📌 Data e Horário: {meeting_time}\n🌐 Demonstração do Projeto: {demo_url}\n\nEstarei pronto para te apresentar os detalhes técnicos e comerciais em 15 minutos objetivos. Qualquer ajuste de horário só me avisar por aqui!"}, "script_mensagem": {"id": "script_mensagem", "title": "SCRIPT DE MENSAGEM — WHATSAPP & INSTAGRAM DIRECT", "stage": "mensagem_direta", "text": "Olá, diretoria da *{empresa}*! Tudo bem? Aqui é {vendedor}, da BRAG International.\n\nAcompanhamos a presença de vocês no Instagram e notamos que a vitrine digital de vocês ainda não conta com um catálogo moderno, rápido e com showroom filtrável no celular.\n\nEm vez de enviar uma apresentação comercial teórica, nós desenvolvemos e colocamos no ar uma demonstração personalizada exclusiva para a *{empresa}*:\n\n{demo_url}\n\nPodem abrir direto no celular para testar a experiência. O projeto já está estruturado. Gostaria de entender se faz sentido ativarmos essa vitrine oficial para vocês!"}};
     let currentVendorView = "bruce";
     let currentOutcomeFilter = "all";
     let allLeads = [];
@@ -1628,6 +1635,120 @@ Deseja copiar a mensagem de confirmação para mandar no WhatsApp de ${selectedL
       updateOutcomePillsCount();
     }
 
+    
+    function openEditInstagramModal() {
+      if (!selectedLead) {
+        alert("Selecione um cliente primeiro.");
+        return;
+      }
+      document.getElementById("editLeadName").value = selectedLead.company_name;
+      document.getElementById("editLeadInstagram").value = selectedLead.instagram_username || "";
+      document.getElementById("editLeadPhone").value = selectedLead.phone || "";
+      document.getElementById("editInstagramModal").classList.add("open");
+    }
+
+    function closeEditInstagramModal() {
+      document.getElementById("editInstagramModal").classList.remove("open");
+    }
+
+    function saveInstagramCorrection(e) {
+      e.preventDefault();
+      if (!selectedLead) return;
+
+      const newIg = document.getElementById("editLeadInstagram").value.trim().replace(/^@/, "");
+      const newPhone = document.getElementById("editLeadPhone").value.trim();
+
+      if (!newIg) {
+        alert("Informe o usuário do Instagram.");
+        return;
+      }
+
+      selectedLead.instagram_username = newIg;
+      selectedLead.instagram_url = `https://www.instagram.com/${newIg}/`;
+      if (newPhone) selectedLead.phone = newPhone;
+
+      // Persist in localStorage
+      try {
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+        stored[selectedLead.slug] = Object.assign(stored[selectedLead.slug] || {}, {
+          instagram_username: newIg,
+          instagram_url: selectedLead.instagram_url,
+          phone: selectedLead.phone
+        });
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      } catch (err) {}
+
+      closeEditInstagramModal();
+      selectLead(selectedLead.slug);
+      applyFilters();
+      alert(`Instagram corrigido com sucesso para @${newIg}!`);
+    }
+
+    async function quickMarkAlreadyHasSite() {
+      if (!selectedLead) {
+        alert("Selecione um lead primeiro.");
+        return;
+      }
+
+      const reason = prompt(
+        `Marcar "${selectedLead.company_name}" como PERDIDO / DESQUALIFICADO?
+
+` +
+        `Motivo: Já possui site estruturado ou não tem fit com o showroom digital.
+
+` +
+        `Digite observações adicionais ou confirme:`,
+        "Cliente já possui site próprio estruturado e operante"
+      );
+
+      if (reason === null) return;
+
+      selectedLead.classification = "LOST";
+      selectedLead.stage = "perdido";
+      selectedLead.last_call_outcome = "already_has_website";
+      selectedLead.notes = reason || "Já possui site próprio";
+      selectedLead.next_action = "Desqualificado da prospecção ativa";
+      selectedLead.last_interaction_at = new Date().toISOString();
+
+      // Salva no LocalStorage
+      try {
+        const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
+        stored[selectedLead.slug] = Object.assign(stored[selectedLead.slug] || {}, {
+          classification: "LOST",
+          stage: "perdido",
+          last_call_outcome: "already_has_website",
+          notes: selectedLead.notes,
+          next_action: selectedLead.next_action,
+          last_interaction_at: selectedLead.last_interaction_at
+        });
+        localStorage.setItem("brag_sales_interactions_v1", JSON.stringify(stored));
+      } catch (err) {}
+
+      // Envia ao backend local
+      try {
+        await fetch("/api/sales/interaction", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slug: selectedLead.slug,
+            vendor: selectedLead.assigned_vendor,
+            interaction_type: "call",
+            script_used: "script_objecao_site",
+            call_outcome: "rejected",
+            notes: selectedLead.notes,
+            next_action: selectedLead.next_action,
+            new_classification: "LOST",
+            new_stage: "perdido"
+          })
+        });
+      } catch (err) {}
+
+      updateOutcomePillsCount();
+      applyFilters();
+      selectLead(selectedLead.slug);
+      alert(`Lead marcado como PERDIDO / DESQUALIFICADO (Já tem site). Ele foi movido para o filtro de Perdidos.`);
+    }
+
     function syncLocalStoredInteractions() {
       try {
         const stored = JSON.parse(localStorage.getItem("brag_sales_interactions_v1") || "{}");
@@ -1690,6 +1811,7 @@ Deseja copiar a mensagem de confirmação para mandar no WhatsApp de ${selectedL
         "answered": "pillAnswered",
         "interested": "pillInterested",
         "meeting": "pillMeeting",
+        "lost": "pillLost",
         "no_answer": "pillNoAnswer",
         "deal": "pillDeal"
       };
@@ -1785,6 +1907,7 @@ Deseja copiar a mensagem de confirmação para mandar no WhatsApp de ${selectedL
         if (currentOutcomeFilter === "answered" && (d.calls_answered || 0) === 0) return false;
         if (currentOutcomeFilter === "interested" && !(d.classification === "HOT" || d.stage === "qualificacao" || (d.interested || 0) > 0)) return false;
         if (currentOutcomeFilter === "meeting" && !(!!d.meeting_scheduled_at || d.stage === "reuniao_agendada" || d.last_call_outcome === "meeting_set")) return false;
+        if (currentOutcomeFilter === "lost" && !(d.classification === "LOST" || d.stage === "perdido" || d.last_call_outcome === "already_has_website")) return false;
         if (currentOutcomeFilter === "no_answer" && !(d.last_call_outcome === "no_answer" || (d.calls_made > 0 && d.calls_answered === 0))) return false;
         if (currentOutcomeFilter === "deal" && !((d.deal_closed || 0) > 0 || d.stage === "fechamento")) return false;
 
@@ -2421,6 +2544,46 @@ Lead: ${selectedLead.company_name}`);
           ⚡ Msg 1-Clique
         </button>
       </div>
+    </div>
+  </div>
+
+
+  <!-- MODAL: CORRIGIR / EDITAR INSTAGRAM E DADOS DO LEAD -->
+  <div id="editInstagramModal" class="modal-backdrop" onclick="if(event.target===this) closeEditInstagramModal()">
+    <div class="modal-box" style="max-width:32rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border-subtle);padding-bottom:0.75rem;margin-bottom:1rem;">
+        <h3 style="font-family:var(--font-display);font-size:1.3rem;text-transform:uppercase;color:#f43f5e;">
+          📸 Corrigir Instagram do Lead
+        </h3>
+        <button type="button" class="btn-top" onclick="closeEditInstagramModal()">✕</button>
+      </div>
+
+      <form onsubmit="saveInstagramCorrection(event)">
+        <div class="form-group">
+          <label class="form-label">Nome da Empresa</label>
+          <input type="text" id="editLeadName" class="form-control" readonly style="opacity:0.85;color:#ffffff;" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Usuário Correto do Instagram (Sem @)</label>
+          <div style="display:flex;align-items:center;background:#09090b;border:1px solid var(--border-subtle);padding:0 0.5rem;">
+            <span style="color:#f43f5e;font-weight:700;">@</span>
+            <input type="text" id="editLeadInstagram" class="form-control" style="border:none;background:transparent;" placeholder="perfil_oficial" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Telefone / WhatsApp</label>
+          <input type="text" id="editLeadPhone" class="form-control" placeholder="(00) 00000-0000" />
+        </div>
+
+        <div style="display:flex;justify-content:space-between;margin-top:1.25rem;">
+          <button type="button" class="btn-top" onclick="closeEditInstagramModal()">Cancelar</button>
+          <button type="submit" class="btn-top btn-top-gold" style="font-weight:700;">
+            💾 Salvar Correção
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 

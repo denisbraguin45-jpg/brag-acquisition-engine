@@ -42,6 +42,18 @@ O projeto já está estruturado ({demo_url}). Podemos conversar sobre a implemen
 
 Nossa equipe já preparou a estrutura inicial, então conseguimos avançar diretamente para a entrega."""
     },
+    "script_objecao_site": {
+        "id": "script_objecao_site",
+        "title": "SCRIPT 5.1 — OBJEÇÃO: JÁ TEMOS SITE",
+        "stage": "objecao_site",
+        "text": """Perfeito, eu cheguei a ver o site atual de vocês!
+
+A grande questão é que os sites tradicionais foram feitos para desktop há anos atrás: são lentos no 4G/5G, não têm filtros instantâneos no mobile e quem clica no link da bio do Instagram hoje cai num formulário frio ou PDF pesado.
+
+Nós não queremos substituir a infraestrutura de vocês, mas sim ativar esse Showroom Digital exclusivo ({demo_url}) como a vitrine mobile oficial do Instagram da {empresa}, com filtro por marca/modelo em 1 segundo e botão direto para o WhatsApp dos seus vendedores.
+
+Podemos dar uma olhada na comparação de 2 minutos para você ver a diferença de conversão no celular?"""
+    },
     "script_5": {
         "id": "script_5",
         "title": "SCRIPT 5 — OBJEÇÃO: JÁ TENHO INSTAGRAM",
