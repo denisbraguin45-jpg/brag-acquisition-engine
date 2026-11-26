@@ -1,16 +1,17 @@
 import sqlite3
 
-for db in ['D:/app/brag-lead-hunter/data/brag_lead_hunter.db', 'D:/app/brag-lead-hunter/leads.db']:
+for db_path in ['D:/app/brag-lead-hunter/data/brag_lead_hunter.db', 'D:/app/brag-lead-hunter/data/leads.db']:
+    print('=== DB:', db_path)
     try:
-        conn = sqlite3.connect(db)
-        c = conn.cursor()
-        c.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = c.fetchall()
-        print(db, "Tables:", tables)
+        conn = sqlite3.connect(db_path)
+        cur = conn.cursor()
+        cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
+        tables = cur.fetchall()
+        print('Tables:', tables)
         for t in tables:
             tname = t[0]
-            c.execute(f"SELECT count(*) FROM {tname};")
-            print(f"  {tname} count:", c.fetchone()[0])
+            cur.execute(f"SELECT count(*) FROM {tname}")
+            print(f'  {tname}: {cur.fetchone()[0]} rows')
         conn.close()
     except Exception as e:
-        print(db, "Error:", e)
+        print('Error:', e)
